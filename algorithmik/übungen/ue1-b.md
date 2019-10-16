@@ -34,7 +34,7 @@ Definition von $$x % y$$.
 Primzahl Schleifeninvarianz
 ---------------------------
 
-Als Schleifeninvarianten gelten a) $$forall 0 < p < i*i: (P[p] -> forall z <= n:
+Als Schleifeninvarianten gelten a) $$forall 0 < p < i^2: (P[p] -> forall z <= n:
 not P[p * z])$$ und b) $$forall 0 < p < i*i: (isPrime(p) -> P[p])$$. Sie ließen
 sich auch in einer gemeinsamen Formel ausdrücken, allerdings ist es
 übersichtlicher sie getrennt zu zeigen
