@@ -20,6 +20,5 @@
       sinx (range 0 1 0.01)
       siny (map sin sinx)]
       (c/view (c/xy-chart {
-							"Data" {:x datax :y datay :style {:render-style :scatter}}
-							"Sine" {:x sinx :y siny :style {:marker-type :none}}
-					 })))
+            "Data" {:x datax :y datay :style {:render-style :scatter}}
+            "Sine" {:x sinx :y siny :style {:marker-type :none}}})))
