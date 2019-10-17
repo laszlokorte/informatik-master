@@ -19,14 +19,13 @@
   (vec (take degree (map #(Math/pow x %1) (range)))))
 
 (defn error [data theta hyp]
-  (reduce +
-          (map
-           (fn [t d]
-             (let [x (:x d)
-                   y (:y d)]
-               (Math/pow (- (hyp theta x) y) 2)))
-           theta
-           data)))
+  (reduce + (map
+    (fn [t d]
+      (let [x (:x d)
+            y (:y d)]
+        (Math/pow (- (hyp theta x) y) 2)))
+    theta
+    data)))
 
 (def test-data (map (fn [[x y]] {:x (powers x 3) :y y}) [[0 0] [1 1] [2 2] [3 3]]))
 
@@ -35,12 +34,8 @@
    (fn [t d]
      (let [x (:x d)
            y (:y d)]
-       #_(println x t (hyp t x) y)
-       (m/add-scaled
-        t
-        x
-        (* alpha
-           (- y (hyp t x))))))
+       (m/add-scaled t x
+        (* alpha (- y (hyp t x))))))
    theta
    data))
 
