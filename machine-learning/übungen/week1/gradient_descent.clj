@@ -1,6 +1,7 @@
 (ns gradient-descent 
   (:require [com.hypirion.clj-xchart :as c]
-            [clojure.core.matrix :as m]))
+            [clojure.core.matrix :as m]
+            [clojure.string :as str]))
 
 (m/set-current-implementation :vectorz) 
 
@@ -41,10 +42,10 @@
    theta
    data))
 
-(defn find-polynomial [points rate degree]
+(defn find-polynomial [points alpha degree]
   (let [data (map (fn [[x y]] {:x (powers x (inc degree)) :y y}) points)
-        alpha rate
-        theta (vec (take (inc degree) (repeatedly #(rand 0.5))))
+        gen-random #(- (rand) 0.5)
+        theta (vec (take (inc degree) (repeatedly gen-random)))
         hyp m/dot]
     (map 
     (fn [t] {:t t :error (error data t hyp)})
@@ -56,9 +57,13 @@
       y (map second points)]
       (m/mmul (m/inverse (m/mmul XT X)) XT y)))
 
-(defn draw [d]
+(defn polynomial-string [poly]
+  (str/join " + " (map-indexed #(format "%s*x^%d" (str %2) %1) poly))
+)
+
+(defn draw [d s]
   (let [polynome-degree d
-        step-size 0.03
+        step-size s
         iteration-limit 4000
         data (vec (gen-data 100 0.3))
         x-range (range 0 1 0.01)
@@ -69,11 +74,13 @@
         polynome' (find-polynomial-matrix data polynome-degree)
         aprox (map #(vector %1 (m/dot polynome (powers %1 (count polynome)))) x-range)
         aprox' (map #(vector %1 (m/dot polynome' (powers %1 (count polynome')))) x-range)]
+    (println (polynomial-string polynome))
+    (println (polynomial-string polynome'))
     (c/view (c/xy-chart
              {"Data Points"
               (assoc (series-from-vectors data)
                      :style {:render-style :scatter})
-              "Aproximation (via Iteration)"
+              "Aproximation (via Iteration)" 
               (assoc (series-from-vectors aprox)
                      :style {:marker-type :none})
               "Aproximation (via Matrix)"
