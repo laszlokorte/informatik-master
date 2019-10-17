@@ -62,20 +62,20 @@
 )
 
 (defn draw [d s]
-  (let [polynome-degree d
+  (let [polynomial-degree d
         step-size s
         iteration-limit 4000
         data (vec (gen-data 100 0.3))
         x-range (range 0 1 0.01)
         sin (map #(vector %1 (sin-scaled %1)) x-range)
-        iterations (vec (take iteration-limit (find-polynomial data step-size polynome-degree)))
+        iterations (vec (take iteration-limit (find-polynomial data step-size polynomial-degree)))
         errors (map :error iterations)
-        polynome (:t (last iterations))
-        polynome' (find-polynomial-matrix data polynome-degree)
-        aprox (map #(vector %1 (m/dot polynome (powers %1 (count polynome)))) x-range)
-        aprox' (map #(vector %1 (m/dot polynome' (powers %1 (count polynome')))) x-range)]
-    (println (polynomial-string polynome))
-    (println (polynomial-string polynome'))
+        polynomial (:t (last iterations))
+        polynomial' (find-polynomial-matrix data polynomial-degree)
+        aprox (map #(vector %1 (m/dot polynomial (powers %1 (count polynomial)))) x-range)
+        aprox' (map #(vector %1 (m/dot polynomial' (powers %1 (count polynomial')))) x-range)]
+    (println (polynomial-string polynomial))
+    (println (polynomial-string polynomial'))
     (c/view (c/xy-chart
              {"Data Points"
               (assoc (series-from-vectors data)
@@ -88,7 +88,7 @@
                      :style {:marker-type :none})
               "Sine wave"
               (assoc (series-from-vectors sin)
-                     :style {:marker-type :none})} {:title (format "Aproximation via polynomial of degree %d" polynome-degree)})
+                     :style {:marker-type :none})} {:title (format "Aproximation via polynomial of degree %d" polynomial-degree)})
             (c/xy-chart {
                 "Error" {
                     :x (range (count errors)) 
