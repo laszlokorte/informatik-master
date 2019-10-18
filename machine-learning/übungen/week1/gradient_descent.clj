@@ -3,79 +3,120 @@
             [clojure.core.matrix :as m]
             [clojure.string :as str]))
 
+; vectoru is needed for matrix inverse
 (m/set-current-implementation :vectorz) 
 
-(defn sin-scaled [x]
-  (Math/sin (* 2 Math/PI x)))
+(defn noise [ampl]
+  "generate random value in [-ampl, ampl]"
+  (- (rand
+      (* 2 ampl))
+     ampl))
 
-(defn sin-noised [x noise-factor]
-  (let [noise (- (rand (* 2 noise-factor)) noise-factor)]
-    (+ (sin-scaled x) noise)))
+(defn sin-scaled [x]
+  "sin(2pi*x)"
+  (-> x
+      (* 2 Math/PI)
+      (Math/sin)))
+
+(defn sin-noised [x n]
+  "sin(2pi*x) + eps where eps in [-n, n]"
+  (+ (sin-scaled x)
+     (noise n)))
 
 (defn gen-data [n noise-factor]
-  (take n (map #(vector %1 (sin-noised %1 noise-factor)) (repeatedly rand))))
+  "get n values in the neighborhood of sin(2pi*x)"
+  (->> (repeatedly rand)
+       (map (fn [r] [r (sin-noised r noise-factor)]))
+       (take n)
+       (vec)))
 
 (defn series-from-vectors [v]
+  "convert list of pairs into map of two lists"
   (c/extract-series {:x first :y second} v))
 
 (defn powers [x degree]
-  (vec (take degree (map #(Math/pow x %1) (range)))))
+  "list of all integer powers of x up to degree"
+  (->> (range)
+       (map #(Math/pow x %1))
+       (take (inc degree))
+       (vec)))
 
-(defn error [data theta hyp]
-  (reduce + (map
-    (fn [t d]
-      (let [x (:x d)
-            y (:y d)]
-        (Math/pow (- (hyp theta x) y) 2)))
-    theta
-    data)))
+(defn error [data theta]
+  "error of the polynomial theta in respect to the data points"
+  (->> data
+       (map #(Math/pow (- (m/dot theta (:x %1))
+                          (:y %1))
+                       2))
+       (reduce +)))
 
-(def test-data (map (fn [[x y]] {:x (powers x 3) :y y}) [[0 0] [1 1] [2 2] [3 3]]))
+(defn build-polynomial [pairs degree]
+  "convert [x y] pairs into {:x :y} map where"
+  ":x becomes a vector of powers of x"
+  (->> pairs
+       (map
+        (fn [[x y]] {:x (powers x degree)
+                     :y y}))
+       (vec)))
 
-(defn gradient-descent [data alpha theta hyp]
-  (reduce
-   (fn [t d]
-     (let [x (:x d)
-           y (:y d)]
-       (m/add-scaled t x
-        (* alpha (- y (hyp t x))))))
-   theta
-   data))
+(defn gradient-descent [data alpha theta]
+  "gradient descent algorithm"
+  "alpha is the the learning rate"
+  "theta is the initial vector of coefficients"
+  (->> data
+       (reduce
+        (fn [t d]
+          (m/add-scaled t
+                        (:x d)
+                        (* alpha
+                           (- (:y d)
+                              (m/dot t (:x d))))))
+        theta)))
 
-(defn find-polynomial [points alpha degree]
-  (let [data (map (fn [[x y]] {:x (powers x (inc degree)) :y y}) points)
-        gen-random #(- (rand) 0.5)
-        theta (vec (take (inc degree) (repeatedly gen-random)))
-        hyp m/dot]
-    (map 
-    (fn [t] {:t t :error (error data t hyp)})
-    (iterate #(gradient-descent data alpha %1 hyp) theta))))
+(defn find-polynomial [points degree learning-rate]
+  "given a list of points find a polynomial of degree"
+  "using gradient descent algorithm with learning-rate"
+  "returns a sequence of steps {:coefficients :error}"
+  (let [data (build-polynomial points degree)]
+    (->> #(noise 0.5)
+         (repeatedly)
+         (take (inc degree))
+         (vec)
+         (iterate #(gradient-descent data learning-rate %1))
+         (map (fn [coefficients] {:coefficients coefficients
+                                  :error (error data coefficients)})))))
     
 (defn find-polynomial-matrix [points degree]
-(let [X (map (fn [[x y]] (powers x (inc degree))) points)
-      XT (m/transpose X)
-      y (map second points)]
-      (m/mmul (m/inverse (m/mmul XT X)) XT y)))
+  "find a polynomial of degree matching the given points using matrix multiplication"
+  (let [X (map (fn [[x y]] (powers x degree)) points)
+        XT (m/transpose X)
+        y (map second points)]
+    (m/mmul (m/inverse (m/mmul XT X)) XT y)))
 
-(defn polynomial-string [poly]
-  (str/join " + " (map-indexed #(format "%s*x^%d" (str %2) %1) poly))
-)
+(defn polynomial-string [coefficients]
+  "converts list of coefficients into a string representing the polynomial"
+  (->> coefficients
+       (map-indexed #(format "%s*x^%d" (str %2) %1))
+       (str/join " + ")))
 
-(defn draw [d s]
+(def simple-test-data
+  (build-polynomial [[0 0] [1 1] [2 2] [3 3]] 3))
+
+(defn run [d s]
   (let [polynomial-degree d
-        step-size s
+        learning-rate s
         iteration-limit 4000
-        data (vec (gen-data 100 0.3))
+        data (gen-data 100 0.3)
         x-range (range 0 1 0.01)
         sin (map #(vector %1 (sin-scaled %1)) x-range)
-        iterations (vec (take iteration-limit (find-polynomial data step-size polynomial-degree)))
+        iterations (vec (take iteration-limit (find-polynomial data polynomial-degree learning-rate)))
         errors (map :error iterations)
-        polynomial (:t (last iterations))
+        polynomial (:coefficients (last iterations))
         polynomial' (find-polynomial-matrix data polynomial-degree)
-        aprox (map #(vector %1 (m/dot polynomial (powers %1 (count polynomial)))) x-range)
-        aprox' (map #(vector %1 (m/dot polynomial' (powers %1 (count polynomial')))) x-range)]
-    (println (polynomial-string polynomial))
-    (println (polynomial-string polynomial'))
+        aprox (map #(vector %1 (m/dot polynomial (powers %1 polynomial-degree))) x-range)
+        aprox' (map #(vector %1 (m/dot polynomial' (powers %1 polynomial-degree))) x-range)]
+    (println polynomial-degree "," (count polynomial) "," (count polynomial') "," (count (powers 1 polynomial-degree)))
+    (println "itr = " (polynomial-string polynomial))
+    (println "mtx = " (polynomial-string polynomial'))
     (c/view (c/xy-chart
              {"Data Points"
               (assoc (series-from-vectors data)
@@ -95,6 +136,9 @@
                     :y errors 
                     :style {:marker-type :none}}} 
                 {
-                    :title (format "Error after n iterations, step size %f" step-size)
+                    :title (format "Error after n iterations, step size %f" learning-rate)
                     :x-axis {:title "Iterations"}
                     :y-axis {:title "Error"}}))))
+
+(defn -main [& args]
+  (run 5 0.1))
