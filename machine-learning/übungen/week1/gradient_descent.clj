@@ -8,8 +8,7 @@
 
 (defn noise [ampl]
   "generate random value in [-ampl, ampl]"
-  (- (rand
-      (* 2 ampl))
+  (- (rand (* 2 ampl))
      ampl))
 
 (defn sin-scaled [x]
@@ -47,7 +46,8 @@
        (map #(Math/pow (- (m/dot theta (:x %1))
                           (:y %1))
                        2))
-       (reduce +)))
+       (reduce +)
+       (* 0.5)))
 
 (defn build-polynomial [pairs degree]
   "convert [x y] pairs into {:x :y} map where"
@@ -78,12 +78,27 @@
   "returns a sequence of steps {:coefficients :error}"
   (let [data (build-polynomial points degree)]
     (->> #(noise 0.5)
+         ; initialize coefficients
          (repeatedly)
          (take (inc degree))
          (vec)
+         ; apply gradient descent
          (iterate #(gradient-descent data learning-rate %1))
-         (map (fn [coefficients] {:coefficients coefficients
-                                  :error (error data coefficients)})))))
+         (map-indexed (fn [i coefficients] {:coefficients coefficients
+                                            :index i
+                                            :error (error data coefficients)}))
+         )))
+
+(defn break-on-threshold [seq threshold min]
+  (->> seq
+       (partition 2 1)
+       (take-while (fn [[a b]]
+                     (or
+                      (< (:index a) min)
+                      (> (/ (:error b) (:error a)) 1)
+                      (> (- 1 threshold)
+                         (/ (:error b) (:error a))))))
+       (map second)))
     
 (defn find-polynomial-matrix [points degree]
   "find a polynomial of degree matching the given points using matrix multiplication"
@@ -104,13 +119,19 @@
 (defn run [d s]
   (let [polynomial-degree d
         learning-rate s
-        iteration-limit 4000
+        iteration-limit 10000
+        error-threshold 0.00001
         data (gen-data 100 0.3)
         x-range (range 0 1 0.01)
         sin (map #(vector %1 (sin-scaled %1)) x-range)
-        iterations (vec (take iteration-limit (find-polynomial data polynomial-degree learning-rate)))
+        iterations (as-> data v
+                     (find-polynomial v polynomial-degree learning-rate)
+                     ;(break-on-threshold v error-threshold 10)
+                     (take iteration-limit v)
+                     (vec v))
         errors (map :error iterations)
         polynomial (:coefficients (last iterations))
+        final-error (:error (last iterations))
         polynomial' (find-polynomial-matrix data polynomial-degree)
         aprox (map #(vector %1 (m/dot polynomial (powers %1 polynomial-degree))) x-range)
         aprox' (map #(vector %1 (m/dot polynomial' (powers %1 polynomial-degree))) x-range)]
@@ -136,7 +157,7 @@
                     :y errors 
                     :style {:marker-type :none}}} 
                 {
-                    :title (format "Error after n iterations, step size %f" learning-rate)
+                    :title (format "Error after n=%d iterations, step size %f is %2.3f" (count iterations) (double learning-rate) final-error)
                     :x-axis {:title "Iterations"}
                     :y-axis {:title "Error"}}))))
 
