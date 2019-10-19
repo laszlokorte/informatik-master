@@ -14,12 +14,12 @@
 
 \section*{Modulo Schleifeninvariante}
 
-Als Schleifeninvariante gilt $(r = x - q \cdot y) \land (q \ge 0)$.
+Als Schleifeninvariante gilt $\left(r = x - q \cdot y\right) \land \left(q \ge 0\right)$.
 
 \subsection*{Initialisierung}
 
 \begin{enumerate}
-	\item $q = 0$, $r = x \implies (x = x - 0 \cdot y) \land (q \ge 0)$
+	\item $q = 0$, $r = x \implies \left(x = x - 0 \cdot y\right) \land \left(q \ge 0\right)$
 \end{enumerate}
 
 \subsection*{Fortsetzung}
@@ -29,7 +29,7 @@ Als Schleifeninvariante gilt $(r = x - q \cdot y) \land (q \ge 0)$.
 	\item Die Schleife setzt $r' = r - y$ und $q' = q + 1$
 	\item Umgeformt: $r = r' + y$ und $q = q' - 1$
 	\item Die Schleife ändert weder $x$ noch $y$, also $x' = x$ und $y' = y$
-	\item Einsetzen in Annahme: $r' + y' = x' - (q' - 1) \cdot y' = x' - q' \cdot y' + y'$
+	\item Einsetzen in Annahme: $r' + y' = x' - \left(q' - 1\right) \cdot y' = x' - q' \cdot y' + y'$
 	\item Also gilt $r' = x' - q' \cdot y'$ und $q + 1 = q' \ge 0$ auch am Ende der Iteration.
 \end{enumerate}
 
@@ -42,10 +42,10 @@ Wenn die Schleife endet, ist $r < y$ und $x = q \cdot y + r$. Damit entspricht $
 Als Schleifeninvarianten gelten:
 
 \begin{enumerate}[a)]
-	\item Bis $i^2$ sind nur Primzahlen markiert: $\forall p: (0 < p < i^2) \rightarrow (P[p] \rightarrow \forall z: (z \le n) \rightarrow
-	\neg P[p \cdot z])$
+	\item Bis $i^2$ sind nur Primzahlen markiert: $\forall p: \left(0 < p < i^2\right) \rightarrow \left(P[p] \rightarrow \forall z: \left(z \le n\right) \rightarrow
+	\neg P[p \cdot z]\right)$
 
-	\item Alle Primzahlen im bis $i^2$ sind markiert: $\forall p: (0 < p < i^2) \rightarrow (\text{isPrime}(p) \rightarrow P[p])$
+	\item Alle Primzahlen im bis $i^2$ sind markiert: $\forall p: \left(0 < p < i^2\right) \rightarrow \left(\text{isPrime}\left(p\right) \rightarrow P[p]\right)$
 \end{enumerate}
 
 Sie ließen sich auch in einer gemeinsamen Formel ausdrücken, allerdings ist es übersichtlicher sie getrennt zu zeigen
@@ -54,7 +54,7 @@ Sie ließen sich auch in einer gemeinsamen Formel ausdrücken, allerdings ist es
 
 Zu beginn ist $P[1] = \code{false}$ und $i = 2$. Als einziges $p$ ist 1 zu prüfen. Das Antezedens des inneren Konditionals ($P[1]$) ist falsch, also gilt die Invariante.
 
-\subsection*{Initialisierung (b)}
+\subsection*{Initialisierung gb)}
 
 Da das Array mit \code{true} initialisiert wird, gilt das Konditional in Invariante b zu Beginn für alle $p$.
 
@@ -72,7 +72,7 @@ Der Algorithmus beschreibt nur Felder des Arrays, deren Index ein vielfaches ($>
 
 \subsection*{Terminierung (a)}
 
-Die Schleife terminiert mit $i^2 > n$, also gilt $\forall p:( 0 < p < n) \rightarrow (P[p] -> \forall z: (z \le n) \rightarrow (\neg P[p \cdot z]))$. Der Algorithmus hat also alle Felder mit \code{false} belegt, deren Index ein vielfaches eines Index $B$ ist, dessen zugehöriges Feld $P[B] = \code{true}$ ist.
+Die Schleife terminiert mit $i^2 > n$, also gilt $\forall p:\left( 0 < p < n\right) \rightarrow \left(P[p] -> \forall z: \left(z \le n\right) \rightarrow \left(\neg P[p \cdot z]\right)\right)$. Der Algorithmus hat also alle Felder mit \code{false} belegt, deren Index ein vielfaches eines Index $B$ ist, dessen zugehöriges Feld $P[B] = \code{true}$ ist.
 
 \subsection*{Terminierung (b)}
 

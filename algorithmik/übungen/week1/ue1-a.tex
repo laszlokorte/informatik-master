@@ -50,11 +50,11 @@ Der nichtrekursive Anteil der Funktion besteht nur aus einfachen arithmetischen 
 
 Der Algorithmus teilt das Problem in 3 Teilprobleme und reduziert die Problemgröße dabei von $n$ auf $\frac{n}{3} - 1$ bzw. auf $\frac{n}{3} - 2$. Denn sei $n = \text{end} - \text{start}$ ergibt sich:
 \begin{itemize}
-	\item für Aufruf $R_1$: $n = \text{end} - (m_2 + 1) = (\text{end} -
-	\text{start}) / 3 - 1$
+	\item für Aufruf $R_1$: $n = \text{end} - \left(m_2 + 1\right) = \left(\text{end} -
+	\text{start}\right) / 3 - 1$
 
-	\item für Aufruf $R_2$: $n = (m_2 - 1) - (m_1 + 1) = (\text{end} - \text{start}) / 3 - 2$
-	\item und für Aufruf $R_3$: $n = (m_1 - 1 - \text{start}) = (\text{end} - \text{start}) / 3 - 1$.
+	\item für Aufruf $R_2$: $n = \left(m_2 - 1\right) - \left(m_1 + 1\right) = \left(\text{end} - \text{start}\right) / 3 - 2$
+	\item und für Aufruf $R_3$: $n = \left(m_1 - 1 - \text{start}\right) = \left(\text{end} - \text{start}\right) / 3 - 1$.
 \end{itemize}
 
 Die Abbruchbedingung ist dass $\code{start} > \code{end}$, also dass $n < 0$ ist.
@@ -63,8 +63,8 @@ Daraus ergibt sich die Rekurenzgleichung:
 
 \begin{equation*}
 \begin{aligned}
-T(n) & = c & \text{wenn $n < 0$}  \\
-T(n) & = 3 \cdot T(n / 3 - q) + c & \text{wenn $n \ge 0$}
+T\left(n\right) & = c & \text{wenn $n < 0$}  \\
+T\left(n\right) & = 3 \cdot T\left(n / 3 - q\right) + c & \text{wenn $n \ge 0$}
 \end{aligned}
 \end{equation*}
 
@@ -76,15 +76,15 @@ Um das Mastertheorem verwenden zu können, bringen wir die Gleichung in die rich
 \begin{equation*}
 \begin{aligned}
 \text{Sei $l$} & = n - 1&\\
-T(l) & = c & \text{wenn $n = 0$}  \\
-T(l) & = 3 \cdot T(l / 3 - q) + c & \text{wenn $l > 0$}
+T\left(l\right) & = c & \text{wenn $n = 0$}  \\
+T\left(l\right) & = 3 \cdot T\left(l / 3 - q\right) + c & \text{wenn $l > 0$}
 \end{aligned}
 \end{equation*}
 
 \begin{equation*}
 \begin{aligned}
-T(l) & = c & \text{wenn $l = 0$} \\
-T(l) & = 3 \cdot T((l - 3 \cdot q) / 3) + c & \text{wenn $l > 0$}
+T\left(l\right) & = c & \text{wenn $l = 0$} \\
+T\left(l\right) & = 3 \cdot T\left(\left(l - 3 \cdot q\right) / 3\right) + c & \text{wenn $l > 0$}
 \end{aligned}
 \end{equation*}
 
@@ -93,9 +93,9 @@ T(l) & = 3 \cdot T((l - 3 \cdot q) / 3) + c & \text{wenn $l > 0$}
 \begin{equation*}
 \begin{aligned}
 \text{Sei $m$} & = l - 3 \cdot q &\\
-T(m + 3 \cdot q) &= 3 \cdot T(m / 3) + c  \\
-S(m) & = T(m + 3 \cdot q) \\
-S(m) & = 3 \cdot S(m / 3) + c
+T\left(m + 3 \cdot q\right) &= 3 \cdot T\left(m / 3\right) + c  \\
+S\left(m\right) & = T\left(m + 3 \cdot q\right) \\
+S\left(m\right) & = 3 \cdot S\left(m / 3\right) + c
 \end{aligned}
 \end{equation*}
 
@@ -105,7 +105,7 @@ nichtrekursive Teil konstant ist, tritt Fall 1 des MT ein, wonach der rekursive
 Anteil dominiert und sich
 
 $$
-S(m) = \theta(N^{log_3{3}})= \theta(m^{log_3{3}}) = \theta(m) = \theta(l - (3 \cdot q)) = \theta(n - 1 - (3 \cdot q)) = \theta(n)
+S\left(m\right) = \theta\left(N^{log_3{3}}\right)= \theta\left(m^{log_3{3}}\right) = \theta\left(m\right) = \theta\left(l - \left(3 \cdot q\right)\right) = \theta\left(n - 1 - \left(3 \cdot q\right)\right) = \theta\left(n\right)
 $$
 
 ergibt. Bisher hatten wir keinen Wert für $q$ gewählt, doch nun hat sich sowieso ergeben, dass er nur als konstanter Summand auftritt, also im $O$-Kalkül vernachlässigt werden kann.
@@ -114,7 +114,7 @@ ergibt. Bisher hatten wir keinen Wert für $q$ gewählt, doch nun hat sich sowie
 \section*{Substitutionsmethode}
 
 \begin{equation*}
-    T(N, M) =
+    T\left(N, M\right) =
 \begin{cases}
     1 & \text{für $N = 1$}\\
     T\left(N-1, M\right) + N & \text{für $1 < N \le M$} \\
