@@ -1,0 +1,114 @@
+\documentclass[parskip=half,a4paper]{scrartcl}
+
+\input{structure.tex} % Include the file specifying the document structure and custom commands
+
+\title{Algorithmik Blatt 1 Aufgabe 1} % Title of the assignment
+
+\author{MtrNr. 6329857} % Author name and email address
+
+\date{Universität Hamburg --- \today \\ Zusammengearbeitet mit} % University, school and/or department name(s) and a date
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle % Print the title
+
+\section*{Was macht der Algorithmus?}
+
+\code{DoSomething(X, x, start, end)} sucht in dem Array \code{X} im Bereich zwischen Position
+\code{start} und \code{end} nach dem Vorkommen des Elements, welches dem doppelten von \code{x}
+entspricht, und gibt bei Erfolg die Position zurück, ansonsten \code{0}.
+
+Dazu wird der zu durchsuchende Bereich des Arrays in drei Drittel geteilt und geprüft ob das gesuchte Element auf den inneren Grenzen der Bereiche --- sprich am Ende des ersten Drittels oder am Ende des zweiten Drittels --- liegt. Ist dies der Fall, ist das Ergebnis gefunden. Liegt das Gesuchte Element auf keiner dieser beiden Position, werden die drei Drittel jeweils nach dem gleichen Prinzip durchsucht, angefangen mit dem hinteren Drittel. Der Algorithmus bricht nicht ab, wenn ein Ergebnis gefunden wurde, sondern verarbeitet alle bereits geteilten Drittel --- sowie deren weitere Zerteilungen --- bis zu Ende.
+
+\section*{Rekursive Form}
+
+\begin{minted}[linenos]{text}
+
+DoSomething(X, x, start, end)
+    m_1 = floor(start +     (end - start) / 3) // 1/3 Position
+    m_2 = floor(start + 2 * (end - start) / 3) // 2/3 Position
+    if (start > end) // Rekursionsabbruch
+        return 0
+    if (X[m_1] == 2 * x) // Element gefunden
+        return m_1
+    else if (X[m_2] == 2 * x) // Element gefunden
+        return m_2
+    else
+        return max( // Rekursion, nur einer kann >0 sein
+            DoSomething(X, x, m_2 + 1, end    ), // (R1)
+            DoSomething(X, x, m_1 + 1, m_2 - 1), // (R2)
+            DoSomething(X, x, start  , m_1 - 1)  // (R3)
+        )
+
+\end{minted}
+
+\section*{Rekurenzgleichung}
+
+Der nichtrekursive Anteil der Funktion besteht nur aus einfachen arithmetischen Operationen, benötigt also konstant \code{c} viel Zeit. Die Eingabegröße $n$ ergibt sich aus der Differenz Parametern \code{start} und \code{end}, da diese den zu verarbeitenden Bereich angeben. Die Parameter \code{X} und \code{x} sind über die Rekursionstiefe konstant. 
+
+Der Algorithmus teilt das Problem in 3 Teilprobleme und reduziert die Problemgröße dabei von $n$ auf $\frac{n}{3} - 1$ bzw. auf $\frac{n}{3} - 2$. Denn sei $n = \text{end} - \text{start}$ ergibt sich:
+\begin{itemize}
+	\item für Aufruf $R_1$: $n = \text{end} - (m_2 + 1) = (\text{end} -
+	\text{start}) / 3 - 1$
+	
+	\item für Aufruf $R_2$: $n = (m_2 - 1) - (m_1 + 1) = (\text{end} - \text{start}) / 3 - 2$
+	\item und für Aufruf $R_3$: $n = (m_1 - 1 - \text{start}) = (\text{end} - \text{start}) / 3 - 1$.
+\end{itemize}
+
+Die Abbruchbedingung ist dass $\code{start} > \code{end}$, also dass $n < 0$ ist.
+
+Daraus ergibt sich die Rekurenzgleichung:
+
+\begin{equation}
+\begin{aligned}
+T(n) & = c & \text{wenn $n < 0$}  \\
+T(n) & = 3 \cdot T(n / 3 - q) + c & \text{wenn $n ≥ 0$} 
+\end{aligned}
+\end{equation}
+
+Wobei $q$ je nach Rekursionschritt 1 oder 2 ist, was aber, wie wir später sehen werden, keinen Unterschied macht.
+
+Um das Mastertheorem verwenden zu können, bringen wir die Gleichung in die richtige Form:
+
+
+\begin{equation}
+\begin{aligned}
+\text{Sei $l$} & = n - 1&\\
+T(l) & = c & \text{wenn $n = 0$}  \\
+T(l) & = 3 \cdot T(l / 3 - q) + c & \text{wenn $l > 0$} 
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+T(l) & = c & \text{wenn $l = 0$} \\
+T(l) & = 3 \cdot T((l - 3 \cdot q) / 3) + c & \text{wenn $l > 0$} 
+\end{aligned}
+\end{equation}
+
+
+
+\begin{equation}
+\begin{aligned}
+\text{Sei $m$} & = l - 3 \cdot q &\\
+T(m + 3 \cdot q) &= 3 \cdot T(m / 3) + c  \\
+S(m) & = T(m + 3 \cdot q) \\
+S(m) & = 3 \cdot S(m / 3) + c
+\end{aligned}
+\end{equation}
+
+Nun hat die Rekurenzgleichung die Passende Form, um das Mastertheorem (MT)
+anwenden zu können. Da die Parameter $a$ und $b$ des Mastertheorems 3 sind und der
+nichtrekursive Teil konstant ist, tritt Fall 1 des MT ein, wonach der rekursive
+Anteil dominiert und sich 
+
+$$
+S(m) = \theta(N^{log_3{3}})= \theta(m^{log_3{3}}) = \theta(m) = \theta(l - (3 \cdot q)) = \theta(n - 1 - (3 \cdot q)) = \theta(n)
+$$ 
+
+ergibt. Bisher hatten wir keinen Wert für $q$ gewählt, doch nun hat sich sowieso ergeben, dass er nur als konstanter Summand auftritt, also im O-Kalkül vernachlässigt werden kann.
+
+
+\end{document}
