@@ -1,6 +1,6 @@
 \documentclass[parskip=half,a4paper]{scrartcl}
 
-\input{structure.tex}
+\input{../../structure.tex}
 
 \title{Algorithmik Blatt 1 Aufgabe 2}
 
@@ -14,12 +14,12 @@
 
 \section*{Modulo Schleifeninvariante}
 
-Als Schleifeninvariante gilt $(r = x - q \cdot y) \land (q ≥ 0)$.
+Als Schleifeninvariante gilt $(r = x - q \cdot y) \land (q \ge 0)$.
 
 \subsection*{Initialisierung}
 
 \begin{enumerate}
-	\item  $q = 0$, $r = x \implies (x = x - 0 \cdot y) \land (q \ge 0)$
+	\item $q = 0$, $r = x \implies (x = x - 0 \cdot y) \land (q \ge 0)$
 \end{enumerate}
 
 \subsection*{Fortsetzung}
@@ -29,13 +29,13 @@ Als Schleifeninvariante gilt $(r = x - q \cdot y) \land (q ≥ 0)$.
 	\item Die Schleife setzt $r' = r - y$ und $q' = q + 1$
 	\item Umgeformt: $r = r' + y$ und $q = q' - 1$
 	\item Die Schleife ändert weder $x$ noch $y$, also $x' = x$ und $y' = y$
-	\item Einsetzen in Annahme: $r' + y' = x' - (q' - 1)  \cdot y' = x' - q' \cdot y' + y'$
-	\item Also gilt $r' = x' - q' \cdot y'$ und $q + 1 = q' ≥ 0$ auch am Ende der Schleife
+	\item Einsetzen in Annahme: $r' + y' = x' - (q' - 1) \cdot y' = x' - q' \cdot y' + y'$
+	\item Also gilt $r' = x' - q' \cdot y'$ und $q + 1 = q' \ge 0$ auch am Ende der Schleife
 \end{enumerate}
 
 \subsection*{Terminierung}
 
-Wenn die Schleife endet, ist $r < y$ und $x = q \cdot y + r$. 
+Wenn die Schleife endet, ist $r < y$ und $x = q \cdot y + r$.
 
 $r$ entspricht also genau der Definition von $x \mod y$.
 
@@ -64,9 +64,9 @@ Da das Array mit \code{true} initialisiert wird, gilt das Konditional in Invaria
 
 Die Schleife erhöht $i$ in jedem Durchlauf um $1$. Die Invariante muss also nach jedem Durchlauf für $i$ weitere $p$ gelten sowie auch für alle niedrigeren $p$, für die sie schon im Vorherigen Durchlauf galt. Bis auf das Inkrement wird $i$ nicht verändert.
 
-Die Invariante besteht im Kern aus einem Konditional. Sie könnte also nur dadurch verletzt werden, dass das Antezedens wahr, aber das Konsequenz falsch ist. Um die Invariante zu verletzen, müsste also gelten, dass es ein $p < i^2$ und ein $z ≤ n$ gibt für die gilt $P[p] ∧ P[p \cdot z]$.
+Die Invariante besteht im Kern aus einem Konditional. Sie könnte also nur dadurch verletzt werden, dass das Antezedens wahr, aber das Konsequenz falsch ist. Um die Invariante zu verletzen, müsste also gelten, dass es ein $p < i^2$ und ein $z \le n$ gibt für die gilt $P[p] \land P[p \cdot z]$.
 
-In jedem Durchlauf der äußeren Schleife wird aber nur $P[k], k ≥i^2$ beschrieben. Der linke Operand kann also durch die Operationen der Schleife nicht wahr werden. Außerdem wird das Array nur mit \code{false} Werten beschrieben, also kann auch der rechte Operand nicht wahr werden. Es ist also nicht möglich eine Belegung zu finden, die die Invariante verletzt.
+In jedem Durchlauf der äußeren Schleife wird aber nur $P[k], k \ge i^2$ beschrieben. Der linke Operand kann also durch die Operationen der Schleife nicht wahr werden. Außerdem wird das Array nur mit \code{false} Werten beschrieben, also kann auch der rechte Operand nicht wahr werden. Es ist also nicht möglich eine Belegung zu finden, die die Invariante verletzt.
 
 \subsection*{Fortsetzung (b)}
 
