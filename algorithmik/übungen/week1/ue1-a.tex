@@ -6,7 +6,7 @@
 
 \author{Mtr.-Nr. 6329857} % Author name and email address
 
-\date{Universität Hamburg --- \today \\ Zusammengearbeitet mit} % University, school and/or department name(s) and a date
+\date{Universität Hamburg --- \today \\ Zusammengearbeitet mit 7330980} % University, school and/or department name(s) and a date
 
 %----------------------------------------------------------------------------------------
 
@@ -117,8 +117,8 @@ ergibt. Bisher hatten wir keinen Wert für $q$ gewählt, doch nun hat sich sowie
     T(N, M) =
 \begin{cases}
     1 & \text{für $N = 1$}\\
-    T(N-1, M) + N & \text{für $1 < N \le M$} \\
-    2 \cdot T(\frac{N}{2}, M) + N & \text{für $N > M$} \\
+    T\left(N-1, M\right) + N & \text{für $1 < N \le M$} \\
+    2 \cdot T\left(\frac{N}{2}, M\right) + N & \text{für $N > M$} \\
 \end{cases}
 \end{equation*}
 
@@ -127,10 +127,10 @@ ergibt. Bisher hatten wir keinen Wert für $q$ gewählt, doch nun hat sich sowie
 
 \begin{equation*}
 \begin{aligned}
-    T(N, M) & =  T(N-1, M) + N\\
-& = T(N-2, M) + N + N\\
-& = T(N-(N-1), M) + (N-1) \cdot N\\
-& = T(1) + N^2 - N\\
+    T\left(N, M\right) & =  T\left(N-1, M\right) + N\\
+& = T\left(N-2, M\right) + N + N\\
+& = T\left(N-\left(N-1\right), M\right) + \left(N-1\right) \cdot N\\
+& = T\left(1\right) + N^2 - N\\
 & = 1 + N^2 - N\\
 \end{aligned}
 \end{equation*}
@@ -140,22 +140,22 @@ ergibt. Bisher hatten wir keinen Wert für $q$ gewählt, doch nun hat sich sowie
 
 \begin{equation*}
 \begin{aligned}
-    T(N, M) & =  2 \cdot T(\frac{N}{2}, M) + N\\
-    & =  2 \cdot (2 \cdot T(\frac{N}{2}, M) + N) + N\\
-    & =  4 \cdot T(\frac{N}{4}, M) + 2N + N\\
-    & =  2^i \cdot T(\frac{N}{2^i}, M) + 2^{i-1}N + \cdots + N^{1}\\
-    & =  2^i \cdot T(\frac{N}{2^i}, M) + \sum_{k=0}^{i-1} 2^kN \\
-    i & \ge log_2(\frac{N}{M}) \text{ damit } \frac{N}{2^i} \le M \\
-    i & = log_2(\frac{N}{M}) \text{ weil $N,M$ Zweierpotenz }
+    T(N, M) & =  2 \cdot T\left(\frac{N}{2}, M\right) + N\\
+    & =  2 \cdot \left(2 \cdot T\left(\frac{N}{2}, M\right) + N\right) + N\\
+    & =  4 \cdot T\left(\frac{N}{4}, M\right) + 2N + N\\
+    & =  2^i \cdot T\left(\frac{N}{2^i}, M\right) + 2^{i-1}N + \cdots + N^{1}\\
+    & =  2^i \cdot T\left(\frac{N}{2^i}, M\right) + \sum_{k=0}^{i-1} 2^kN \\
+    i & \ge log_2\left(\frac{N}{M}\right) \text{ damit } \frac{N}{2^i} \le M \\
+    i & = log_2\left(\frac{N}{M}\right) \text{ weil $N,M$ Zweierpotenz }
 \end{aligned}
 \end{equation*}
 \begin{equation*}
 \begin{aligned}
-    T(N, M) & =  2^{log_2(\frac{N}{M})} \cdot T(\frac{N}{2^{log_2(\frac{N}{M})}}, M) + \sum_{k=0}^{log_2(\frac{N}{M})-1} 2^kN \\
+    T(N, M) & =  2^{log_2\left(\frac{N}{M}\right)} \cdot T\left(\frac{N}{2^{log_2\left(\frac{N}{M}\right)}}, \right) + \sum_{k=0}^{log_2\frac{N}{M}-1}{2^kN} \\
     & =  \frac{N}{M} \cdot T(\frac{N}{\frac{N}{M}}, M) + \sum_{k=0}^{log_2(\frac{N}{M})-1} 2^kN \\
+    & =  \frac{N}{M} \cdot T(M, M) + \sum_{k=0}^{log_2\frac{N}{M}-1} 2^kN \\
     & =  \frac{N}{M} \cdot T(M, M) + \sum_{k=0}^{log_2(\frac{N}{M})-1} 2^kN \\
-    & =  \frac{N}{M} \cdot T(M, M) + \sum_{k=0}^{log_2(\frac{N}{M})-1} 2^kN \\
-    & =  \frac{N}{M} \cdot T(M, M) + N \sum_{k=0}^{log_2(\frac{N}{M})-1} 2^k \\
+    & =  \frac{N}{M} \cdot T(M, M) + N \sum_{k=0}^{log_2\frac{N}{M}-1} 2^k \\
 \end{aligned}
 \end{equation*}
 \begin{center}
@@ -163,9 +163,9 @@ Die Summe ist eine geometrische Reihe, also:
 \end{center}
 \begin{equation*}
 \begin{aligned}
-    T(N, M) & =  \frac{N}{M} \cdot T(M, M) + N \frac{2^{log_2(\frac{N}{M})} - 1}{1} \\
-    & =  \frac{N}{M} \cdot T(M, M) + N (\frac{N}{M} - 1) \\
-    & =  \frac{N}{M} \cdot T(M, M) + (\frac{N^2}{M} - N)
+    T(N, M) & =  \frac{N}{M} \cdot T(M, M) + N \left(\frac{2^{log_2\frac{N}{M}} - 1}{1}\right) \\
+    & =  \frac{N}{M} \cdot T(M, M) + N \left(\frac{N}{M} - 1\right) \\
+    & =  \frac{N}{M} \cdot T(M, M) + \left(\frac{N^2}{M} - N\right)
 \end{aligned}
 \end{equation*}
 
@@ -175,11 +175,11 @@ Ersetzen $T(M,M)$ durch $T(N,M)$ für $1 < N \le M$.
 
 \begin{equation*}
 \begin{aligned}
-    T(N, M) & =  \frac{N}{M} \cdot (1 + M^2 - M) + (\frac{N^2}{M} - N) \\
-    & =  (\frac{N}{M} + \frac{N}{M} \cdot M^2 - M \cdot \frac{N}{M}) + (\frac{N^2}{M} - N) \\
-    & =  (\frac{N}{M} + NM - N) + (\frac{N^2}{M} - N) \\
+    T(N, M) & =  \frac{N}{M} \cdot \left(1 + M^2 - M\right) + \left(\frac{N^2}{M} - N\right) \\
+    & =  \left(\frac{N}{M} + \frac{N}{M} \cdot M^2 - M \cdot \frac{N}{M}\right) + \left(\frac{N^2}{M} - N\right) \\
+    & =  \left(\frac{N}{M} + NM - N\right) + \left(\frac{N^2}{M} - N\right) \\
     & =  \frac{N^2}{M} + \frac{N}{M} + NM - 2N \\
-    & =  \frac{N^2 + N}{M} + N (M-2) \\
+    & =  \frac{N^2 + N}{M} + N \left( M-2 \right) \\
 \end{aligned}
 \end{equation*}
 
