@@ -4,7 +4,7 @@
 
 \title{Algorithmik Blatt 1 Aufgabe 2}
 
-\author{MtrNr. 6329857}
+\author{Mtr.-Nr. 6329857}
 
 \date{Universität Hamburg --- \today \\ Zusammengearbeitet mit}
 
@@ -25,19 +25,17 @@ Als Schleifeninvariante gilt $(r = x - q \cdot y) \land (q \ge 0)$.
 \subsection*{Fortsetzung}
 
 \begin{enumerate}
-	\item Angenommen $r = x - q \cdot y$
+	\item Angenommen zu Beginn einer Iteration gilt $r = x - q \cdot y$
 	\item Die Schleife setzt $r' = r - y$ und $q' = q + 1$
 	\item Umgeformt: $r = r' + y$ und $q = q' - 1$
 	\item Die Schleife ändert weder $x$ noch $y$, also $x' = x$ und $y' = y$
 	\item Einsetzen in Annahme: $r' + y' = x' - (q' - 1) \cdot y' = x' - q' \cdot y' + y'$
-	\item Also gilt $r' = x' - q' \cdot y'$ und $q + 1 = q' \ge 0$ auch am Ende der Schleife
+	\item Also gilt $r' = x' - q' \cdot y'$ und $q + 1 = q' \ge 0$ auch am Ende der Iteration.
 \end{enumerate}
 
 \subsection*{Terminierung}
 
-Wenn die Schleife endet, ist $r < y$ und $x = q \cdot y + r$.
-
-$r$ entspricht also genau der Definition von $x \mod y$.
+Wenn die Schleife endet, ist $r < y$ und $x = q \cdot y + r$. Damit entspricht $r$ genau der Definition von $x \mod y$. Die Schleife terminiert wenn $y > 0$, weil $r$ in jeder Iteration um $y$ verringert wird.
 
 \section*{Primzahl Schleifeninvarianz}
 

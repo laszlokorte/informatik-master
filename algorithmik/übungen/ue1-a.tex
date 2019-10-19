@@ -4,7 +4,7 @@
 
 \title{Algorithmik Blatt 1 Aufgabe 1} % Title of the assignment
 
-\author{MtrNr. 6329857} % Author name and email address
+\author{Mtr.-Nr. 6329857} % Author name and email address
 
 \date{Universität Hamburg --- \today \\ Zusammengearbeitet mit} % University, school and/or department name(s) and a date
 
@@ -108,7 +108,7 @@ $$
 S(m) = \theta(N^{log_3{3}})= \theta(m^{log_3{3}}) = \theta(m) = \theta(l - (3 \cdot q)) = \theta(n - 1 - (3 \cdot q)) = \theta(n)
 $$
 
-ergibt. Bisher hatten wir keinen Wert für $q$ gewählt, doch nun hat sich sowieso ergeben, dass er nur als konstanter Summand auftritt, also im O-Kalkül vernachlässigt werden kann.
+ergibt. Bisher hatten wir keinen Wert für $q$ gewählt, doch nun hat sich sowieso ergeben, dass er nur als konstanter Summand auftritt, also im $O$-Kalkül vernachlässigt werden kann.
 
 
 \section*{Substitutionsmethode}
@@ -122,9 +122,11 @@ ergibt. Bisher hatten wir keinen Wert für $q$ gewählt, doch nun hat sich sowie
 \end{cases}
 \end{equation*}
 
+\subsection*{Für $1 < N \le M$}
+
+
 \begin{equation*}
 \begin{aligned}
-    \text{für } & 1 < N \le M \\
     T(N, M) & =  T(N-1, M) + N\\
 & = T(N-2, M) + N + N\\
 & = T(N-(N-1), M) + (N-1) \cdot N\\
@@ -133,10 +135,11 @@ ergibt. Bisher hatten wir keinen Wert für $q$ gewählt, doch nun hat sich sowie
 \end{aligned}
 \end{equation*}
 
+\subsection*{Für $N > M$}
+
 
 \begin{equation*}
 \begin{aligned}
-    \text{für } & N > M \\
     T(N, M) & =  2 \cdot T(\frac{N}{2}, M) + N\\
     & =  2 \cdot (2 \cdot T(\frac{N}{2}, M) + N) + N\\
     & =  4 \cdot T(\frac{N}{4}, M) + 2N + N\\
