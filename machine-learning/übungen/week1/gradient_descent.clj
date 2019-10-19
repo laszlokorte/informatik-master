@@ -1,10 +1,10 @@
-(ns gradient-descent 
+(ns gradient-descent
   (:require [com.hypirion.clj-xchart :as c]
             [clojure.core.matrix :as m]
             [clojure.string :as str]))
 
 ; vectoru is needed for matrix inverse
-(m/set-current-implementation :vectorz) 
+(m/set-current-implementation :vectorz)
 
 (defn noise [ampl]
   "generate random value in [-ampl, ampl]"
@@ -99,7 +99,7 @@
                       (> (- 1 threshold)
                          (/ (:error b) (:error a))))))
        (map second)))
-    
+
 (defn find-polynomial-matrix [points degree]
   "find a polynomial of degree matching the given points using matrix multiplication"
   (let [X (map (fn [[x y]] (powers x degree)) points)
@@ -142,7 +142,7 @@
              {"Data Points"
               (assoc (series-from-vectors data)
                      :style {:render-style :scatter})
-              "Aproximation (via Iteration)" 
+              "Aproximation (via Iteration)"
               (assoc (series-from-vectors aprox)
                      :style {:marker-type :none})
               "Aproximation (via Matrix)"
@@ -153,9 +153,9 @@
                      :style {:marker-type :none})} {:title (format "Aproximation via polynomial of degree %d" polynomial-degree)})
             (c/xy-chart {
                 "Error" {
-                    :x (range (count errors)) 
-                    :y errors 
-                    :style {:marker-type :none}}} 
+                    :x (range (count errors))
+                    :y errors
+                    :style {:marker-type :none}}}
                 {
                     :title (format "Error after n=%d iterations, step size %f is %2.3f" (count iterations) (double learning-rate) final-error)
                     :x-axis {:title "Iterations"}
