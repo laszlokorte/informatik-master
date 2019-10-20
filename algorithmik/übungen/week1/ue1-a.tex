@@ -59,43 +59,43 @@ Die Abbruchbedingung ist dass $\code{start} > \code{end}$, also dass $n < 0$ ist
 
 Daraus ergibt sich die Rekurenzgleichung:
 
-\begin{equation*}
+\begin{equation}
 \begin{aligned}
-T\left(n\right) & = c & \text{wenn $n < 0$}  \\
+T\left(n\right) & = c & \text{wenn $n < 0$}\\
 T\left(n\right) & = 3 \cdot T\left(n / 3 - q\right) + c & \text{wenn $n \ge 0$}
 \end{aligned}
-\end{equation*}
+\end{equation}
 
 Wobei $q$ je nach Rekursionschritt 1 oder 2 ist, was aber, wie wir später sehen werden, keinen Unterschied macht.
 
 Um das Mastertheorem verwenden zu können, bringen wir die Gleichung in die richtige Form:
 
 
-\begin{equation*}
+\begin{equation}
 \begin{aligned}
 \text{Sei $l$} & = n - 1&\\
 T\left(l\right) & = c & \text{wenn $n = 0$}  \\
 T\left(l\right) & = 3 \cdot T\left(l / 3 - q\right) + c & \text{wenn $l > 0$}
 \end{aligned}
-\end{equation*}
+\end{equation}
 
-\begin{equation*}
+\begin{equation}
 \begin{aligned}
 T\left(l\right) & = c & \text{wenn $l = 0$} \\
 T\left(l\right) & = 3 \cdot T\left(\left(l - 3 \cdot q\right) / 3\right) + c & \text{wenn $l > 0$}
 \end{aligned}
-\end{equation*}
+\end{equation}
 
 
 
-\begin{equation*}
+\begin{equation}
 \begin{aligned}
 \text{Sei $m$} & = l - 3 \cdot q &\\
 T\left(m + 3 \cdot q\right) &= 3 \cdot T\left(m / 3\right) + c  \\
 S\left(m\right) & = T\left(m + 3 \cdot q\right) \\
 S\left(m\right) & = 3 \cdot S\left(m / 3\right) + c
 \end{aligned}
-\end{equation*}
+\end{equation}
 
 Nun hat die Rekurenzgleichung die Passende Form, um das Mastertheorem (MT)
 anwenden zu können. Da die Parameter $a$ und $b$ des Mastertheorems 3 sind und der
@@ -111,19 +111,19 @@ ergibt. Bisher hatten wir keinen Wert für $q$ gewählt, doch nun hat sich sowie
 
 \section*{Substitutionsmethode}
 
-\begin{equation*}
+\begin{equation}
     T\left(N, M\right) =
 \begin{cases}
     1 & \text{für $N = 1$}\\
     T\left(N-1, M\right) + N & \text{für $1 < N \le M$} \\
     2 \cdot T\left(\frac{N}{2}, M\right) + N & \text{für $N > M$} \\
 \end{cases}
-\end{equation*}
+\end{equation}
 
 \subsection*{Für $1 < N \le M$}
 
 
-\begin{equation*}
+\begin{equation}
 \begin{aligned}
     T\left(N, M\right) & =  T\left(N-1, M\right) + N\\
 & = T\left(N-2, M\right) + N + N\\
@@ -131,12 +131,12 @@ ergibt. Bisher hatten wir keinen Wert für $q$ gewählt, doch nun hat sich sowie
 & = T\left(1\right) + N^2 - N\\
 T(N,M) & = O(N^2)\\
 \end{aligned}
-\end{equation*}
+\end{equation}
 
 \subsection*{Für $N > M$}
 
 
-\begin{equation*}
+\begin{equation}
 \begin{aligned}
     T(N, M) & =  2 \cdot T\left(\frac{N}{2}, M\right) + N\\
     & =  2 \cdot \left(2 \cdot T\left(\frac{N}{2}, M\right) + N\right) + N\\
@@ -146,8 +146,8 @@ T(N,M) & = O(N^2)\\
     i & \ge log_2\left(\frac{N}{M}\right) \text{ damit } \frac{N}{2^i} \le M \\
     i & = log_2\left(\frac{N}{M}\right) \text{ weil $N,M$ Zweierpotenz }
 \end{aligned}
-\end{equation*}
-\begin{equation*}
+\end{equation}
+\begin{equation}
 \begin{aligned}
     T(N, M) & =  2^{log_2\left(\frac{N}{M}\right)} \cdot T\left(\frac{N}{2^{log_2\left(\frac{N}{M}\right)}}, \right) + \sum_{k=0}^{log_2\frac{N}{M}-1}{2^kN} \\
     & =  \frac{N}{M} \cdot T(\frac{N}{\frac{N}{M}}, M) + \sum_{k=0}^{log_2(\frac{N}{M})-1} 2^kN \\
@@ -155,23 +155,23 @@ T(N,M) & = O(N^2)\\
     & =  \frac{N}{M} \cdot T(M, M) + \sum_{k=0}^{log_2(\frac{N}{M})-1} 2^kN \\
     & =  \frac{N}{M} \cdot T(M, M) + N \sum_{k=0}^{log_2\frac{N}{M}-1} 2^k \\
 \end{aligned}
-\end{equation*}
+\end{equation}
 \begin{center}
 Die Summe ist eine geometrische Reihe, also:
 \end{center}
-\begin{equation*}
+\begin{equation}
 \begin{aligned}
     T(N, M) & =  \frac{N}{M} \cdot T(M, M) + N \left(\frac{2^{log_2\frac{N}{M}} - 1}{1}\right) \\
     & =  \frac{N}{M} \cdot T(M, M) + N \left(\frac{N}{M} - 1\right) \\
     & =  \frac{N}{M} \cdot T(M, M) + \left(\frac{N^2}{M} - N\right)
 \end{aligned}
-\end{equation*}
+\end{equation}
 
 \begin{center}
 Ersetzen $T(M,M)$ durch $T(N,M)$ für $1 < N \le M$.
 \end{center}
 
-\begin{equation*}
+\begin{equation}
 \begin{aligned}
     T(N, M) & =  \frac{N}{M} \cdot \left(1 + M^2 - M\right) + \left(\frac{N^2}{M} - N\right) \\
     & =  \left(\frac{N}{M} + \frac{N}{M} \cdot M^2 - M \cdot \frac{N}{M}\right) + \left(\frac{N^2}{M} - N\right) \\
@@ -181,7 +181,7 @@ Ersetzen $T(M,M)$ durch $T(N,M)$ für $1 < N \le M$.
     & =  \frac{N^2 + N + NM^2 - 2NM}{M} \\
     T(N, M) & =  O(\frac{N^2 + NM^2}{M}) \\
 \end{aligned}
-\end{equation*}
+\end{equation}
 
 
 
