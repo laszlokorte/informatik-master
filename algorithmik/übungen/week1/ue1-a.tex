@@ -6,7 +6,7 @@
 
 \author{Mtr.-Nr. 6329857}
 
-\date{Universität Hamburg --- \today \\ Zusammengearbeitet mit 7330980, 7327475}
+\date{Universität Hamburg --- \today \\ in Zusammenarbeit mit 7330980, 7327475, 7328242}
 
 \begin{document}
 
@@ -129,7 +129,7 @@ ergibt. Bisher hatten wir keinen Wert für $q$ gewählt, doch nun hat sich sowie
 & = T\left(N-2, M\right) + N + N\\
 & = T\left(N-\left(N-1\right), M\right) + \left(N-1\right) \cdot N\\
 & = T\left(1\right) + N^2 - N\\
-& = 1 + N^2 - N\\
+T(N,M) & = O(N^2)\\
 \end{aligned}
 \end{equation*}
 
@@ -177,7 +177,9 @@ Ersetzen $T(M,M)$ durch $T(N,M)$ für $1 < N \le M$.
     & =  \left(\frac{N}{M} + \frac{N}{M} \cdot M^2 - M \cdot \frac{N}{M}\right) + \left(\frac{N^2}{M} - N\right) \\
     & =  \left(\frac{N}{M} + NM - N\right) + \left(\frac{N^2}{M} - N\right) \\
     & =  \frac{N^2}{M} + \frac{N}{M} + NM - 2N \\
-    & =  \frac{N^2 + N}{M} + N \left( M-2 \right) \\
+    & =  \frac{N^2 + N}{M} + NM - 2N \\
+    & =  \frac{N^2 + N + NM^2 - 2NM}{M} \\
+    T(N, M) & =  O(\frac{N^2 + NM^2}{M}) \\
 \end{aligned}
 \end{equation*}
 
