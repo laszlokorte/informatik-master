@@ -1,0 +1,46 @@
+\documentclass[parskip=half,a4paper]{scrartcl}
+
+\input{../../../structure.tex}
+
+\title{Korrektur Blatt 1 Aufgabe 2 für 7027218}
+
+\author{Mtr.-Nr. 6329857}
+
+\date{Universität Hamburg --- \today}
+
+\begin{document}
+
+\maketitle % Print the title
+
+
+\section*{Schleifeninvariante Modulo}
+
+Volle Punktzahl:
+
+\begin{enumerate}
+    \item Die Schleifeninvariant ist korrekt. \checkmark
+    \item Der Beweis ist gegliedert in vor der Schleife, während der Schleife und nach der Schleife. \checkmark
+    \item Die drei Schritte sind jeweils korrekt gezeigt.  \checkmark
+\end{enumerate}
+
+
+\section*{Primzahl}
+
+Als Invariante wurde angegeben: \enquote{Alle Zahlen, \textbf{die Primfaktoren < i} haben wurden als nicht Primzahl markiert.}
+
+Es müsste aber sein \enquote{\textbf{Alle Zahlen < i}, die Primfaktoren haben wurden als nicht Primzahl markiert}, denn zu Beginn sind ja noch alle Zahlen als Primzahl markiert, wodurch die Invariante so gar nicht stimmen kann.
+
+Außerdem fehlt für einen Korrektheitsbeweis die Rückrichtung der Invariante, nämlich dass alle Primzahlen < i auch als solche markiert wurden.
+
+Durch die fehlerhafte und unvollständige Invariante funktionieren die folgenden Beweisschritte natürlich nicht.
+
+\begin{enumerate}
+    \item Die Schleifeninvariant ist korrekt. (nein: $-1$ Punkt)
+    \item Der Beweis ist gegliedert in vor der Schleife, während der Schleife und nach der Schleife. \checkmark
+    \item Die drei Schritte sind jeweils korrekt gezeigt. Folgefehler?
+\end{enumerate}
+
+
+
+
+\end{document}
