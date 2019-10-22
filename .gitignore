@@ -1,4 +1,4 @@
-*.sublime–workspace
+*.sublime-workspace
 .ipynb_checkpoints
 .DS_Store
 .lein-repl-history
