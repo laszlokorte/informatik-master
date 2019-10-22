@@ -1,0 +1,5 @@
+{:deps
+ {org.clojure/clojure {:mvn/version "1.10.0"}
+ com.hypirion/clj-xchart {:mvn/version "0.2.0"}
+ net.mikera/vectorz-clj {:mvn/version "0.48.0"}
+ net.mikera/core.matrix {:mvn/version "0.62.0"}}}
