@@ -116,10 +116,10 @@
 (def simple-test-data
   (build-polynomial [[0 0] [1 1] [2 2] [3 3]] 3))
 
-(defn run [d s]
+(defn run [d s limit]
   (let [polynomial-degree d
         learning-rate s
-        iteration-limit 10000
+        iteration-limit limit
         error-threshold 0.00001
         data (gen-data 100 0.3)
         x-range (range 0 1 0.01)
@@ -162,4 +162,4 @@
                     :y-axis {:title "Error"}}))))
 
 (defn -main [& args]
-  (run 5 0.1))
+  (run 3 0.2 1000))
