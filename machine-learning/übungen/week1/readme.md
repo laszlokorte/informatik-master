@@ -2,7 +2,7 @@
 
 ## Result
 
-![var/animation.gif](Animation of algorithm steps)
+![Animation of algorithm steps](var/animation.gif)
 
 ## Generate data
 
