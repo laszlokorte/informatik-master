@@ -85,7 +85,7 @@
         lines (line-seq (clojure.java.io/reader *in*))
         rows (mapv #(mapv read-string (str/split %1 #" " 2)) lines)
         rows' (filterv #(= 2 (count %1)) rows)
-        points (mapv (fn [[x y]] {:x (powers x 3) :y y}) rows')
+        points (mapv (fn [[x y]] {:x (powers x degree) :y y}) rows')
         iterations (as-> points v
                      (find-polynomial v degree learning-rate)
                    #_(break-on-threshold v error-threshold 10)
