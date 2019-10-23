@@ -1,13 +1,20 @@
-# Gradient Descent Implementation
+# Week 2
 
-## Example for sin(2pi x) + eps data points
-
-![Example polynomial aproximation](./example.png)
-
-### Resulting Polynomials
+## Generate data
 
 ```
-f_itr(x) = 0.031767987732920076*x^0 + 7.573337387150479*x^1 + -15.951620373046708*x^2 + -2.4384047417973336*x^3 + 7.068569618767389*x^4 + 4.219357841007244*x^5
+clj -m gen-data > var/points.txt
+```
 
-f_mtx(x) = f0.12423788007277264*x^0 + 2.726975997733779*x^1 + 27.183599808165678*x^2 + -135.28938939890563*x^3 + 171.93214472809962*x^4 + -66.61422340275125*x^5
+## Running the algorithm
+
+```
+cat var/points.txt | clj -m aproximate 0.2 1500 > var/iterations.txt
+```
+
+## Plotting the data
+
+```
+gnuplot plots/data.plt
+gnuplot plots/error.plt
 ```
