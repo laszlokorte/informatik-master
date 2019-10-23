@@ -89,7 +89,7 @@
         iterations (as-> points v
                      (find-polynomial v degree learning-rate)
                    #_(break-on-threshold v error-threshold 10)
-                     (take limit v))]
+                     (if (= 0 limit) v (take limit v)))]
     (println "# iteration error" (str/join " " (map #(format "x%d" %1) (range 0 (inc degree)))))
     (doseq [it iterations]
         (println (:index it) (:error it) (str/join " " (:coefficients it))))))

@@ -12,9 +12,15 @@ clj -m gen-data > var/points.txt
 cat var/points.txt | clj -m aproximate 0.2 1500 > var/iterations.txt
 ```
 
-## Plotting the data
+## Plotting the data (latex)
 
 ```
 gnuplot plots/data.plt
 gnuplot plots/error.plt
+```
+
+## Animated plot
+
+```
+cat var/iterations.txt | php plots/animate.plt.php 10 | gnuplot
 ```
