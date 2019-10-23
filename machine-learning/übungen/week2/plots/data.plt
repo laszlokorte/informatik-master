@@ -1,6 +1,10 @@
 set terminal latex
 set output "var/data.tex"
 
+stats 'var/data.txt' using 2 name "ystats" nooutput
+
+set yrange [ystats_min - 2:ystats_max + 2]
+
 a_0 = -0.004745724038684598
 b_0 = -0.008897108422270036
 c_0 = 0.0019116669189833298
