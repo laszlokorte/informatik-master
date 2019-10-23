@@ -43,7 +43,7 @@
         points (mapv (fn [[x0 x1 y]] {:x [1 x0 x1] :y y}) rows')
         iterations (as-> points v
             (find-classifier v 2 learning-rate)
-            (take limit v))]
+            (if (= 0 limit) v (take limit v)))]
         (println "#" "iterations:" limit "rate:" learning-rate)
         (doseq [[index it] (map-indexed vector iterations)]
             (println index (str/join " " it)))))

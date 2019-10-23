@@ -24,3 +24,7 @@ gnuplot plots/error.plt
 ```
 cat var/iterations.txt | php plots/animate.plt.php 10 | gnuplot
 ```
+or
+```
+cat var/points.txt | clj -m aproximate 3 0.05 0 | php plots/animate.plt.php 100 | gnuplot
+```

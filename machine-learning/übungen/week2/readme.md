@@ -17,3 +17,7 @@ gnuplot plots/data.plt
 ```
 cat var/iterations.txt | php plots/animate.plt.php 10 | gnuplot
 ```
+or
+```
+cat var/data.txt | clj -m logistic-regression 0.05 0  | php plots/animate.plt.php 10 | gnuplot
+```
