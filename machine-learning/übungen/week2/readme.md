@@ -1,5 +1,10 @@
 # Week 2
 
+## Result
+
+![var/animation.gif](Animation of algorithm steps)
+
+
 ## Running the algorithm
 
 ```
