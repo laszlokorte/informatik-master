@@ -1,0 +1,41 @@
+\documentclass[parskip=half,a4paper]{scrartcl}
+
+\input{../../../structure.tex}
+
+\title{Machine Learning Excercise 2}
+\author{Laszlo Korte, MtrNr. 6329857}
+\date{Universität Hamburg --- \today}
+
+\begin{document}
+
+\maketitle
+
+$$
+z(x) = \begin{bmatrix}
+21.84401335497923 \\
+-3.777551683915814 \\
+8.617252026405144
+\end{bmatrix}^T
+\begin{bmatrix}
+1 \\
+x_1 \\
+x_2
+\end{bmatrix}
+$$
+
+$$
+g(x) = \frac{1}{1 + e^{-z(x)}}
+$$
+
+
+The function $z(x)$ has been computed using logistic regression algorithm using a learning rate of $\alpha = 0.4$ and 1000 iterations.
+
+\begin{figure}[H]
+\begin{center}
+\input{var/data.tex}
+\caption{Data points, $z_0(x) = 0$, and $z(x) = 0$}
+\end{center}
+\end{figure}
+
+
+\end{document}
