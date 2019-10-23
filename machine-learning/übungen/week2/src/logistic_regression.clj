@@ -34,15 +34,19 @@
          (iterate #(gradient-descent-step points learning-rate %1))))
 
 
-(defn -main [& args]
-  (let [lines (line-seq (clojure.java.io/reader *in*))
+(defn -main [arg-learning-rate arg-limit & args]
+  (let [learning-rate (read-string arg-learning-rate)
+        limit (read-string arg-limit)
+        lines (line-seq (clojure.java.io/reader *in*))
         rows (mapv #(mapv read-string (str/split %1 #" " 3)) lines)
         rows' (filterv #(= 3 (count %1)) rows)
         points (mapv (fn [[x0 x1 y]] {:x [1 x0 x1] :y y}) rows')
-        steps (find-classifier points 2 0.1)
-        result (nth steps 0)
-        [t0 t1 t2] result]
-    (println (format "(%f + (%f*x))(-1/%f)" t0 t1 t2))))
+        iterations (as-> points v
+            (find-classifier v 2 learning-rate)
+            (take limit v))]
+        (println "#" "iterations:" limit "rate:" learning-rate)
+        (doseq [[index it] (map-indexed vector iterations)]
+            (println index (str/join " " it)))))
 
 
 ; final (22,701787 + (-3,897869*x))(-1/8,926598)

@@ -88,20 +88,9 @@
         points (mapv (fn [[x y]] {:x (powers x 3) :y y}) rows')
         iterations (as-> points v
                      (find-polynomial v degree learning-rate)
-                     ;(break-on-threshold v error-threshold 10)
-                     (take limit v)
-                     (vec v))
-        coefs_0 (:coefficients (first iterations))
-        coefs (:coefficients (last iterations))
-        errors  (map :error iterations)]
-    (println "set xrange [-0.1:1.1]" "\n"
-             "set yrange [-1.5:1.5]" "\n"
-             "h_0(x) =" (polynomial-string coefs_0) "\n"
-             "h(x) =" (polynomial-string coefs) "\n"
-             "plot h_0(x), h(x), \"var/points.txt\" title \"data\" " "\n"
-             "#error: " (last errors))
-    (println (format "set xrange [0:%d]" (count iterations)) "\n"
-             (format "set yrange [%s:%s]" (str (reduce min 0.0 errors)) (str (reduce max 0.0 errors))) "\n"
-             "plot '-' using 1:2 title \"error after iterations\" ")
-    (doseq [[i item] (map-indexed vector iterations)]
-        (println i (:error item)))))
+                   #_(break-on-threshold v error-threshold 10)
+                     (take limit v))]
+    (println "# iteration error" (str/join " " (map #(format "x%d" %1) (range 0 (inc degree)))))
+    (doseq [it iterations]
+        (println (:index it) (:error it) (str/join " " (:coefficients it))))))
+
