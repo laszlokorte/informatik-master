@@ -1,0 +1,136 @@
+\documentclass[parskip=half,a4paper]{scrartcl}
+\usepackage[ngerman]{babel}
+
+\input{../../../structure.tex}
+
+\title{Algorithmik Blatt 3 Teil 1}
+
+\author{Mtr.-Nr. 6329857}
+
+\date{Universität Hamburg --- \today}
+
+\begin{document}
+
+\maketitle % Print the title
+
+\linenumbers
+
+
+\section*{Aufgabe 6}
+
+\subsection*{Was macht der Algorithmus?}
+
+Der Wert des Zählers wird durch die Differenz zweier Teilzähler $P$ und $N$ gebildet. Wir haben bereits gesehen, dass ein einzelner Zähler in armotisierter worst-case Zeit $\mathcal{O}(1)$ inkrementiert werden kann. Das Hinzunehmen der \textsc{Decrement} Operation verschlechtert die armotisierte Laufzeit jedoch auf $\mathcal{O}(n)$, weil im worst-case eine Sequenz aus abwechselnen \textsc{Increment} und \textsc{Decrement} dazu führen, dass in jeder Operation alle $n$ Bits gewechselt werden müssen.
+
+Der neue Algorithmus umgeht das Problem, indem die \textsc{Decrement} Operation einfach als \textsc{Increment} auf einem zweiten Zähler agiert. Nun sind abwechselnde \textsc{Increment} und \textsc{Decrement} einfach nur \textsc{Increments} auf unterschiedlichen Zählern und die Argumentation für die armortisierte $\mathcal{O}(1)$ Laufzeit von \textsc{Increment} lässt sich auf $\left\{\textsc{Increment}, \textsc{Decrement}\right\}$ übertragen.
+
+Allerdings muss der Algorithmus einen Sonderheit beachten: Jedes Bit darf nur in einem der beiden Zähler auf 1 stehen. Das ist wichtig, um ungewollte mehrfache Repräsentation von Werten zu verhindern. Ansonsten stellten z.B. $(P=00, N=00)$, $(P=01, N=01)$, $(P=10, N=10)$ und $(P=11, N=11)$ alle den Gesamtwert 0 dar. Dadurch wäre bei gleicher Anzahl Bits der Wertebereich eingeschränkt. Immer wenn der Algorithmus ein Bit auf $1$ setzen will, muss er zunächst prüfen, ob das Partnerbit im anderen Zähler schon auf $1$ steht und falls ja, dieses dort stattdessen auf $0$ setzen.
+
+\subsection*{Accounting-Methode}
+
+Die relevanten Operationen der \textsc{Increment} und \textsc{Decrement} Funktion sind die Schreibzugriffe auf die jeweils $log(n)$ breiten Zähler $P$ und $N$. Die Operation die ein Bit $i$ auf 0 setzt nennen wir $\textsc{RESET}_P(i)$ bzw. $\textsc{RESET}_N(i)$. Die Operation die ein Bit $i$ auf 1 setzt nennen wir $\textsc{SET}_P(i)$ bzw. $\textsc{SET}_N(i)$.
+
+Die Laufzeit von \textsc{Increment} ist proportional zur Anzahl der ausgeführten $\textsc{RESET}_P(i)$ Operationen, denn diese kommt unbedingt genau einmal in der einzigen Schleife vor. Entsprechend ist die Laufzeit von \textsc{Decrement} ist proportional zur Anzahl der ausgeführten $\textsc{RESET}_N(i)$ Operationen.
+
+Zu Beginn seien alle Bits auf 0 gesetzt. $\textsc{RESET}_P(i)$ wird nur durchgeführt, wenn Bit $i$ auf 1 gesetzt ist. Dies kann nur der Fall sein, wenn vorher ein $\textsc{SET}_P(i)$ durchgeführt wurde. Analog gilt dies für $\textsc{RESET}_N(i)$.
+
+Also gilt (wobei $\#(\textit{Op})$ die Anzahl der Ausführungen von $\textit{Op}$ ist):
+
+\begin{equation}
+\#(\textsc{RESET}_N) \le \#(\textsc{SET}_N)
+\end{equation}
+
+Wir können im Accounting die \textsc{RESET} Operationen also die Kosten für die \textsc{SET} Operationen übernehmen lassen. Somit veranschlagen wir:
+
+\begin{equation}
+\begin{aligned}
+T_{SET_P} &= 2 \\
+T_{SET_N} &= 2 \\
+T_{RESET_P} &= 0 \\
+T_{RESET_N} &= 0 \\
+\end{aligned}
+\end{equation}
+
+Für $n$ ausführungen von \textsc{Increment} ergibt sich eine gesamte Laufzeit von:
+
+\begin{equation}
+\begin{aligned}
+T_{INC}(p) &= p \cdot (T_{SET_P} + log(p) \cdot T_{RESET_P} + T_{RESET_N}) \\
+ &= p \cdot T_{SET_P}
+\end{aligned}
+\end{equation}
+
+Für \textsc{Decrement} entsprechend
+
+\begin{equation}
+\begin{aligned}
+T_{DEC}(q) &= q \cdot (T_{SET_N} + log(q) \cdot T_{RESET_N} + T_{RESET_P}) \\
+& \text{weil  $T_{RESET_P} = T_{RESET_N} = 0$} \\
+T_{DEC}(q)  &= q \cdot T_{SET_N}
+\end{aligned}
+\end{equation}
+
+Für $n$ ausgeführte \textsc{Increment} und $m$ ausgeführte \textsc{Increment} ergibt sich:
+
+\begin{equation}
+\begin{aligned}
+T_{INC}(p) + T_{DEC}(q) &= p \cdot T_{SET_P} + q \cdot T_{SET_N}\\
+T_{SET_P} &= T_{SET_N} = 2 \\
+T_{INC}(p) + T_{DEC}(q) &= (p+q) \cdot 2
+\end{aligned}
+\end{equation}
+
+Da \textsc{Increment} und \textsc{Decrement} die einzig erlaubten Operationen sind ergibt sich für jede beliebe Sequenz aus $n = (p+q)$ Operationen eine Laufzeit von $\mathcal{O}(n\cdot 2) = \mathcal{O}(n)$ und damit einer armortisierte worst-case Laufzeit von $\mathcal{O}(1)$.
+
+\subsection*{Potential-Funktion}
+
+Die tatsächlichen Kosten $c_i$ der \textsc{Increment} Operation von Schritt $i$ einer Sequenz von Operationen ergeben sich aus der Anzahl der Teiloperationen $\textsc{RESET}_P$, $\textsc{RESET}_N$ und $\textsc{SET}_P$ in Schritt $i$:
+
+$$
+c_i = \#_i(\textsc{RESET}_P) + \#_i(\textsc{RESET}_N) + \#_i(\textsc{SET}_P)
+$$
+
+Wobei $\#_i(\textit{Op})$ die Anzahl der ausgeführten Teiloperationen $\textit{Op}$ in Schritt $i$ der Sequenz ist. Die armortisierten Kosten der $i$-ten Operation sind:
+
+\begin{equation}
+c_i' = c_i + \phi_i(P,N) - \phi_{i-1}(P,N)
+\end{equation}
+
+Wählen wir als Potentialfunktion $\phi$ die Gesamtzahl der in $P$ und $N$ auf 1 gesetzten Bits, ergibt sich:
+
+\begin{equation}
+\phi_i(P,N) - \phi_{i-1}(P,N) = \#_i(\textsc{SET}_P) - \#_i(\textsc{RESET}_P) - \#_i(\textsc{RESET}_N)
+\end{equation}
+
+Das Potential kann nie negativ sein, da die Anzahl der auf $1$ gesetzten Bits nicht negativ sein kann.
+
+Fügen wir die drei Gleichungne zusammen ergibt sich:
+
+\begin{equation}
+\begin{aligned}
+c_i' &= \#_i(\textsc{RESET}_P) + \#_i(\textsc{RESET}_N) + \#_i(\textsc{SET}_P) \\ &+ \#_i(\textsc{SET}_P) - \#_i(\textsc{RESET}_P) - \#_i(\textsc{RESET}_N)\\
+&= 2 \cdot \#_i(\textsc{SET}_P)\\
+\end{aligned}
+\end{equation}
+
+Da $\textsc{SET}_P$ nur höchstens einmal pro \textsc{Increment} vorkommt, ergibt sich $c_i' = 2 \le 2$ als armortisierte Kosten der \textsc{Increment} Operation.
+
+Analog funktioniert die Argumentation für Decrement:
+
+\begin{equation}
+\begin{aligned}
+c_i' &= c_i + \phi_i(P,N) - \phi_{i-1}(P,N)\\
+c_i &= \#_i(\textsc{RESET}_N) + \#_i(\textsc{RESET}_P) + \#_i(\textsc{SET}_N)\\
+\phi_i(P,N) - \phi_{i-1}(P,N) &= \#_i(\textsc{SET}_N) - \#_i(\textsc{RESET}_N) - \#_i(\textsc{RESET}_P)\\
+c_i' &= \#_i(\textsc{RESET}_N) + \#_i(\textsc{RESET}_P) + \#_i(\textsc{SET}_N) \\ &+ \#_i(\textsc{SET}_N) - \#_i(\textsc{RESET}_N) - \#_i(\textsc{RESET}_P)\\
+&= 2 \cdot \#_i(\textsc{SET}_N)\\
+c_i' &= 2 \le 2
+\end{aligned}
+\end{equation}
+
+Für eine Sequenz aus $n$ beliebigen Operationen aus der Menge $\{\textsc{Increment}, \textsc{Decrement}\}$ ergibt sich $T(n) = 2 \cdot n$, also eine armortisierte worst-case Laufzeit von $\mathcal{O}(1)$.
+
+\section*{Aufgabe 7}
+
+
+\end{document}
