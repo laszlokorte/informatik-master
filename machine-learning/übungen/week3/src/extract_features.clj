@@ -37,10 +37,14 @@
     :avg-green (/ (m/esum greens) size)
     :avg-blue (/ (m/esum blues) size)}))
 
-(defn -main [dir & args]
-    (let [
-        files (filter #(.isFile %1) (file-seq (File. dir)))
-        images (filter (comp not nil?) (map #(. ImageIO (read %1)) files))
-        matrices (map image2matrix images)]
-    (doseq [m matrices]
-        (println (extract-features m)))))
+(defn -main [& dirs]
+    (doseq [[idx dir] (map-indexed vector dirs)]
+        (let [files (filter #(.isFile %1) (file-seq (File. dir)))
+              images (filter (comp not nil?) (map #(. ImageIO (read %1)) files))
+              matrices (map image2matrix images)]
+             (doseq [m matrices]
+                (->> m
+                    extract-features
+                    vals
+                    (clojure.string/join " ")
+                    (println idx))))))
