@@ -1,4 +1,4 @@
-(ns aproximate
+(ns aproximate-matrix
   (:require [clojure.core.matrix :as m]
             [clojure.string :as str]))
 
