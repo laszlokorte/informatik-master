@@ -32,19 +32,26 @@ $A_{i,j}$ sei dass Ereignis, dass die Bedingung $A$ in Iteration $(i,j)$ erfüll
 A(n) = \bigcup_{i=1}^{n}{\bigcup_{j=i+1}^n}A_{i,j}
 \end{equation}
 
-Indikatorfunktion für Ereignis $A_{i,j}$:
+Indikatorfunktion für Ereignis $A_{i,j}$ und $A(n)$:
 
 \begin{equation}
-I\{A_{i,j}\} = \begin{cases}
+\begin{aligned}
+I\{A_{i,j}\} &= \begin{cases}
 1 & \text{wenn $A[i] > A[j]$}\\
-0 & \text{cases}
+0 & \text{sonst}
+\end{cases}\\
+I\{A(n)\} &= \begin{cases}
+1 & \text{wenn $\bigcup_{i=1}^{n}{\bigcup_{j=i+1}^n}A_{i,j}$}\\
+0 & \text{sonst}
 \end{cases}
+\end{aligned}
 \end{equation}
 
 \begin{equation}
 \begin{aligned}
    E\left[A_{i,j}\right] &= Pr(A_{i,j})\\
-   E\left[A(n)\right] &= E\left[\bigcup_{i=1}^n{\bigcup_{j=i+1}^n}A_{i,j}\right] = \sum_{i=1}^n{\sum_{j=i+1}^n}E\left[A_{i,j}\right]
+   E\left[A(n)\right] &= E\left[\bigcup_{i=1}^n{\bigcup_{j=i+1}^n}A_{i,j}\right] \\
+   &= \sum_{i=1}^n{\sum_{j=i+1}^n}E\left[A_{i,j}\right]
 \end{aligned}
 \end{equation}
 
