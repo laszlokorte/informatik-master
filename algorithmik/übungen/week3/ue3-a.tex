@@ -22,7 +22,7 @@
 
 Der Wert des Zählers wird durch die Differenz zweier Teilzähler $P$ und $N$ gebildet. Wir haben bereits gesehen, dass ein einzelner Zähler in armotisierter worst-case Zeit $\mathcal{O}(1)$ inkrementiert werden kann. Das Hinzunehmen der \textsc{Decrement} Operation verschlechtert die armotisierte Laufzeit jedoch auf $\mathcal{O}(n)$, weil im worst-case eine Sequenz aus abwechselnen \textsc{Increment} und \textsc{Decrement} dazu führen, dass in jeder Operation alle $n$ Bits gewechselt werden müssen.
 
-Der neue Algorithmus umgeht das Problem, indem die \textsc{Decrement} Operation einfach als \textsc{Increment} auf einem zweiten Zähler agiert. Nun sind abwechselnde \textsc{Increment} und \textsc{Decrement} einfach nur \textsc{Increments} auf unterschiedlichen Zählern und die Argumentation für die armortisierte $\mathcal{O}(1)$ Laufzeit von \textsc{Increment} lässt sich auf $\left\{\textsc{Increment}, \textsc{Decrement}\right\}$ übertragen.
+Der neue Algorithmus umgeht das Problem, indem die \textsc{Decrement} Operation einfach als \textsc{Increment} auf einem zweiten Zähler agiert. Nun sind abwechselnde \textsc{Increment} und \textsc{Decrement} einfach nur \textsc{Increments} auf unterschiedlichen Zählern und die Argumentation für die amortisierte $\mathcal{O}(1)$ Laufzeit von \textsc{Increment} lässt sich auf $\left\{\textsc{Increment}, \textsc{Decrement}\right\}$ übertragen.
 
 Allerdings muss der Algorithmus einen Sonderheit beachten: Jedes Bit darf nur in einem der beiden Zähler auf 1 stehen. Das ist wichtig, um ungewollte mehrfache Repräsentation von Werten zu verhindern. Ansonsten stellten z.B. $(P=00, N=00)$, $(P=01, N=01)$, $(P=10, N=10)$ und $(P=11, N=11)$ alle den Gesamtwert 0 dar. Dadurch wäre bei gleicher Anzahl Bits der Wertebereich eingeschränkt. Immer wenn der Algorithmus ein Bit auf $1$ setzen will, muss er zunächst prüfen, ob das Partnerbit im anderen Zähler schon auf $1$ steht und falls ja, dieses dort stattdessen auf $0$ setzen.
 
@@ -80,7 +80,7 @@ T_{INC}(p) + T_{DEC}(q) &= (p+q) \cdot 2
 \end{aligned}
 \end{equation}
 
-Da \textsc{Increment} und \textsc{Decrement} die einzig erlaubten Operationen sind ergibt sich für jede beliebe Sequenz aus $n = (p+q)$ Operationen eine Laufzeit von $\mathcal{O}(n\cdot 2) = \mathcal{O}(n)$ und damit einer armortisierte worst-case Laufzeit von $\mathcal{O}(1)$.
+Da \textsc{Increment} und \textsc{Decrement} die einzig erlaubten Operationen sind ergibt sich für jede beliebe Sequenz aus $n = (p+q)$ Operationen eine Laufzeit von $\mathcal{O}(n\cdot 2) = \mathcal{O}(n)$ und damit einer amortisierte worst-case Laufzeit von $\mathcal{O}(1)$.
 
 \subsection*{Potential-Funktion}
 
@@ -90,7 +90,7 @@ $$
 c_i = \#_i(\textsc{RESET}_P) + \#_i(\textsc{RESET}_N) + \#_i(\textsc{SET}_P)
 $$
 
-Wobei $\#_i(\textit{Op})$ die Anzahl der ausgeführten Teiloperationen $\textit{Op}$ in Schritt $i$ der Sequenz ist. Die armortisierten Kosten der $i$-ten Operation sind:
+Wobei $\#_i(\textit{Op})$ die Anzahl der ausgeführten Teiloperationen $\textit{Op}$ in Schritt $i$ der Sequenz ist. Die amortisierten Kosten der $i$-ten Operation sind:
 
 \begin{equation}
 c_i' = c_i + \phi_i(P,N) - \phi_{i-1}(P,N)
@@ -113,7 +113,7 @@ c_i' &= \#_i(\textsc{RESET}_P) + \#_i(\textsc{RESET}_N) + \#_i(\textsc{SET}_P) \
 \end{aligned}
 \end{equation}
 
-Da $\textsc{SET}_P$ nur höchstens einmal pro \textsc{Increment} vorkommt, ergibt sich $c_i' = 2 \le 2$ als armortisierte Kosten der \textsc{Increment} Operation.
+Da $\textsc{SET}_P$ nur höchstens einmal pro \textsc{Increment} vorkommt, ergibt sich $c_i' = 2 \le 2$ als amortisierte Kosten der \textsc{Increment} Operation.
 
 Analog funktioniert die Argumentation für Decrement:
 
@@ -128,7 +128,7 @@ c_i' &= 2 \le 2
 \end{aligned}
 \end{equation}
 
-Für eine Sequenz aus $n$ beliebigen Operationen aus der Menge $\{\textsc{Increment}, \textsc{Decrement}\}$ ergibt sich $T(n) = 2 \cdot n$, also eine armortisierte worst-case Laufzeit von $\mathcal{O}(1)$.
+Für eine Sequenz aus $n$ beliebigen Operationen aus der Menge $\{\textsc{Increment}, \textsc{Decrement}\}$ ergibt sich $T(n) = 2 \cdot n$, also eine amortisierte worst-case Laufzeit von $\mathcal{O}(1)$.
 
 \section*{Aufgabe 7}
 

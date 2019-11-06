@@ -26,20 +26,16 @@ procedure FindPairs(A):
 \end{minted}
 
 
-$A_{i,j}$ sei dass Ereignis, dass die Bedingung $A$ in Iteration $(i,j)$ erfüllt ist. Wir nehmen an, dass die Ereignisse $A_{i,j}$ für alle $i,j$ unabhängig voneinander sind und interessieren uns für die Vereinigung aller Ereignisse, wobei $n$ die Länge des Array ist:
+$A_{i,j}$ sei das Ereignis, dass die Bedingung $A$ in Iteration $(i,j)$ erfüllt ist. Wir nehmen an, dass die Ereignisse $A_{i,j}$ für alle $i,j$ unabhängig voneinander sind und interessieren uns für die Vereinigung aller Ereignisse, also für das Gesamtereignis, dass mindestens eines der Teilereignisse eintritt, wobei $n$ die Länge des Array ist:
 
 \begin{equation}
 A(n) = \bigcup_{i=1}^{n}{\bigcup_{j=i+1}^n}A_{i,j}
 \end{equation}
 
-Indikatorfunktion für Ereignis $A_{i,j}$ und $A(n)$:
+Wir definieren die Indikatorfunktion für $A(n)$:
 
 \begin{equation}
 \begin{aligned}
-I\{A_{i,j}\} &= \begin{cases}
-1 & \text{wenn $A[i] > A[j]$}\\
-0 & \text{sonst}
-\end{cases}\\
 I\{A(n)\} &= \begin{cases}
 1 & \text{wenn $\bigcup_{i=1}^{n}{\bigcup_{j=i+1}^n}A_{i,j}$}\\
 0 & \text{sonst}
@@ -47,15 +43,17 @@ I\{A(n)\} &= \begin{cases}
 \end{aligned}
 \end{equation}
 
+Und bestimmen nun den zugehörigen Erwartungswert:
+
 \begin{equation}
 \begin{aligned}
-   E\left[A_{i,j}\right] &= Pr(A_{i,j})\\
    E\left[A(n)\right] &= E\left[\bigcup_{i=1}^n{\bigcup_{j=i+1}^n}A_{i,j}\right] \\
-   &= \sum_{i=1}^n{\sum_{j=i+1}^n}E\left[A_{i,j}\right]
+    &= I\left\{\bigcup_{i=1}^n{\bigcup_{j=i+1}^n}A_{i,j}\right \} \cdot \text{Pr}\left(\bigcup_{i=1}^n{\bigcup_{j=i+1}^n}A_{i,j}\right) \\
+   &= 1 \cdot \sum_{i=1}^n{\sum_{j=i+1}^n}\text{Pr}\left(A_{i,j}\right)
 \end{aligned}
 \end{equation}
 
-Da die Werte im Array paarweise verschieden und zufällig verteilt sind, können wir für $Pr(A_{i,j}) = \frac{1}{2}$ annehmen.
+Da die Werte im Array paarweise verschieden und zufällig verteilt sind, können wir für $\text{Pr}(A_{i,j}) = \frac{1}{2}$ annehmen.
 
 
 \begin{equation}
@@ -83,7 +81,7 @@ Es ist eine gdw-Aussage zu zeigen, also sind beide Richtungen zu zeigen.
 
 \subsection*{Beweis Richtung 1: $\text{Pfad-Existenz} \Rightarrow \text{Knoten-Eigenschaft}$}
 
-Jeder Knoten, der als Zielknoten einer Kante im Pfad vorkommt, muss in der darauf folgenden Kante als Ursprungsknoten vorkommen. Der Zielknoten der letzten Kante muss als Ursprungsknoten der ersten Kante vorkommen. Daraus folgt, dass jeder Knoten genau so oft als Ursprungs wie als Zielknoten in den Kanten des Pfades vorkommen muss. Zusammen mit der Forderung, dass der Pfad genau so viele Kanten wie der gesamte Graph enhält und keine Kanten doppelt enthalten darf, ergibt sich, dass er genau alle Kanten enthält. Da somit in der Menge aller Kanten jeder Knoten genau so oft als Ursprungs wie als Zielknoten vorkommt, muss für alle Knoten $v$ gelten, dass $\text{outdeg}(v) = \text{indeg}(v)$ ist. Aus der Forderung, dass der Graph zusammenhängend ist, folgt dass für alle Knoten $v$ $deg(v) \ge 1$ ist, denn sobald ein Pfad existiert (der Graph ist weder leer noch besteht er aus nur einem kantenlosen Knoten), muss jeder Knoten erreichbar sein, also mindestens eine eingehende Kante besitzen.
+Jeder Knoten, der als Zielknoten einer Kante im Pfad vorkommt, muss in der darauf folgenden Kante als Ursprungsknoten vorkommen. Der Zielknoten der letzten Kante muss als Ursprungsknoten der ersten Kante vorkommen. Daraus folgt, dass jeder Knoten genau so oft als Ursprungs wie als Zielknoten in den Kanten des Pfades vorkommen muss. Zusammen mit der Forderung, dass der Pfad genau so viele Kanten wie der gesamte Graph enhält und keine Kanten doppelt enthalten darf, ergibt sich, dass er genau alle Kanten enthält. Da somit in der Menge aller Kanten jeder Knoten genau so oft als Ursprungs wie als Zielknoten vorkommt, muss für alle Knoten $v$ gelten, dass $\text{outdeg}(v) = \text{indeg}(v)$ ist. Aus der Forderung, dass der Graph zusammenhängend ist, folgt dass für alle Knoten $v$ $\text{deg}(v) \ge 1$ ist, denn sobald ein Pfad existiert (der Graph ist weder leer noch besteht er aus nur einem kantenlosen Knoten), muss jeder Knoten erreichbar sein, also mindestens eine eingehende Kante besitzen.
 
 
 \subsection*{Beweis Richtung 2: $\text{Pfad-Existenz} \Leftarrow \text{Knoten-Eigenschaft}$}
