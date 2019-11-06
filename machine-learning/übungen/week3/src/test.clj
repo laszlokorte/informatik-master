@@ -23,8 +23,8 @@
         mu-0 (:mu-0 model)
         mu-1 (:mu-1 model)
         lines (line-seq (clojure.java.io/reader *in*))
-        rows (mapv #(mapv read-string (str/split %1 #" " feature-count)) lines)]
-    (doseq [[c & x] rows]
+        rows (mapv #(mapv read-string (str/split %1 #" " (+ 2 feature-count))) lines)]
+    (doseq [[name class & x] rows]
         (let [prediction (if (> (p mu-1 sigma x) (p mu-0 sigma x)) 1 0)]
-            (println "expected:" c "prediction: " prediction (if (= c prediction) "✅" "❌"))
+            (println name " - " "expected:" class "prediction: " prediction (if (= class prediction) "✅" "❌"))
         ))))

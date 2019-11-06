@@ -2,11 +2,11 @@
   (:require [clojure.core.matrix :as m]
             [clojure.string :as str]))
 
-(defn -main [feature-count & args]
-  (let [feature-count (inc (read-string feature-count))
-        lines (line-seq (clojure.java.io/reader *in*))
-        rows (mapv #(mapv read-string (str/split %1 #" " feature-count)) lines)
-        rows' (filterv #(= feature-count (count %1)) rows)
+(defn -main [& args]
+  (let [lines (line-seq (clojure.java.io/reader *in*))
+        rows (vec (map #(map read-string (rest (str/split %1 #" "))) lines))
+        feature-count (reduce #(max %1 (- (count %2) 1)) 0 rows)
+        rows' (filterv #(= (+ 1 feature-count) (count %1)) rows)
         rows-0 (map rest (filter #(= (first %1) 0) rows'))
         rows-1 (map rest (filter #(= (first %1) 1) rows'))
         count-all (double (count rows'))

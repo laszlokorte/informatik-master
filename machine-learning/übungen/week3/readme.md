@@ -11,7 +11,7 @@ $ clj -m extract-features data/positives data/negatives > var/features.txt
 ## Analyse extracted features to generate model
 
 ```
-$ cat var/features.txt | clj -m analyse 9 > var/model.txt
+$ cat var/features.txt | clj -m analyse > var/model.txt
 ```
 
 # Use Model for prediction
