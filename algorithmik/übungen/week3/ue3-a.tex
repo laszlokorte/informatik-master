@@ -132,5 +132,124 @@ Für eine Sequenz aus $n$ beliebigen Operationen aus der Menge $\{\textsc{Increm
 
 \section*{Aufgabe 7}
 
+Wir wählen als Potenzialfunktion:
+
+\begin{equation}
+    \phi(T) = \left|k \cdot T_n - T_g\right| \text{ für ein festes $k \ge 1$}
+\end{equation}
+
+Sie erfüllt die Forderung immer positiv zu sein auf Grund des Betrags-Operators.
+
+Als nächstes bestimmen wir die laut $\phi$ amortisierte Laufzeit für \textsc{Insert}. Dafür müssen wir 4 getrennt Fälle betrachten. In allen Fällen sei:
+
+\begin{itemize}
+    \item $n_i$ die Anzahl der Belegten Felder in Schritt $i$
+    \item $g_i$ die Größe des Array in Schritt $i$
+    \item $\alpha_i$ der Belegungsfaktor $\frac{n_i}{g_i}$
+    \item $c_i$ die realen Kosten für Schritt $i$
+    \item $n_i = n_{i-1} + 1$ gilt, weil \textsc{Insert} ein Element einfügt.
+    \item $c_i' = c_i + \phi(T_i) - \phi(T_{i-1})$
+\end{itemize}
+
+\subsection*{Fall 1: $\alpha_i < \frac{1}{k}$}
+
+Das Array wächst nicht
+$\Rightarrow g_i = g_{i-1} \land c_i = 1$
+
+\begin{equation}
+\begin{aligned}
+\frac{n_i}{g_i} &= \alpha_i < \frac{1}{k} \\
+k \cdot n_i &< g_i\\
+k \cdot n_i &< g_i + k
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+   c_i' &= 1 + \left|k \cdot n_i - g_i\right| - \left|k \cdot n_{i-1} - g_{i-1}\right|\\
+   &= 1 + \left|k \cdot n_i - g_i\right| - \left|k \cdot n_{i-1} - g_{i-1}\right|\\
+   &= 1 + \left|k \cdot n_i - g_i\right| - \left|k \cdot  (n_{i}-1) - g_{i}\right|\\
+   &= 1 + \left|k \cdot n_i - g_i\right| - \left|k \cdot n_{i} - (g_{i} + k)\right|\\
+   &= 1 + g_i - k \cdot n_i - g_i + k + k \cdot n_i\\
+   &= 1 + k
+\end{aligned}
+\end{equation}
+
+\subsection*{Fall 2: $\alpha_{i-1} < \frac{1}{k} \land \alpha_i \ge \frac{1}{k}$}
+
+Das Array wächst nicht
+$\Rightarrow g_i = g_{i-1} \land c_i = 1$
+
+\begin{equation}
+\begin{aligned}
+\frac{n_i}{g_i} &= \alpha_i \ge \frac{1}{k} \\
+& \Rightarrow k \cdot n_i \ge g_i\\
+& \Rightarrow k \ge \frac{g_i}{n_i}\\
+\frac{n_{i-1}}{g_{i-1}} &= \alpha_{i-1} < \frac{1}{k} \\
+& \Rightarrow k \cdot n_{i-1} < g_{i-1}\\
+\end{aligned}
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+   c_i' &= 1 + \left|k \cdot n_i - g_i\right| - \left|k \cdot n_{i-1} - g_{i-1}\right|\\
+   &= 1 + k \cdot n_i - g_i - \left(g_{i-1} - k \cdot n_{i-1}\right)\\
+   &= 1 + k \cdot n_i - g_i - g_{i-1} + k \cdot n_{i-1}\\
+   &= 1 + 2 \cdot \left(k\cdot n_i - g_i\right)\\
+   &< 1 + 2 \cdot \left(\frac{g_i}{n_i} \cdot n_i - g_i\right)\\
+   c_i' &< 1
+\end{aligned}
+\end{equation}
+
+
+\subsection*{Fall 3: $\frac{1}{k} \le \alpha_{i-1} < 1$}
+
+Das Array wächst nicht
+$\Rightarrow g_i = g_{i-1} \land c_i = 1$
+
+\begin{equation}
+\begin{aligned}
+\frac{n_{i-1}}{g_{i-1}} &= \alpha_{i-1} < 1 \\
+& \Rightarrow g_i = g_{i-1} < k\cdot n_{i-1}\\
+\end{aligned}
+\end{equation}
+
+
+\begin{equation}
+\begin{aligned}
+   c_i' &= 1 + \left|k \cdot n_i - g_i\right| - \left|k \cdot n_{i-1} - g_{i-1}\right|\\
+   &= 1 + k \cdot n_{i-1} + k - g_i - k \cdot n_{i-1} + g_{i-1}\\
+   &= 1 + k
+\end{aligned}
+\end{equation}
+
+\subsection*{Fall 4: $\alpha_{i-1} = 1$}
+
+Das Array wächst
+$\Rightarrow g_i = 2 \cdot g_{i-1} \land c_i = n_i$
+
+\begin{equation}
+\begin{aligned}
+\frac{n_{i-1}}{g_{i-1}} &= 1 \\
+ \Rightarrow n_{i-1} &= g_{i-1}\\
+\frac{n_{i}}{g_{i}} &> \frac{1}{k} \\
+ \Rightarrow k \cdot n_{i} &> g_{i}\\
+\end{aligned}
+\end{equation}
+
+
+
+\begin{equation}
+\begin{aligned}
+   c_i' &= n_i + \left|k \cdot n_i - g_i\right| - \left|k \cdot n_{i-1} - g_{i-1}\right|\\
+   &= n_{i-1} + 1 + k + k \cdot n_{i-1} - 2 g_{i-1} - k \cdot n_{i-1} + g_{i-1}\\
+   &= n_{i-1} + 1 + k + k \cdot n_{i-1} - 2 n_{i-1} - k \cdot n_{i-1} + n_{i-1}\\
+   &= 1 + k
+\end{aligned}
+\end{equation}
+
+\subsection*{Ergebnis}
+
+In allen 4 Fällen ist die amortisierte Laufzeit nur abhängig von dem konstanten Wachstumsfaktor $k \ge 1$. Wir können diesen also frei (aber fest, nicht in Abhängigkeit von $n$) wählen, ohne die amortisiert konstante worst-case Laufzeit der \textsc{Insert} Operation zu verlieren.
 
 \end{document}
