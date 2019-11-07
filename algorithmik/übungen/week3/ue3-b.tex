@@ -9,22 +9,32 @@
 
 \date{Universität Hamburg --- \today}
 
+\algnewcommand\algorithmicto{\textbf{to}}
+\algnewcommand\Output{\State\textbf{output }}
+\algrenewtext{For}[3]%
+    {\algorithmicfor\ #1\ = #2\ \algorithmicto\ #3\ \algorithmicdo}
+\algrenewcommand{\algorithmiccomment}[1]{\hskip3em // #1}
+
 \begin{document}
 
 \maketitle % Print the title
 
-\linenumbers
-
 \section*{Aufgabe 8}
 
-\begin{minted}[linenos]{text}
-procedure FindPairs(A):
-    for i=1 to A.length do
-        for j=i+1 to A.length do
-            if A[i] > A[j] then // Bedingung A
-                output (A[i], A[j]);
-\end{minted}
 
+\begin{algorithmic}[1]
+\Procedure{FindPairs}{A}
+\For{i}{1}{A.length}
+\For{j}{i+1}{A.length}
+\If{A[i] > A[j]}\Comment{Ereignis $A_{i,j}$}
+\Output A[i], A[j]
+\EndIf
+\EndFor
+\EndFor
+\EndProcedure
+\end{algorithmic}
+
+\linenumbers
 
 $A_{i,j}$ sei das Ereignis, dass die Bedingung $A$ in Iteration $(i,j)$ erfüllt ist. Wir nehmen an, dass die Ereignisse $A_{i,j}$ für alle $i,j$ unabhängig voneinander sind und interessieren uns für die Vereinigung aller Ereignisse, also für das Gesamtereignis, dass mindestens eines der Teilereignisse eintritt, wobei $n$ die Länge des Array ist:
 
