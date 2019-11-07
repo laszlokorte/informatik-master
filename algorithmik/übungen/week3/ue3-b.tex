@@ -66,7 +66,7 @@ Und bestimmen nun den zugehörigen Erwartungswert:
 \end{aligned}
 \end{equation}
 
-Da die Werte im Array paarweise verschieden und zufällig verteilt sind, können wir für $\text{Pr}(A_{i,j}) = \frac{1}{2}$ annehmen.
+Da die Werte im Array paarweise verschieden und zufällig verteilt sind und $i \neq j$, können wir für $\text{Pr}(A_{i,j}) = \frac{1}{2}$ annehmen.
 
 
 \begin{equation}
@@ -119,7 +119,7 @@ Wir wissen durch (b), dass wir jeden Knoten, den wir erreichen, auch wieder verl
 
 An jedem Knoten an dem wir die Wahl zwischen mehreren Ausgangskanten haben, wissen wir, dass wenn wir eine wählen, auch wieder zurückkehren können um später die andere zu wählen, weil es zu dieser auch eine Eingangskante geben muss, um (b) zu erfüllen.
 
-Es kann passieren, dass wir die Kanten so wählen, dass wir zum Startknoten zurückgelangen ohne alle Kanten besucht zu haben und dabei auch schon alle seine Ausgangskanten verbraucht zu haben. Auf Grund von (a) wissen wir aber, dass die nicht besuchten Kanten prinzipiell vom Startknoten aus erreichbar gewesen wären. Es gibt also einen Knoten $c$ an dem wir eine andere Kante hätten wählen können. Immer wenn dieser Fall eintritt, können wir den Vorgang mit $c$ als neuem Startknoten wiederholen und finden so einen durch $c$ laufenden Zyklus aus bisher unbesuchten Kanten, den wir dann in unseren zuvor unvollständigen durch $s$ laufenden Zyklus einspleißen können.
+Es kann passieren, dass wir die Kanten so wählen, dass wir zum Startknoten zurückgelangen ohne alle Kanten besucht zu haben und dabei auch schon alle seine Ausgangskanten verbraucht zu haben. Auf Grund von (a) wissen wir aber, dass die nicht besuchten Kanten prinzipiell vom Startknoten aus erreichbar gewesen wären. Es gibt also einen Knoten $c$ an dem wir eine andere Kante hätten wählen können. Immer wenn dieser Fall eintritt, können wir den Vorgang mit $c$ als neuem Startknoten wiederholen und finden so einen durch $c$ laufenden Zyklus aus bisher unbesuchten Kanten, den wir dann in unseren zuvor unvollständigen durch $s$ laufenden Zyklus einsplei\ss en können. Das lässt sich so lange wiederholen bis alle Kanten genau einmal benutzt wurden.
 
 Somit ist per Konstruktion gezeigt, dass für jeden Graph, der die geforderten Eigenschaften erfüllt, der gefragte Pfad konstruiert werden kann.
 
