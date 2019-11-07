@@ -29,7 +29,10 @@ procedure FindPairs(A):
 $A_{i,j}$ sei das Ereignis, dass die Bedingung $A$ in Iteration $(i,j)$ erfüllt ist. Wir nehmen an, dass die Ereignisse $A_{i,j}$ für alle $i,j$ unabhängig voneinander sind und interessieren uns für die Vereinigung aller Ereignisse, also für das Gesamtereignis, dass mindestens eines der Teilereignisse eintritt, wobei $n$ die Länge des Array ist:
 
 \begin{equation}
-A(n) = \bigcup_{i=1}^{n}{\bigcup_{j=i+1}^n}A_{i,j}
+\begin{aligned}
+A_{i,j} &= A[i] > A[j]\\
+A(n) &= \bigcup_{i=1}^{n}{\bigcup_{j=i+1}^n}A_{i,j}
+\end{aligned}
 \end{equation}
 
 Wir definieren die Indikatorfunktion für $A(n)$:
@@ -77,29 +80,37 @@ Die Erwartete Anzahl an Ausgaben bei einem Array der Länge $n$ ist $\frac{n^2 -
 
 \section*{Aufgabe 9}
 
-Es ist eine gdw-Aussage zu zeigen, also sind beide Richtungen zu zeigen.
+Es ist eine gdw-Aussage zu zeigen, also sind beide Richtungen getrennt zu zeigen.
 
 \subsection*{Beweis Richtung 1: $\text{Pfad-Existenz} \Rightarrow \text{Knoten-Eigenschaft}$}
 
-Jeder Knoten, der als Zielknoten einer Kante im Pfad vorkommt, muss in der darauf folgenden Kante als Ursprungsknoten vorkommen. Der Zielknoten der letzten Kante muss als Ursprungsknoten der ersten Kante vorkommen. Daraus folgt, dass jeder Knoten genau so oft als Ursprungs wie als Zielknoten in den Kanten des Pfades vorkommen muss. Zusammen mit der Forderung, dass der Pfad genau so viele Kanten wie der gesamte Graph enhält und keine Kanten doppelt enthalten darf, ergibt sich, dass er genau alle Kanten enthält. Da somit in der Menge aller Kanten jeder Knoten genau so oft als Ursprungs wie als Zielknoten vorkommt, muss für alle Knoten $v$ gelten, dass $\text{outdeg}(v) = \text{indeg}(v)$ ist. Aus der Forderung, dass der Graph zusammenhängend ist, folgt dass für alle Knoten $v$ $\text{deg}(v) \ge 1$ ist, denn sobald ein Pfad existiert (der Graph ist weder leer noch besteht er aus nur einem kantenlosen Knoten), muss jeder Knoten erreichbar sein, also mindestens eine eingehende Kante besitzen.
+Jeder Knoten, der als Zielknoten einer Kante im Pfad vorkommt, muss in der darauf folgenden Kante als Ursprungsknoten vorkommen. Der Zielknoten der letzten Kante muss als Ursprungsknoten der ersten Kante vorkommen. Daraus folgt, dass jeder Knoten genau so oft als Ursprungs wie als Zielknoten in den Kanten des Pfades vorkommen muss.
+
+Zusammen mit der Forderung, dass der Pfad genau so viele Kanten wie der gesamte Graph enhält und keine Kanten doppelt enthalten darf, ergibt sich, dass er genau alle Kanten enthält.
+
+Da also in der Menge aller Kanten jeder Knoten genau so oft als Ursprungs wie als Zielknoten vorkommt, muss für alle Knoten $v$ gelten, dass $\text{outdeg}(v) = \text{indeg}(v)$.
+
+Aus der Forderung, dass der Graph zusammenhängend ist, folgt dass für alle Knoten $v$ $\text{deg}(v) \ge 1$ ist, denn sobald ein Pfad existiert (der Graph ist weder leer noch besteht er aus nur einem kantenlosen Knoten), muss jeder Knoten erreichbar sein, also mindestens eine eingehende Kante besitzen.
 
 
 \subsection*{Beweis Richtung 2: $\text{Pfad-Existenz} \Leftarrow \text{Knoten-Eigenschaft}$}
 
-Wir erinnern uns, dass der Graph (a) streng zusammenhängen ist und (b) jeder Knoten genau so viele eingehende wie ausgehende Kanten hat und (c) mindestens je eine ausgehende und eingehende Kante hat.
+Wir erinnern uns, dass der Graph (a) streng zusammenhängen ist, (b) jeder Knoten genau so viele eingehende wie ausgehende Kanten hat, und (c) mindestens je eine ausgehende und eingehende Kante hat.
 
-Unter diesem Annahmen können wir einen Kantendefinierten Pfad, der alle Kanten enthält wie folgt konstruieren:
+Unter diesen Annahmen können wir einen Kantendefinierten Pfad, der alle Kanten enthält wie folgt konstruieren:
 
 \begin{enumerate}
-    \item Wähle einen beliebigen Startknoten
+    \item Wähle einen beliebigen Startknoten $s$
     \item Wähle eine ausgehende Kante (wir wissen wegen (c), dass eine existiert), gehe über sie zum Nachbarknoten und markiere sie als benutzt.
     \item Gehe so von Knoten zu Knoten ohne eine bereits benutzte Kante erneut zu verwenden.
 \end{enumerate}
 
-Wir wissen durch (b), dass wir jeden Knoten, den wir erreichen, auch wieder verlassen können. Wir wissen auch, dass wir den Startknoten wieder erreichen können, weil der Graph streng zusammenhängend ist und der Startknoten für jedes mal, dass wir ihn verlassen auch noch eine unbenutzte Eingangskante für die Rückkehr besitzt. An jedem Knoten an dem wir die Wahl zwischen mehreren Ausgangskanten haben, wissen wir, dass wenn wir eine wählen, auch wieder zurückkehren können um später die andere zu wählen, weil es zu dieser auch eine Eingangskante geben muss, um b zu erfüllen.
+Wir wissen durch (b), dass wir jeden Knoten, den wir erreichen, auch wieder verlassen können. Wir wissen auch, dass wir den Startknoten wieder erreichen können, weil der Graph streng zusammenhängend ist und der Startknoten für jedes mal, dass wir ihn verlassen auch noch eine unbenutzte Eingangskante für die Rückkehr besitzt.
 
-Es kann passieren, dass wir die Kanten so wählen, dass wir zum Startknoten zurückgelangen ohne alle Kanten besucht zu haben und dabei auch schon alle seine Ausgangskanten verbraucht zu haben. Auf Grund von (a) wissen wir aber, dass die nicht besuchten Kanten prinzipiell vom Startknoten aus erreichbar gewesen wären. Wir hätten also an einem der besuchten Knoten $k$ eine andere Kante wählen können. Hätten wir das getan, könnten wir auf Grund von (a) und (b) auch wieder zu $k$ zurückkehren. Somit lägen alle nicht erreichten Kanten auf Zyklen die wir prinzipiell hätten mitnehmen können.
+An jedem Knoten an dem wir die Wahl zwischen mehreren Ausgangskanten haben, wissen wir, dass wenn wir eine wählen, auch wieder zurückkehren können um später die andere zu wählen, weil es zu dieser auch eine Eingangskante geben muss, um (b) zu erfüllen.
 
-Somit ist per Konstruktion gezeigt, dass wenn der Graph die geforderten Eigenschaften erfüllt, der gefragte Pfad konstruieren kann.
+Es kann passieren, dass wir die Kanten so wählen, dass wir zum Startknoten zurückgelangen ohne alle Kanten besucht zu haben und dabei auch schon alle seine Ausgangskanten verbraucht zu haben. Auf Grund von (a) wissen wir aber, dass die nicht besuchten Kanten prinzipiell vom Startknoten aus erreichbar gewesen wären. Es gibt also einen Knoten $c$ an dem wir eine andere Kante hätten wählen können. Immer wenn dieser Fall eintritt, können wir den Vorgang mit $c$ als neuem Startknoten wiederholen und finden so einen durch $c$ laufenden Zyklus aus bisher unbesuchten Kanten, den wir dann in unseren zuvor unvollständigen durch $s$ laufenden Zyklus einspleißen können.
+
+Somit ist per Konstruktion gezeigt, dass für jeden Graph, der die geforderten Eigenschaften erfüllt, der gefragte Pfad konstruiert werden kann.
 
 \end{document}
