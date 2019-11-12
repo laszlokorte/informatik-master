@@ -21,6 +21,15 @@
         (bit-shift-right x)
         (double)
         (/ 255.0)))
+(defn clamp [min max x]
+    (cond (> x max) max (< x min) min :else x))
+
+(defn above-avg [matrix]
+    (let [avg (* 2 (/ (m/esum matrix) (m/ecount matrix)))]
+    (m/emap #(if (> %1 avg) 1 0) matrix)))
+
+(defn above [x matrix]
+    (m/emap #(if (>= %1 x) 1 0) matrix))
 
 (defn convolution [kernel matrix]
     (let [
@@ -30,8 +39,8 @@
             (fn [[xx yy] k]
                 (* k
                 (m/mget matrix
-                    (mod (+ x xx w) w)
-                    (mod (+ y yy h) h))))
+                    (clamp 0 (- w 1) (+ x xx))
+                    (clamp 0 (- h 1) (+ y yy)))))
             kernel)))]
         (m/emap-indexed pix matrix))
 )
@@ -41,8 +50,11 @@
         [-1.0 -1.0 -1.0]
         [-1.0 +8.0 -1.0]
         [-1.0 -1.0 -1.0]])]
-    (convolution kernel rgb-matrix))
+    (m/abs (convolution kernel rgb-matrix)))
 )
+
+(defn edge-score [matrix]
+    (/ (m/esum (above 0.5 (edges matrix))) (m/ecount matrix)))
 
 (defn grey-scale [rgb-matrix]
     (let [reds (m/emap #(rgb-channel 16 %1) rgb-matrix)
@@ -59,9 +71,10 @@
     {:min-red (m/emin reds)
     :min-green (m/emin greens)
     :min-blue (m/emin blues)
-    :max-red (m/emax reds)
-    :avg-red (/ (m/esum reds) size)
-    :edges (/ (m/esum (m/clamp (edges bw) 0 1)) size)}))
+    :avg-red (m/emax reds)
+    :avg-green (/ (m/esum greens) size)
+    :avg-blue (/ (m/esum blues) size)
+    :edges (* 1.0 (edge-score bw))}))
 
 (defn -main [& dirs]
     (doseq [[idx dir] (map-indexed vector dirs)]
