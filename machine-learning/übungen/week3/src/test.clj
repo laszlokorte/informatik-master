@@ -25,6 +25,11 @@
         lines (line-seq (clojure.java.io/reader *in*))
         rows (mapv #(mapv read-string (str/split %1 #" " (+ 2 feature-count))) lines)]
     (doseq [[name class & x] rows]
-        (let [prediction (if (> (p mu-1 sigma x) (p mu-0 sigma x)) 1 0)]
-            (println name " - " "expected:" class "prediction: " prediction (if (= class prediction) "✅" "❌"))
+        (let [
+            pp0 (p mu-0 sigma x)
+            pp1 (p mu-1 sigma x)
+            p0 (/ pp0 (+ pp0 pp1))
+            p1 (/ pp1 (+ pp0 pp1))
+            prediction (if (> p1 p0) 1 0)]
+            (println name " - " "expected:" class "prediction: " prediction (if (= class prediction) "✅" "❌") "," p0 "," p1)
         ))))
