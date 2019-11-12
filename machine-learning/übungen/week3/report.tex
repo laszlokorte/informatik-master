@@ -1,6 +1,8 @@
-\documentclass[parskip=half,a4paper]{scrartcl}
+\documentclass[parskip=half,a4paper,portrait]{scrartcl}
 
 \input{../../../structure.tex}
+
+\usepackage{lscape}
 
 \title{Machine Learning Exercise 3}
 \author{Laszlo Korte, MtrNr. 6329857}
@@ -20,7 +22,16 @@ I calculated $E$ by applying a $3\times3$ convolution matrix $C$ to the greyscal
   -1 & -1 & -1 \\
 \end{pmatrix}\]
 
+The resulting model is shown one page \pageref{model}.
+
+\section*{Analysis}
+
+If the model is calculated based on all $60$ samples it is able to predict all samples correctly. Unfortunately if only a specific subset of the samples are used for training the model does not predict all remaining samples correctly.
+
+\begin{landscape}
 \section*{Resulting model}
+
+\label{model}
 
 \begin{align*}
     \phi &= 0.5\\
@@ -33,8 +44,8 @@ I calculated $E$ by applying a $3\times3$ convolution matrix $C$ to the greyscal
     0.5423443173565721\\
     0.6827700617283943\\
     7.533333333333333
-    \end{pmatrix}
-    \mu_1 = \begin{pmatrix}
+    \end{pmatrix}\\
+    \mu_1 &= \begin{pmatrix}
     0.39686274509803915\\
     0.4033986928104575\\
     0.5458823529411764\\
@@ -45,14 +56,16 @@ I calculated $E$ by applying a $3\times3$ convolution matrix $C$ to the greyscal
     \end{pmatrix}\\
     \sigma &=
 \begin{pmatrix}
- 0.0023857490708701777 &  0.0021892092784826355 & 0.0014766628219915418 &  0.0016981595397781448 & 0.002101304341634972  & 0.0016273495236874703 & -0.024418300653594772\\
- 0.0021892092784826355 &  0.002948336110043146  & 0.0024201631850997484 &  0.001870831672053956  & 0.0025702620312225474 & 0.0018607307374656529 & -0.029054466230936826\\
- 0.0014766628219915418 &  0.0024201631850997484 & 0.0034951343500363107 &  0.0016663501336143258 & 0.0024509522097388796 & 0.0020225360853612824 &  0.02532461873638345\\
- 0.0016981595397781448 &  0.001870831672053956  & 0.0016663501336143258 &  0.001711843423413563  & 0.002148138337967923  & 0.0017946104856509553 & -0.00966196138949426\\
- 0.002101304341634972  &  0.0025702620312225474 & 0.0024509522097388796 &  0.002148138337967923  & 0.0031567000278923257 & 0.00239791708291355   &  0.0008216987412248645\\
- 0.0016273495236874703 &  0.0018607307374656529 & 0.0020225360853612824 &  0.0017946104856509553 & 0.00239791708291355   & 0.0022084171152532963 &  0.010007231905107605\\
--0.024418300653594772  & -0.029054466230936826  & 0.02532461873638345   & -0.00966196138949426   & 0.0008216987412248645 & 0.010007231905107605  &  6.924444444444444
+ 0.0023857490\cdots &  0.0021892092\cdots & 0.0014766628\cdots &  0.0016981595\cdots & 0.0021013043\cdots  & 0.0016273495\cdots & -0.0244183006\cdots \\
+ 0.0021892092\cdots &  0.0029483361\cdots  & 0.0024201631\cdots &  0.0018708316\cdots  & 0.0025702620\cdots & 0.0018607307\cdots & -0.0290544662\cdots \\
+ 0.0014766628\cdots &  0.0024201631\cdots & 0.0034951343\cdots &  0.0016663501\cdots & 0.0024509522\cdots & 0.0020225360\cdots &  0.0253246187\cdots \\
+ 0.0016981595\cdots &  0.0018708316\cdots  & 0.0016663501\cdots &  0.0017118434\cdots  & 0.0021481383\cdots  & 0.0017946104\cdots & -0.0096619613\cdots \\
+ 0.0021013043\cdots  &  0.0025702620\cdots & 0.0024509522\cdots &  0.0021481383\cdots  & 0.0031567000\cdots & 0.0023979170\cdots   &  0.0008216987\cdots \\
+ 0.0016273495\cdots &  0.0018607307\cdots & 0.0020225360\cdots &  0.0017946104\cdots & 0.0023979170\cdots   & 0.0022084171\cdots &  0.0100072319\cdots \\
+-0.0244183006\cdots  & -0.0290544662\cdots  & 0.0253246187\cdots   & -0.0096619613\cdots   & 0.0008216987\cdots & 0.0100072319\cdots  &  6.9244444444\cdots
     \end{pmatrix}
 \end{align*}
+
+\end{landscape}
 
 \end{document}
