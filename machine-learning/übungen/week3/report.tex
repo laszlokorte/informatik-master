@@ -2,7 +2,11 @@
 
 \input{../../../structure.tex}
 
-\usepackage{lscape}
+\RedeclareSectionCommand[
+  %runin=false,
+  afterindent=false,
+  beforeskip=\baselineskip,
+  afterskip=0.1pt]{section}
 
 \title{Machine Learning Exercise 3}
 \author{Laszlo Korte, MtrNr. 6329857}
@@ -12,60 +16,28 @@
 
 \maketitle
 
-\section*{Features}
 
-Just by looking at the pictures one can see that most of the positive examples have more red pixels than the negative examples --- except for negative sample n06.png which is red as well. I tried to predict n06.png correctly so I choose 7 features: $R_{\text{min}}$, $G_{\text{min}}$, $B_{\text{min}}$, $R_{\text{avg}}$, $G_{\text{avg}}$, $B_{\text{avg}}$ and an edge score $E$.
-
-I calculated $E$ by applying a $3\times3$ convolution matrix $C$ to the greyscale image and then counting the resulting pixels having a value above $0.5$ \[C = \begin{pmatrix}
-  -1 & -1 & -1 \\
-  -1 & 8 & -1 \\
-  -1 & -1 & -1 \\
-\end{pmatrix}\]
-
-The resulting model is shown one page \pageref{model}.
-
-\section*{Analysis}
-
-If the model is calculated based on all $60$ samples it is able to predict all samples correctly. Unfortunately if only a specific subset of the samples are used for training the model does not predict all remaining samples correctly.
-
-\begin{landscape}
 \section*{Resulting model}
 
 \label{model}
 
-\begin{align*}
-    \phi &= 0.5\\
-    \mu_0 &=
-    \begin{pmatrix}
-    0.4180392156862745\\
-    0.17856209150326796\\
-    0.3354248366013072\\
-    0.5568282498184458\\
-    0.5423443173565721\\
-    0.6827700617283943\\
-    7.533333333333333
-    \end{pmatrix}\\
-    \mu_1 &= \begin{pmatrix}
-    0.39686274509803915\\
-    0.4033986928104575\\
-    0.5458823529411764\\
-    0.4891503267973856\\
-    0.4861347131445169\\
-    0.6305274146695714\\
-    0.0
-    \end{pmatrix}\\
-    \sigma &=
-\begin{pmatrix}
- 0.0023857490\cdots &  0.0021892092\cdots & 0.0014766628\cdots &  0.0016981595\cdots & 0.0021013043\cdots  & 0.0016273495\cdots & -0.0244183006\cdots \\
- 0.0021892092\cdots &  0.0029483361\cdots  & 0.0024201631\cdots &  0.0018708316\cdots  & 0.0025702620\cdots & 0.0018607307\cdots & -0.0290544662\cdots \\
- 0.0014766628\cdots &  0.0024201631\cdots & 0.0034951343\cdots &  0.0016663501\cdots & 0.0024509522\cdots & 0.0020225360\cdots &  0.0253246187\cdots \\
- 0.0016981595\cdots &  0.0018708316\cdots  & 0.0016663501\cdots &  0.0017118434\cdots  & 0.0021481383\cdots  & 0.0017946104\cdots & -0.0096619613\cdots \\
- 0.0021013043\cdots  &  0.0025702620\cdots & 0.0024509522\cdots &  0.0021481383\cdots  & 0.0031567000\cdots & 0.0023979170\cdots   &  0.0008216987\cdots \\
- 0.0016273495\cdots &  0.0018607307\cdots & 0.0020225360\cdots &  0.0017946104\cdots & 0.0023979170\cdots   & 0.0022084171\cdots &  0.0100072319\cdots \\
--0.0244183006\cdots  & -0.0290544662\cdots  & 0.0253246187\cdots   & -0.0096619613\cdots   & 0.0008216987\cdots & 0.0100072319\cdots  &  6.9244444444\cdots
-    \end{pmatrix}
-\end{align*}
+\input{model.tex}
 
-\end{landscape}
+\section*{Features}
+
+As features I choose $\text{Red}_{\text{min}}$, $\text{Red}_{\text{max}}$, $\text{Red}_{\text{avg}}$, $\text{Blue}_{\text{avg}}$, and $\text{Edge score}$.
+
+The edge score is calculated by applying a convolution matrix $C$ to the image and summing the the square of the resulting values. \[C = \begin{pmatrix}
+    -1 & -1 & -1\\
+    -1 & +8 & -1\\
+    -1 & -1 & -1\\
+\end{pmatrix}\]
+The edge score is high for images containing high contrast edges. Applied to the 60 samples the edge score is already be enough to detect parasites.
+
+But in a real world example there would probably be images containing edges but no parasites. So I choose 4 additional features based on the the image color. I used the min, max and average of the red channel because the parasites are marked by red color. In RGB coding white pixels have high red values as well. That's why we need a second color channel for comparison. I choose the average value of the blue channel. Assuming all images have about the same total lumiance the average green channel can be ommitted because it's inversely corelated to the sum of average red and average blue.
+
+\section*{Result}
+
+All samples are classified correctly even if only half of the samples are used for training.
 
 \end{document}

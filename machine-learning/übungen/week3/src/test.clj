@@ -28,8 +28,8 @@
         (let [
             pp0 (p mu-0 sigma x)
             pp1 (p mu-1 sigma x)
-            p0 (/ pp0 (+ pp0 pp1))
-            p1 (/ pp1 (+ pp0 pp1))
+            p0 (/ (* pp0 phi) (+ (* pp0 phi) (* pp1 (- 1 phi))))
+            p1 (/ (* pp1 (- 1 phi)) (+ (* pp0 phi) (* pp1 (- 1 phi))))
             prediction (if (> p1 p0) 1 0)]
             (println name " - " "expected:" class "prediction: " prediction (if (= class prediction) "✅" "❌") "," p0 "," p1)
         ))))

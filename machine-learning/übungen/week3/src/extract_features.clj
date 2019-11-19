@@ -54,7 +54,7 @@
 )
 
 (defn edge-score [matrix]
-    (m/esum (edges matrix)))
+    (m/esum (m/pow (edges matrix) 2)))
 
 (defn grey-scale [rgb-matrix]
     (let [reds (m/emap #(rgb-channel 16 %1) rgb-matrix)
@@ -68,8 +68,11 @@
           blues (m/emap #(rgb-channel 16 %1) rgb-matrix)
           bw (grey-scale rgb-matrix)
           size (reduce * (m/shape rgb-matrix))]
-    {
-    :edges-bw (* 1.0 (edge-score bw))}))
+    {:min-red (m/emin reds)
+    :max-red (m/emax reds)
+    :avg-red (/ (m/esum reds) size)
+    :avg-blue (/ (m/esum blues) size)
+    :edge-score (double (edge-score bw))}))
 
 (defn -main [& dirs]
     (doseq [[idx dir] (map-indexed vector dirs)]
