@@ -19,16 +19,18 @@
 
 \subsection*{Teil 1}
 
-Ein Baum ist zusammenhängend und enthält keine geschlossenen Pfade. Es muss also gezeigt werden, dass dies für $G_B$ gilt.
+Ein Baum ist ungerichtet, zusammenhängend und enthält keine geschlossenen Pfade. Es muss also gezeigt werden, dass dies für $G_B$ gilt.
 
-Der ursprüngliche Pfad $G$ ist zusammenhängend. Es gibt also zu jedem Knotenpaar $p, q$ mindestens einen kürzesten Pfad von $p$ nach $q$ in $G$. Dieser Pfad enthält die Knoten $k_1\dots k_n$ und verläuft durch eventuell mehrere BCCs. Verläuft er aus einer BCC $a$ in eine andere BCC $b$, muss er auch deren gemeinsamen Gelenkknoten enthalten. Da es sich um einen kürzesten Pfad handelt, wird keine BCC mehrfach von dem Pfad betreten oder verlassen.
+Per Konstruktion ist $G_B$ ungerichtet.
 
-$G_B$ ist zusammenhängend, weil sich für alle Knotenpaare $x,y$ ein verbindender Pfad konstruieren lässt. Man wähle für jeden der beiden Knoten $k$ einen Ursprungknoten in $G$. Wenn $k$ aus einem Gelenkknoten $g$ konstruiert wurde, wähle man $g$. Wenn $k$ aus einer Komponente Konstruiert wurde, wähle man irgendeinen Knoten aus dieser Komponente. Nun ermittelt man den Pfad zwischen den beiden gewählten Knoten in $G$. Danach ersetzt man in diesem Pfad alle Gelenkknoten durch die zugehörigen Knoten in $G_B$ und alle andere Knoten durch die zu ihrer BCC gehörenden Knoten in $G_B$. Abschließend entfernt man noch alle mehrfach aufeinanderfolgenden gleichen Knoten und erhält so einen Pfad von $x$ nach $y$ in $G_B$ für ein beliebiges $x,y$. $G_B$ ist also zusammenhängend.
+Der ursprüngliche Pfad $G$ ist zusammenhängend. Es gibt also zwischen jedem Knotenpaar $p, q$ in $G$ mindestens einen kürzesten Pfad. Dieser Pfad enthält die Knoten $k_1\dots k_n$ und verläuft durch mindestens eine BCC. Verläuft er aus einer BCC $a$ in eine andere BCC $b$, muss er auch durch deren gemeinsamen Gelenkknoten enthalten. Da es sich um einen kürzesten Pfad handelt, wird keine BCC mehrfach von dem Pfad betreten oder verlassen --- Knoten die zu einer BCC gehören liegen im Pfad hintereinander.
+
+$G_B$ ist zusammenhängend, weil sich für alle Knotenpaare $x,y$ ein verbindender Pfad wie folgt  konstruieren lässt. Man wähle für je beide Knoten $k$ einen Ursprungknoten in $G$. Wenn $k$ aus einem Gelenkknoten $g$ konstruiert wurde, wähle man $g$. Wenn $k$ aus einer Komponente Konstruiert wurde, wähle man irgendeinen Knoten in dieser Komponente. Nun ermittelt man den Pfad zwischen den beiden gewählten Knoten in $G$. Danach ersetzt man in diesem Pfad alle Gelenkknoten durch die zugehörigen Knoten in $G_B$ und alle andere Knoten durch die zu ihrer BCC gehörenden Knoten in $G_B$. Abschließend fasst man alle gleichen aufeinanderfolgenden gleichen Knoten im Pfad zu einem Knoten zusammen und erhält so einen Pfad von $x$ nach $y$ in $G_B$ für ein beliebiges Paar $x,y$. $G_B$ ist also zusammenhängend.
 
 Es existiert kein geschlossener Pfad in $G_B$. Denn gäbe es einen geschlossenen Pfad zwischen Knoten $a$ und $b$, ließe sich daraus ein Pfad geschlossener Pfad in $G$ konstruieren, der durch mehrere BCCs läuft. Gäbe es so einen Pfad wären es kein BCC.
 
 \subsection*{Teil 2}
 
-Es lässt sich eine Tiefensuche in der Variante, die in der Vorlesung als DFS-ASSIGN-BCC-NUMBERS (Kap2A\_Graphen, Folie 31) vorgestellt wurde, verwenden. Doch anstatt den Kanten beim Aufstieg einen BCC Nummer zuzuordnen, wird beim abbauen des Stacks gezählt, wieviele Kanten gepoppt wurden. Wenn die aktuelle Kante die einzige Kante ist die vom Stack entfernt wird, handelt es sich um eine Brücke. Denn Brücken sind genau die Kanten, die als einzige zu einer BCC gehören. Besteht eine BCC aus mehreren Kanten, bliebe der Zusammenhang erhalten, auch wenn eine von ihnen entfernt wird.
+Es lässt sich eine Tiefensuche in der Variante, die in der Vorlesung als \texttt{DFS-ASSIGN-BCC-NUMBERS} (Kap2A\_Graphen, Folie 31) vorgestellt wurde, verwenden. Doch anstatt den Kanten beim Aufstieg eine BCC Nummer zuzuordnen, wird beim abbauen des Stacks gezählt, wieviele Kanten von Stack gepoppt wurden. Wenn die aktuelle Kante die einzige Kante ist die vom Stack entfernt wird, handelt es sich um eine Brücke. Denn Brücken sind genau die Kanten, die als einzige zu einer BCC gehören. Besteht eine BCC aus mehreren Kanten, bliebe der Zusammenhang erhalten, auch wenn eine von ihnen entfernt wird.
 
 \end{document}
