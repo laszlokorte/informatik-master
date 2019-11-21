@@ -56,7 +56,7 @@ In jeder Iteration darf die Kantenzahl der bzgl. ihrer Kantenzahl längsten beka
 \section*{Aufgabe 15}
 
 \subsection*{Algorithmus}
-
+\nolinenumbers
 \begin{algorithmic}[1]
 \Procedure{ClosestTreeLeafs}{V, E, W} \Comment{Knoten, Kanten, Gewichte}
 \State $(E',V') = \text{Kruskal}(E, V)$ \Comment{$\mathcal{O}(|E|\log(|V|))$}
@@ -73,23 +73,23 @@ In jeder Iteration darf die Kantenzahl der bzgl. ihrer Kantenzahl längsten beka
 \State bestDistance[V[i]] = $\infty$
 \EndIf
 \EndFor
-\While{currentNode = extractMin(queue)}  \label{outer} \Comment{Zeile \ref{outer} und \ref{inner} gesamt $\mathcal{O}(|E|)$}
-\While{targetNode = selectOutgoingEdge(E', currentNode)} \label{inner}
+\While{currentNode = extractMin(queue)}\label{outer}\Comment{Zeile \ref{outer} und \ref{inner} gesamt $\mathcal{O}(|E|)$}
+\While{targetNode = selectOutgoingEdge(E', currentNode)}\label{inner}
 \State removeEdge(E', currentNode, targetNode)
 \State newDistance = bestDistance[currentNode] + W((currentNode, targetNode))
 \If{bestDistance[targetNode] == $\infty$}
 \State bestDistance[targetNode] = newDistance
 \State insertQueue(queue, targetNode, newDistance) \Comment{ $\mathcal{O}(\log(|V|))$}
 \ElsIf{newDistance < bestDistance[targetNode]}
-\State bestDistance[targetNode] = newDistance
-\State decreaseKey(queue, targetNode, newDistance) \Comment{ $\mathcal{O}(\log(|V|))$}
+\State {bestDistance[targetNode] = newDistance}
+\State {decreaseKey(queue, targetNode, newDistance)} \Comment{ $\mathcal{O}(\log(|V|))$}
 \EndIf
 \EndWhile
 \EndWhile
-\Return bestLeafs
+\State \Return bestLeafs
 \EndProcedure
 \end{algorithmic}
-
+\linenumbers
 
 \subsection*{Argumentation}
 
