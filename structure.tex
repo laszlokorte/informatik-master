@@ -254,3 +254,10 @@
  {\end{array}}
 
 \newcommand{\code}{\texttt}
+
+
+\algnewcommand\algorithmicto{\textbf{to}}
+\algnewcommand\Output{\State\textbf{output }}
+\algrenewtext{For}[3]%
+    {\algorithmicfor\ #1\ = #2\ \algorithmicto\ #3\ \algorithmicdo}
+\algrenewcommand{\algorithmiccomment}[1]{\hskip3em // #1}
