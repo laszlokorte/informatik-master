@@ -1,0 +1,33 @@
+\documentclass[parskip=half,a4paper]{scrartcl}
+\usepackage[ngerman]{babel}
+
+\input{../../../structure.tex}
+
+\title{Korrektur Blatt 5 Teil 1 für 7329516}
+
+\author{Korrigiert von Mtr.-Nr. 6329857}
+
+\date{Universität Hamburg --- \today}
+
+\begin{document}
+
+\maketitle % Print the title
+
+\section{Aufgabe 13}
+
+\subsection{Teil 1}
+
+\enquote{Somit sind $V_B$ und $E_B$ Teilmengen von $V$ und $E$.}(Zeile 3) ist nicht exakt korrekt. $V_B$ und $E_B$ sind werden zwar aus $V$ und $E$ konstruiert, allerdings werden ganze Komponenten in $G$ zu Knoten in $G_B$ zusammengefasst und nicht nur Knoten aus $G$ ausgewählt. Die Kanten zwischen Komponentenknoten und Gelenkknoten sind in $G$ nicht anthalten.
+
+\enquote{[\dots]dass in $E_B$ keine Kanten sein muss, [\dots]} (Zeile 5) --- Sprachlogisch muss anstelle des \enquote{muss} ein \enquote{darf} stehen: Es darf keine solche Kante existieren.
+
+Der Beweis der Zyklenfreiheit scheint etwas knapp zu sein und nur Pfade der Länge 2 zu betrachten. Es wird nicht ganz klar warum es keine Zyklen geben kann.
+
+\subsection{Teil 2}
+
+\begin{itemize}
+    \item Brücken werden korrekt gefunden.
+    \item Die Laufzeit wurde nicht explzit angeben und entsprechend auch nicht Begründet. Allerdings wurde ein aus der Vorlesung bekannter Algorithmus nur leicht modifiert, woraus sich die Laufzeit offensichtlich ergibt.
+\end{itemize}
+
+\end{document}
