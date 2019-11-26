@@ -61,16 +61,16 @@ In jeder Iteration darf die Kantenzahl der bzgl. ihrer Kantenzahl längsten beka
 \Procedure{ClosestTreeLeafs}{V, E, W} \Comment{Knoten, Kanten, Gewichte}
 \State $(E',V') = \text{Kruskal}(E, V)$ \Comment{$\mathcal{O}(|E|\log(|V|))$}
 \State $\text{queue} = \text{initQueue}()$
-\State bestLeafs = InitArray(|V|)
-\State bestDistance = InitArray(|V|)
-\For{n}{0}{$|V|$} \Comment{$\mathcal{O}(|V|)$}
-\If{\text{deg}(V[i]) == 1} \Comment{Leaf Node}
-\State bestLeafs[V[i]] = V[i]
-\State bestDistance[V[i]] = 0
-\State insertQueue(V[i], queue, bestDistance[V[i]]) \Comment{$\mathcal{O}(1)$, weil bestDistance[i] $= 0$}
+\State bestLeafs = InitArray(|V'|)
+\State bestDistance = InitArray(|V'|)
+\For{n}{0}{|V'|} \Comment{$\mathcal{O}(|V|)$}
+\If{deg(V'[i]) == 1} \Comment{Leaf Node}
+\State bestLeafs[V'[i]] = V'[i]
+\State bestDistance[V'[i]] = 0
+\State insertQueue(V'[i], queue, bestDistance[V'[i]]) \Comment{$\mathcal{O}(1)$, weil bestDistance[i] $= 0$}
 \Else \Comment{Inner Node}
-\State bestLeafs[V[i]] = nil
-\State bestDistance[V[i]] = $\infty$
+\State bestLeafs[V'[i]] = nil
+\State bestDistance[V'[i]] = $\infty$
 \EndIf
 \EndFor
 \While{currentNode = extractMin(queue)}\label{outer}\Comment{Zeile \ref{outer} und \ref{inner} gesamt $\mathcal{O}(|E|)$}
