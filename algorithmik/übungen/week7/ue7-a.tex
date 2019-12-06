@@ -60,11 +60,9 @@ Wir betrachten möglichen Operationen des Push-Relabel Algorithmus gerennt vonei
 \begin{description}
 \item [Relabel] Die Anzahl der Operationen ist, wie in der Vorlesung gezeigt, durch $2 \cdot |V|^2$ beschränkt. $2 \cdot |V|^2 < |V| \cdot |E|$, weil wir einen zusammenhängenden Graphen betrachten.
 \item [Sättigender Push] Ebenfalls wie in der Vorlesung gezeigt, liegt die Anzahl dieser Operationen in $2 \cdot |V| \cdot |E|$
-\item [Nicht-Sättigender Push] Jeder Push erhöht den Fluss über eine Kante um mindestens 1. Jede Kante kann aber höchstens einen Fluss von $k-1$ bekommen bevor sie gesättigt ist. Eine Kante kann also höchstens $k-1$ mal nicht-sättigend gepusht werden. Das Residuale Netzwerk hat höchstens $2|E|$ Kanten, also können höchstens $2 \cdot (k-1) \cdot |E|$ nicht sättigende Pushes durchgeführt werden.
+\item [Nicht-Sättigender Push] Jeder Push erhöht den Fluss über eine Kante um mindestens 1. Jede Kante kann aber höchstens einen Fluss von $k-1$ bekommen bevor sie gesättigt ist. Eine Kante kann also höchstens $k-1$ mal nicht-sättigend gepusht werden. Das Residuale Netzwerk hat höchstens $2|E|$ Kanten, also können höchstens $2 \cdot (k-1) \cdot |E|$ nicht sättigende Pushes durchgeführt werden --- $2 \cdot (k-1) \cdot |E| < k \cdot |V| \cdot |E|$
 \end{description}
 
-Da Push-Relabel nur diese drei Operationen durchführt, werden insgesamt höchstens $$2 \cdot |V|^2 + 2 \cdot |V| \cdot |E| + 2 \cdot (k-1) \cdot |E|$$ Operationen durchgeführt, die jeweils nur konstante Zeit benötigen.
-
-Daraus ergibt sich eine obere Lauzeitschranke von $$\mathcal{O}(k \cdot |V| \cdot |E|)$$.
+Da Push-Relabel nur diese drei Operationen durchführt, werden insgesamt höchstens $$2 \cdot |V|^2 + 2 \cdot |V| \cdot |E| + 2 \cdot (k-1) \cdot |E| = |V| \cdot |E| + 2 \cdot |V| \cdot |E| + 2 \cdot (k-1) \cdot |E|$$ Operationen durchgeführt, die jeweils nur konstante Zeit benötigen. Daraus ergibt sich eine obere Lauzeitschranke von: $$\mathcal{O}(k \cdot |V| \cdot |E|)$$
 
 \end{document}
