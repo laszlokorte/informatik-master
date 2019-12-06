@@ -1,0 +1,137 @@
+\documentclass[parskip=half,a4paper]{scrartcl}
+\usepackage[ngerman]{babel}
+
+
+\input{../../../structure.tex}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows.meta}
+\title{Algorithmik Blatt 5 Teil 2}
+
+\author{Mtr.-Nr. 6329857}
+
+\date{Universität Hamburg --- \today}
+
+\begin{document}
+
+\maketitle % Print the title
+\linenumbers
+
+\section*{Aufgabe 14}
+
+\subsection*{Teil 1}
+
+\begin{figure}[H]
+\center
+\begin{tikzpicture}
+\begin{scope}[every node/.style={circle,thick,draw}]
+\node (S) {$S$};
+\node (A) [right = 2cm  of S]{$A$};
+\node (B) [right = 2cm  of A]{$B$};
+\node (C) [right = 2cm  of B]{$C$};
+\end{scope}
+
+\begin{scope}[>={Stealth[black]},
+              every node/.style={fill=white,circle},
+              every edge/.style={draw=black,very thick}]
+\draw[->] (S) edge node[above] {1} (A);
+\draw[->] (A) edge node[above] {1} (B);
+\draw[->] (B) edge node[above] {1} (C);
+\draw[->] (S) edge[bend left=30] node[above] {10} (C);
+\end{scope}
+
+\end{tikzpicture}
+\caption{Graph $G$ mit 4 Knoten}
+\end{figure}
+
+Wir hätten gerne alle kürzesten Pfade in $G$ mit der Länge $k=1$ von $S$ aus.
+
+Reihenfolge der Relaxion: $(S,A), (A,B), (B,C), (S,C)$. Nach einer Iteration von Bellman-Ford ist zwischen $S$ und $C$ bereits der wirklich kürzeste Pfad Gefunden. Allerdings ist dieser Pfad $3$ Kanten lang. Wir hatten uns aber nur für Pfade der Länge $1$ interessiert. Was Bellman-Ford korrekt bestimmt hat, ist die Länge der $k$-langen Prefixe der insgesamt kürzesten Pfade.
+
+\subsection*{Teil 2}
+
+Das Problem ist, dass bei zu guter Wahl der Reihenfolge der Relaxion nach der $n$-ten Iteration bereits Pfade gefunden wurden, die länger sind als $n$. Wir wolle aber nach der $n$-ten Iteration nur Entfernungen bestimmt haben, die weniger als $n$ Kanten entfernt liegen. Dann können wir sicher sein, dass die Knoten, deren Entfernung wir kennen, nur über Pfade der Länge $n$ erreicht wurden --- somit die bekannten Entfernungen sich auch nur auf diese Pfade beziehen.
+
+In jeder Iteration darf die Kantenzahl der bzgl. ihrer Kantenzahl längsten bekannten Pfade nur um 1 erhöhnt werden. Ausgehende Kanten von Knoten, die selbst in der aktuellen Iteration erst erreicht wurden (Distanz wurde von $\infty$ auf eine Zahl gesetzt), müssen bis zum Ende der Iteration selbst von der Relaxion ausgeschlossen werden. Das kann durch eine einfache Markierung dieser Knoten und einer dazu Passenden Bedingung passieren.
+
+\section*{Aufgabe 15}
+
+\subsection*{Algorithmus}
+\nolinenumbers
+\begin{algorithmic}[1]
+\Procedure{ClosestTreeLeafs}{V, E, W} \Comment{Knoten, Kanten, Gewichte}
+\State $(E',V') = \text{Kruskal}(E, V)$ \Comment{$\mathcal{O}(|E|\log(|V|))$}
+\State $\text{queue} = \text{initQueue}()$
+\State bestLeafs = InitArray(|V'|)
+\State bestDistance = InitArray(|V'|)
+\For{n}{0}{|V'|} \Comment{$\mathcal{O}(|V|)$}
+\If{deg(V'[i]) == 1} \Comment{Leaf Node}
+\State bestLeafs[V'[i]] = V'[i]
+\State bestDistance[V'[i]] = 0
+\State insertQueue(V'[i], queue, bestDistance[V'[i]]) \Comment{$\mathcal{O}(1)$, weil bestDistance[i] $= 0$}
+\Else \Comment{Inner Node}
+\State bestLeafs[V'[i]] = nil
+\State bestDistance[V'[i]] = $\infty$
+\EndIf
+\EndFor
+\While{currentNode = extractMin(queue)}\label{outer}\Comment{Zeile \ref{outer} und \ref{inner} gesamt $\mathcal{O}(|E|)$}
+\While{targetNode = selectOutgoingEdge(E', currentNode)}\label{inner}
+\State removeEdge(E', currentNode, targetNode)
+\State newDistance = bestDistance[currentNode] + W((currentNode, targetNode))
+\If{bestDistance[targetNode] == $\infty$}
+\State bestDistance[targetNode] = newDistance
+\State insertQueue(queue, targetNode, newDistance) \Comment{ $\mathcal{O}(\log(|V|))$}
+\ElsIf{newDistance < bestDistance[targetNode]}
+\State {bestDistance[targetNode] = newDistance}
+\State {decreaseKey(queue, targetNode, newDistance)} \Comment{ $\mathcal{O}(\log(|V|))$}
+\EndIf
+\EndWhile
+\EndWhile
+\State \Return bestLeafs
+\EndProcedure
+\end{algorithmic}
+\linenumbers
+
+\subsection*{Argumentation}
+
+Wir nehmen an, dass sich aus der Fernreisekarte in linearer Zeit ein Graph konstruieren lässt, in welchem jede Stadt und jeder Hafen einen von einem Knoten dargestellt wird und genau jede Kante einer Stra{\ss}e entspricht die die jeweiligen Städte mit einander --- bzw. mit den erreichbaren Häfen --- verbindet.
+
+Wir gehen davon aus, dass dieser Graph $G$ zusammenhängend ist und keine negativen Kanten enthält. Daher können wir aus ihm einen minimalen Spannbaum konstruieren. Mit dem Algorithmus von Kruskal lässt sich der minimale Spannbaum in \(\mathcal{O}(|E|\log(|V|))\) konstruieren.
+
+Da die Häfen nicht miteinander verbunden sind, jede Stadt aber mit mindestens einem Hafen verbunden ist (Zusammenhang), sind genau die Häfen Blattknoten im Spannbaum.
+
+Als nächtes durchlaufen wir den Baum "Ebene für Ebene" beginnend bei den Blättern (Häfen) und weisen dabei jedem Knoten den, nächsten Blattknoten und die Distanz zu diesem zu. Das passiert wie folgt:
+
+\begin{enumerate}
+    \item Alle Blattknoten $k$ bekommen sich selbst als besten Blattknoten zugewiesen $\text{best}(k) = k$
+    \item Alle Blattknoten $k$ bekommen die Distanz $D(k) = 0$
+    \item Alle inneren Knoten $k$ bekommen initial die Distanz $D(k) = \infty$
+    \item Alle inneren Knoten $k$ bekommen initial als besten Vorgänger $\text{best}(k) = \text{nil}$
+    \item Wird ein Knoten $q$ über eine Kante $(p,q)$ Besucht, prüfe ob $W(p,q) + D(p) < D(q)$. Wenn ja, aktualisiere $\text{best}(q) = p$ und $D(q) = W(p,q) + D(p)$
+    \item Wenn für einen Knoten der beste Vorgänger und die niedrigste Distanz zu diesem bestimmt ist, kann das Verfahren von diesem Knoten aus wiederholt werden.
+\end{enumerate}
+
+Die Intuition hinter diesem Verfahren ist, an jedem Hafen gleichzeitig einen Radius von 0 an mit gleicher Geschwindigkeit wachsen zu lassen und jede Stadt dem Hafen zuzuordnen, dessen Radius sie zu erst erreicht. In einem diskreten Verfahren auf unserem Graphen muss dieses gleichzeitig Wachstum aber explizit modelliert werden. Wir wollen zudem sicherstellen, dass jede Kante nur einmal besucht werden muss.
+
+Um das gleichzeitige Wachstum zu erreichen, ordnen wir die bereits erreichten Knoten (zu Beginn alle Häfen) in einer Warteschlange nach ihrer bisher besten Distanz.
+
+Zu einem Knoten, der den Kopf der Schlange erreicht, kann es keinen kürzeren Pfad von einem Hafen aus geben. Denn alle anderen Knoten in der Schlange haben bereits eine grö{\ss}ere Distanz zum nächstens Hafen. Alle Knoten die noch nicht in der Schlage sind, haben mindestens eine beste Distanz so gro{\ss} wie die Knoten, die schon in der Schlange sind.
+
+Daraus ergibt sich, dass wenn wir eine Kante $(p,q)$ Benutzen, wir diese nicht noch ein weiteres mal betrachten müssen. Denn die beste Distanz von $p$ kann sich nicht mehr ändern und somit die beste Distanz von $q$ aus Sicht dieser Kante auch nicht mehr verbessert werden.
+
+Die beste Distanz von $q$ kann nur dadurch besser werden, dass wir über eine andere Kante $(r,q)$ nach $q$ gelangen. Dafür muss $r$ eine kürzere beste Distanz haben als $q$. Wenn so ein Kante existiert, können wir sicher sein, sie bereits benutzt zu haben bevor $q$ an den Kopf der Warteschlange rutscht, denn $r$ ist dann vor $q$ in der Warteschlange gewesen.
+
+\subsection*{Termination}
+
+Da wir jeden Knoten nur einmal in die Warteschlange hinzufügen, aber in jeder äußeren Iteration auch einen Knoten hinnausnehmen, wird die äußere Schleife terminieren.
+
+Da die die innere Schleife über Kanten iteriert, aber jede benutzte Kante direkt entfernt, terminiert auch die innere Schleife. Also terminiert auch das Algorithmus.
+
+Da wir uns in einem Baum bewegen, und von jedem Knoten aus alle nicht benutzten Kanten benutzen, können wir sicher sein, am Ende alle Kanten benutzt und alle Knoten besucht zu haben. Also hat auch jeder Knoten seinen besten Hafen und die kürzeste Distanz zu diesem zugewiesen bekommen.
+
+\subsection*{Laufzeit}
+
+Bei jedem Benutzen einer Kante müssen wir potentiell die beste Distanz des Zielknotens aktualisieren und auch die Position des Knotens in der Warteschlange aktualisieren. Der Aufwand dafür ist in \(\mathcal{O}(\log(l))\), wobei $l$ die Länge der Warteschlange, also maximal die Anzahl der Knoten ist. Daraus ergibt sich als Kosten für das Durchlaufen des Baums \(\mathcal{O}(|E|\log(|V|))\).
+
+
+
+\end{document}
