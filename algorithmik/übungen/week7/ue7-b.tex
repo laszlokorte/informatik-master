@@ -19,23 +19,28 @@
 
 Per Definition ist $\Phi$ immer $\ge 0$ (wegen max).
 
-Zu Beginn liegen alle Knoten auf Höhe 0. Die Höhe wird nur beim relabeln erhöht. Es wird nur der Knoten am Kopf der Warteschlange gerelabelt. Genau die Knoten mit Überschuss befinden sich in der Warteschlange. Das Potenzial ist als Maximum der Höhe in der Warteschlange definiert.
+Zu Beginn liegen alle Knoten auf Höhe 0. Die Höhe wird nur per relabel erhöht. Genau die Knoten mit Überschuss befinden sich in der Warteschlange. Das Potenzial ist als Maximum der Höhe in der Warteschlange definiert.
 
 Jede Operation findet nur am Kopf der Warteschlage statt und kann den Höhenwert nur wie folgt verändern:
 
 \begin{enumerate}
-    \item Der Knoten am Kopf der Schlange hat noch Überschuss, bleibt am Kopf der Schlage und wird gerelabelt. Dadurch kann das Potenzial nur erhöht werden --- oder gleich bleiben, wenn es durch einen anderen Knoten bestimmt war.
-    \item Der Knoten am Kopf der Schlange hat seinen Überschuss verloren. Wenn er das Potenzial bestimmt hat, verringert sich das Potenzial, wenn er aus der Schlange entfernt wird. Wenn das Potenzial durch einen anderen Knoten bestimmt wurde, bleibt es bei Entfernung des Knotens unverändert.
+    \item Der Knoten am Kopf der Schlange hat noch Überschuss, bleibt am Kopf und wird gerelabelt. Dadurch kann das Potenzial nur erhöht werden --- oder gleich bleiben, falls es durch einen anderen Knoten bestimmt war.
+    \item Der Knoten am Kopf der Schlange hat seinen Überschuss verloren. Wenn er das Potenzial bestimmt hat, verringert es sich, wenn er aus der Schlange entfernt wird. Wenn das Potenzial durch einen anderen Knoten bestimmt war, bleibt es hierbei unverändert.
 \end{enumerate}
 
-Knoten, die zur Schlange hinzugefügt werden, müssen eine Höhe haben, die um $1$ kleiner ist als die Höhe des Kopfes der Schlange --- denn nur in solche kann gepusht werden. Daraus ergibt sich, dass das Potenzial immer nur durch den Kopf der Schlange oder Knoten mit gleicher Höhe bestimmt sein kann. Gleiche Höhe wie der Kopf der Schlange können aber nur Knoten haben, die zusammen mit dem aktuellen Kopf in die Schlange geschoben wurden da sie von einem Knoten aus gepusht worden sein müssen, der schon vorher in der Schlange war.
+Knoten, die zur Schlange hinzugefügt werden, müssen eine Höhe haben, die um $1$ kleiner ist als die Höhe des Kopfes der Schlange --- denn nur in solche kann gepusht werden.
+
+Daraus ergibt sich, dass das Potenzial immer nur durch den Kopf der Schlange oder Knoten mit gleicher Höhe bestimmt sein kann. Gleiche Höhe wie der Kopf der Schlange können aber nur Knoten haben, die zusammen mit dem aktuellen Kopf in die Schlange geschoben wurden da sie von einem Knoten aus gepusht worden sein müssen, der schon vorher in der Schlange war.
 
 Wenn also alle Knoten, die zu Beginn einer Phase in der Schlange waren, die Schlange wieder verlassen haben ohne selbst gerelabelt worden zu sein, können nur noch Knoten in der Schlange sein, deren Höhe um wenigstens $1$ geringer ist die die Maximale Höhe zu Beginn der Phase.
 
-Wie schon in der der Analyse zum Relabl-To-Front Algorithmus gezeigt, können höchstens $|V|^2$ Relabels durchgeführt werden. Das Potenzial ist gekoppelt an die Höhe aber auf $2|V|$ begrenzt und wird in jeder Phase um mindestens $1$ verringert. Das Potenzial wächst nur durch Relabels und um mindestens $1$. Es kann also nur höchstens $|V|^2$ mal wachsen. Da es nie unter $0$ fällt, kann es auch nur $|V|^2$ verringert werden. Da es am Ende jeder Phase um mindestens $1$ verringert wird, kann es nur $|V|^2$ Phasen geben. Da in jeder Phase nur so viele Knoten verarbeitet werden, wie in der Warteschlange sind und das maximal alle Knoten ($|V|$ viele) sind, können nur $|V|^3$ viele Schritte stattfinden. Jeder Schritt kann in $\mathcal{O}(1)$ durchgeführt werden.
+Wie schon in der der Analyse zum Relabl-To-Front Algorithmus gezeigt, können höchstens $|V|^2$ Relabels durchgeführt werden. Das Potenzial ist wie die Höhe aber auf $2|V|$ begrenzt und wird in jeder Phase um mindestens $1$ verringert. Das Potenzial wächst nur durch Relabels und um mindestens $1$. Es kann also nur höchstens $|V|^2$ mal wachsen.
 
-Daraus ergibt sich eine obere Schranke von $\mathcal{O}(3)$ für den Push-Relabel mit Warteschlange.s
+Da es nie unter $0$ fällt, kann es auch nur $|V|^2$ verringert werden. Da es am Ende jeder Phase um mindestens $1$ verringert wird, kann es nur $|V|^2$ Phasen geben.
 
+Da per Definition in jeder Phase nur maximal so viele Knoten verarbeitet werden können, wie in der Warteschlange sind (maximal $|V|$ viele) sind, können nur $|V|^3$ viele Schritte stattfinden.
+
+Jeder Schritt kann in $\mathcal{O}(1)$ durchgeführt werden. Daraus ergibt sich eine obere Schranke von $\mathcal{O}(3)$ für den Push-Relabel mit Warteschlange.
 
 
 \end{document}
