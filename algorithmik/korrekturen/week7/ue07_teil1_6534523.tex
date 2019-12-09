@@ -1,0 +1,41 @@
+\documentclass[parskip=half,a4paper]{scrartcl}
+\usepackage[ngerman]{babel}
+
+\input{../../../structure.tex}
+
+\title{Korrektur Blatt 7 Teil 1 für 6534523}
+
+\author{Korrigiert von Mtr.-Nr. 6329857}
+
+\date{Universität Hamburg --- \today}
+
+\begin{document}
+
+\maketitle % Print the title
+
+\section{Aufgabe 19}
+
+Der angegebene Pseudocode verändert den ursprünglichen Graph nicht --- also entfernt keine Kanten. In der Argumentation wird aber darauf Bezug genommen, dass die Laufzeit dadurch beschränkt sei, dass in jeder Iteration Kanten entfernt werden.
+
+Im Gegensatz zur Lösung wird auch nicht mit einem gegebenen maximalen Fluss gearbeitet, der verringert wird, sondern nur Ford-Fulkerson durch die Aufzeichnung von Zwischenschritten erweitert.
+
+Im Pseudocode wird ein $\text{counter} < \text{maxFlow}$ Vergleich durchgeführt. Dem ist zu entnehmen, dass der maxFlow als Zahlenwert und nicht als Gewichtung jeder einzelnen Kante erwartet wird. Warum dieser Fluss jedoch kleiner sein soll als die Anzahl der Iterationen ist nicht klar.
+
+Es ist nicht schlüssig, warum der gegebene Algorithmus das gegebene Problem löst.
+
+\section{Aufgabe 20}
+
+Es ist nicht ganz klar was mit \enquote{Die Anzahl an pushes bis zur Sättigung werden nicht verändert} (Zeile 26) gemeint ist. Sind damit die Anzahl sättigender Pushes gemeint? Oder sind nicht-sättigende Pushes gemeint?
+
+\enquote{Es folgt, dass es höchstens $2\cdot|V|\cdot|E|$ nicht sättigende push Aufrufe gibt.} (Zeile 28) --- da scheint ein $k$ zu fehlen. Vermutlich nur ein Tippfehler, da zuvor auf $k$ Bezug genommen wurd. Da die Aufgabe aber insgesamt sehr knapp beantwortet wurde und der Teilterm $2\cdot|V|\cdot|E|$ auch ohne Begründung in der Gleichung (Zeile 29) wieder auftaucht, ist es schwierig den genauen Gedankengang der Antwort nachzuvollziehen.
+
+Es wurde aber korrekt erkannt, dass die Anzahl der nicht-sättigenden Pushes durch die Ganzzahligkeit und $k$ begrenzt ist. Darum vermute ich, dass das Richtig gemeint ist.
+
+\begin{itemize}
+    \item Die maximal Anzahl von nicht sättigenden Pushs ist korrekt.
+    \item Die maximal Anzahl von sättigenden Pushs ist korrekt.
+    \item Die Gesamtlaufzeit ist korrekt hergeleitet
+\end{itemize}
+
+
+\end{document}
