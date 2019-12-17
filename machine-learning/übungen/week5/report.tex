@@ -1,0 +1,93 @@
+\documentclass[parskip=half,a4paper]{scrartcl}
+
+\input{../../../structure.tex}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat = newest}
+\usetikzlibrary{plotmarks}
+
+\title{Machine Learning Exercise 5}
+\author{Laszlo Korte, MtrNr. 6329857}
+\date{Universität Hamburg --- \today}
+
+\begin{document}
+
+\maketitle
+
+\begin{figure}[H]
+\begin{center}
+
+\begin{tikzpicture}
+   \begin{axis}[
+      scatter/classes = {
+         -3={mark = diamond*, fill = green, draw=black},
+         3={mark = triangle*, fill = blue, draw=black},
+         -1={mark = times*, fill = red, draw=black},
+         1={mark = otimes*, fill = orange, draw=black}
+       }]
+      \addplot[
+         scatter,
+         only marks,
+         scatter src=explicit symbolic]
+      table[
+         x index = 0,
+         y index = 1,
+         meta index = 4,
+         col sep = space
+      ]{var/result.txt};
+
+      \def\xclassifier{
+      5.1708115473377/</6.4160686999999985,
+      6.464662794253107/>/-6.876154600000001,
+      5.365844399317796/</5.7623528,
+      5.9641779005384805/>/-3.825480400000001,
+      5.805433505669511/</4.019110399999999,
+      3.3219302078481254/>/-0.3389956000000005,
+      4.743495110124148/</-1.2106168000000004
+      }
+
+      \def\yclassifier{
+      2.7913141893701168/</2.262163600000001,
+      3.039454100219727/>/-3.8123692,
+      32.4912501936/</-10.97164,
+      5.103631077636498/</6.6011156,
+      5.167295905268116/>/-6.1987928000000005,
+      5.06433648096325/</6.6011156,
+      5.3077303434422305/>/-4.6801596000000005
+      }
+
+      \foreach \weight/\cmp/\cutoff in \xclassifier {
+        \pgfmathtruncatemacro{\lbl}{1*\weight}
+        \addplot[samples=2, smooth,domain=0:6,magenta] coordinates {(\cutoff,-10)(\cutoff,10)} node[pos=1.05]{};
+      }
+
+      \foreach \weight/\cmp/\cutoff in \yclassifier {
+      \pgfmathtruncatemacro{\lbl}{1*\weight}
+
+        \addplot[samples=2, smooth,domain=-10:10,cyan]{\cutoff} node[pos=1.05]{};
+      }
+   \end{axis}
+\end{tikzpicture}
+
+\caption{Plot of classified points together with vertical and horizontal weak classifiers. One Point is beeing misclassified}
+\end{center}
+\end{figure}
+
+\begin{align*}
+    M(x_0,x_1) &= 5.1708115473377 &\cdot&&& \left\{x_0 < 6.4160686999999985\right\} \\
+ & +  6.464662794253107 &\cdot&&& \left\{x_0 > -6.876154600000001\right\} \\
+ & +  5.365844399317796 &\cdot&&& \left\{x_0 < 5.7623528\right\} \\
+ & +  5.9641779005384805 &\cdot&&& \left\{x_0 > -3.825480400000001\right\} \\
+ & +  5.805433505669511 &\cdot&&& \left\{x_0 < 4.019110399999999\right\} \\
+ & +  3.3219302078481254 &\cdot&&& \left\{x_0 > -0.3389956000000005\right\} \\
+ & +  4.743495110124148 &\cdot&&& \left\{x_0 < -1.2106168000000004\right\} \\
+ & +  2.7913141893701168 &\cdot&&& \left\{x_1 < 2.262163600000001\right\} \\
+ & +  3.039454100219727 &\cdot&&& \left\{x_1 > -3.8123692\right\} \\
+ & +  32.4912501936 &\cdot&&& \left\{x_1 < -10.97164\right\} \\
+ & +  5.103631077636498 &\cdot&&& \left\{x_1 < 6.6011156\right\} \\
+ & +  5.167295905268116 &\cdot&&& \left\{x_1 > -6.1987928000000005\right\} \\
+ & +  5.06433648096325 &\cdot&&& \left\{x_1 < 6.6011156\right\} \\
+ & +  5.3077303434422305 &\cdot&&& \left\{x_1 > -4.6801596000000005\right\}
+\end{align*}
+
+\end{document}
