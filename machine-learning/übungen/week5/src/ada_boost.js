@@ -149,9 +149,9 @@ const adaBoostXY = (points, {
 
 readData().then((points) => {
     const classifiers = adaBoostXY(points, {
-        steps0: 100,
-        steps1: 100,
-        classifierCount: 20,
+        steps0: 300,
+        steps1: 300,
+        classifierCount: 50,
     })
 
     const totalClassifier = (p) => {
