@@ -1,0 +1,1 @@
+plot 'var/points.txt'
