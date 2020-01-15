@@ -57,20 +57,14 @@ const expectationMaximisation = (K, points) => {
     const xScale = (maxX - minX);
     const yScale = (maxY - minY);
 
-    const normPoints = points.map((p) => {
-        return [
-            (p[0] - minX) / (maxX - minX),
-            (p[1] - minY) / (maxY - minY),
-        ]
-    })
-
+    const normPoints = points
 
     const pivots = Array(3).fill(true).map((_,i,a) => {
         return {
             phi: 1 / Math.pow(2,i+1) + 1/(Math.pow(2,a.length)*a.length),
             mu: genMean(),
             sigma: genCov(),
-            weights: points.map((_,__,a) => null)
+            weights: normPoints.map((_,__,a) => null)
         }
     })
 
@@ -78,7 +72,7 @@ const expectationMaximisation = (K, points) => {
 
     while(count--) {
         for(const piv of pivots) {
-            piv.weights = normPoints.map((x) => p(piv.mu, piv.sigma, x))
+            piv.weights = normPoints.map((x) => piv.phi * p(piv.mu, piv.sigma, x) / pivots.reduce((ac, pv) => ac + pv.phi * p(pv.mu, pv.sigma, x), 0))
         }
 
 
@@ -113,14 +107,7 @@ readData().then((points) => {
 
     const pivots = expectationMaximisation(3, points)
 
-    const minX = Math.min(...points.map(p => p[0]))
-    const maxX = Math.max(...points.map(p => p[0]))
-    const minY = Math.min(...points.map(p => p[1]))
-    const maxY = Math.max(...points.map(p => p[1]))
-    const xScale = (maxX - minX);
-    const yScale = (maxY - minY);
-
     for(pv of pivots) {
-        console.log(minX + xScale * pv.mu[0], minY + yScale * pv.mu[1])
+        console.log(pv.mu[0], pv.mu[1])
     }
 })
