@@ -33,8 +33,8 @@ const genCov = () => {
     ]
 }
 
-const genMean = () => {
-    return [Math.random(), Math.random()]
+const genMean = (minX, scaleX, minY, scaleY) => {
+    return [minX + scaleX*Math.random(), minY + scaleY*Math.random()]
 }
 
 const p = (mu, sigma, x) => {
@@ -54,37 +54,36 @@ const expectationMaximisation = (K, points) => {
     const maxX = Math.max(...points.map(p => p[0]))
     const minY = Math.min(...points.map(p => p[1]))
     const maxY = Math.max(...points.map(p => p[1]))
-    const xScale = (maxX - minX);
-    const yScale = (maxY - minY);
-
-    const normPoints = points
+    const scaleX = (maxX - minX);
+    const scaleY = (maxY - minY);
 
     const pivots = Array(3).fill(true).map((_,i,a) => {
         return {
             phi: 1 / Math.pow(2,i+1) + 1/(Math.pow(2,a.length)*a.length),
-            mu: genMean(),
+            mu: genMean(minX, scaleX, minY, scaleY),
             sigma: genCov(),
-            weights: normPoints.map((_,__,a) => null)
+            weights: points.map((_,__,a) => null)
         }
     })
 
-    let count = 50
+    let converged = true;
 
-    while(count--) {
+    do {
+
         for(const piv of pivots) {
-            piv.weights = normPoints.map((x) => piv.phi * p(piv.mu, piv.sigma, x) / pivots.reduce((ac, pv) => ac + pv.phi * p(pv.mu, pv.sigma, x), 0))
+            piv.weights = points.map((x) => piv.phi * p(piv.mu, piv.sigma, x) / pivots.reduce((ac, pv) => ac + pv.phi * p(pv.mu, pv.sigma, x), 0))
         }
-
 
         for(const piv of pivots) {
             const weightSum = piv.weights.reduce((acc, w) => acc + w, 0)
+            const prevMu = piv.mu
             piv.phi = weightSum / piv.weights.length
             piv.mu = [
-                piv.weights.reduce((acc, w, i) => acc + w * normPoints[i][0], 0) / weightSum,
-                piv.weights.reduce((acc, w, i) => acc + w * normPoints[i][1], 0) / weightSum,
+                piv.weights.reduce((acc, w, i) => acc + w * points[i][0], 0) / weightSum,
+                piv.weights.reduce((acc, w, i) => acc + w * points[i][1], 0) / weightSum,
             ]
             piv.sigma = piv.weights.reduce(([a,b,c,d], w, i) => {
-                const [x,y] = normPoints[i]
+                const [x,y] = points[i]
                 const [mx,my] = piv.mu
                 const [dX, dY] = [x-mx, y-my]
 
@@ -95,8 +94,10 @@ const expectationMaximisation = (K, points) => {
                     d + w * (dY*dY) / weightSum,
                 ]
             }, [0,0,0,0])
+
+            converged = Math.abs(Math.abs(piv.mu[0]/prevMu[0] + piv.mu[1]/prevMu[1]) - 2) < 0.01
         }
-    }
+    } while(!converged)
 
     return pivots
 }
@@ -108,6 +109,15 @@ readData().then((points) => {
     const pivots = expectationMaximisation(3, points)
 
     for(pv of pivots) {
+        console.log("# phi=",pv.phi)
+        console.log("# sigma=["+pv.sigma.join(',')+']')
         console.log(pv.mu[0], pv.mu[1])
+        console.log("\n")
+    }
+
+    for(const pnt of points) {
+        const ps = pivots.map(piv => piv.phi * p(piv.mu, piv.sigma, pnt));
+        const totalPs = ps.reduce((a,x) => a+x, 0)
+        console.log(pnt[0],pnt[1], ps.map(p => Math.round((p/totalPs)*1000) / 1000).join(' '))
     }
 })

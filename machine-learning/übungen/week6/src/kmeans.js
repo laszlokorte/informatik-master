@@ -25,17 +25,10 @@ const kMeans = (K, points) => {
     const xScale = (maxX - minX);
     const yScale = (maxY - minY);
 
-    const normPoints = points.map((p) => {
-        return [
-            (p[0] - minX) / (maxX - minX),
-            (p[1] - minY) / (maxY - minY),
-        ]
-    })
-
     let centroids = Array(3).fill(true).map(() => {
         return {
-            x: Math.random(),
-            y: Math.random(),
+            x: minX + xScale * Math.random(),
+            y: minY + yScale * Math.random(),
             assignedPoints: [],
         }
     })
@@ -50,8 +43,8 @@ const kMeans = (K, points) => {
             centroids[c].assignedPoints.length = 0;
         }
 
-        for(let p=0;p<normPoints.length;p++) {
-            let [x,y] = normPoints[p]
+        for(let p=0;p<points.length;p++) {
+            let [x,y] = points[p]
             let assignedC = 0;
 
             for(let c=0;c<centroids.length;c++) {
@@ -74,7 +67,7 @@ const kMeans = (K, points) => {
             const assignedPoints = centroids[c].assignedPoints
 
             for(let p=0;p<assignedPoints.length;p++) {
-                const pnt = normPoints[assignedPoints[p]];
+                const pnt = points[assignedPoints[p]];
                 const [x,y] = pnt
                 cx += x
                 cy += y
@@ -104,14 +97,12 @@ const kMeans = (K, points) => {
         const assignedPoints = centroids[c].assignedPoints
 
         for(let p=0;p<assignedPoints.length;p++) {
-            const [x,y] = normPoints[assignedPoints[p]]
+            const [x,y] = points[assignedPoints[p]]
             const dx = x - centroids[c].x
             const dy = y - centroids[c].y
             distortion += dx*dx + dy*dy
         }
 
-        centroids[c].x = minX + xScale * centroids[c].x
-        centroids[c].y = minY + yScale * centroids[c].y
     }
 
     return {iterations, centroids, distortion};
