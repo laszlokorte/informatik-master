@@ -15,4 +15,111 @@
 
 \maketitle
 
+\section{Plots}
+
+\begin{figure}[H]
+    \center
+    \begin{tikzpicture}
+       \begin{axis}[
+        ]
+          \addplot[
+             only marks,
+            mark=*]
+          table[
+             x index = 0,
+             y index = 1,
+             col sep = space
+          ]{var/points.txt};
+       \end{axis}
+    \end{tikzpicture}
+    \caption{unclassified cloud of points}
+\end{figure}
+
+
+\begin{figure}[H]
+    \center
+    \begin{tikzpicture}
+       \begin{axis}[
+       view={0}{90},
+        ]
+          \addplot[
+            scatter,%
+            scatter/@pre marker code/.code={%
+                \edef\temp{\noexpand\definecolor{mapped color}{rgb}{\pgfplotspointmeta}}%
+                \temp
+                \scope[draw=mapped color!80!black,fill=mapped color]%
+            },%
+            scatter/@post marker code/.code={%
+                \endscope
+            },%
+            only marks,
+            mark=*,
+            point meta={TeX code symbolic={%
+                \edef\pgfplotspointmeta{\thisrow{R},\thisrow{G},\thisrow{B}}%
+            }},
+          ]
+          table[
+             x index = 0,
+             y index = 1,
+             col sep = space
+          ]{var/gaussians-rgb.txt};
+       \end{axis}
+    \end{tikzpicture}
+    \caption{cloud of points classified via EM, means in black}
+\end{figure}
+
+
+
+\begin{figure}[H]
+    \center
+    \begin{tikzpicture}
+       \begin{axis}[
+        ]
+          \addplot[
+            scatter,%
+            scatter/@pre marker code/.code={%
+                \edef\temp{\noexpand\definecolor{mapped color}{rgb}{\pgfplotspointmeta}}%
+                \temp
+                \scope[draw=mapped color!80!black,fill=mapped color]%
+            },%
+            scatter/@post marker code/.code={%
+                \endscope
+            },%
+            only marks,
+            mark=*,
+            point meta={TeX code symbolic={%
+                \edef\pgfplotspointmeta{\thisrow{R},\thisrow{G},\thisrow{B}}%
+            }},
+          ]
+          table[
+             x index = 0,
+             y index = 1,
+             col sep = space
+          ]{var/centroids-rgb.txt};
+       \end{axis}
+    \end{tikzpicture}
+    \caption{cloud of points classified via K-Means(K=3), centroids in black}
+\end{figure}
+
+\section{Models}
+
+\subsection{K-Means Cendroids}
+
+$$
+C_1 = \begin{pmatrix}3.7326\\10.4895\end{pmatrix}\qquad C_2 = \begin{pmatrix}8.1369\\11.2347\end{pmatrix}\qquad C_3 = \begin{pmatrix}14.6516\\8.4175\end{pmatrix}
+$$
+
+
+\subsection{Mixture of Gaussian parameters}
+
+$$
+\phi_1 = 0.38585\qquad\Sigma_1 = \begin{pmatrix}2.65818&0.35741\\0.35741&0.45157\end{pmatrix}\qquad\mu_1 = \begin{pmatrix}4.30673\\10.72801\end{pmatrix}
+$$
+$$
+\phi_2 = 0.27364\qquad\Sigma_2 = \begin{pmatrix}1.60402&0.30605\\0.30605&0.89519\end{pmatrix}\qquad\mu_2 = \begin{pmatrix}8.00213\\11.06764\end{pmatrix}
+$$
+$$
+\phi_3 = 0.34050\qquad\Sigma_3 = \begin{pmatrix}1.08411&0.01172\\0.01172&0.33095\end{pmatrix}\qquad\mu_3 = \begin{pmatrix}14.56538\\8.44124\end{pmatrix}
+$$
+
 \end{document}
