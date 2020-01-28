@@ -18,8 +18,10 @@ deltaEps = 0.01
 
 
 let delta = 0
+let iterations = 0;
 
 do {
+    iterations++
     delta = 0
 
     for(let x=0;x<V.length;x++) {
@@ -45,6 +47,7 @@ do {
     }
 } while (delta > deltaEps)
 
+console.log(iterations)
 
 for(let x=0;x<4;x++) {
     const row = []

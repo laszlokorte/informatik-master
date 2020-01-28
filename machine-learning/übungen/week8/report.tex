@@ -1,0 +1,51 @@
+\documentclass[parskip=half,a4paper]{scrartcl}
+
+\input{../../../structure.tex}
+
+\usepackage{pgfplots}
+\usepackage[thinlines]{easytable}
+
+\usetikzlibrary{calc}
+\pgfplotsset{compat = newest}
+\usetikzlibrary{plotmarks}
+
+\title{Machine Learning Exercise 8}
+\author{Laszlo Korte, MtrNr. 6329857}
+\date{Universität Hamburg --- \today}
+
+\begin{document}
+
+\maketitle
+
+\section{Plots}
+
+\begin{table}[H]
+    \center
+
+    \begin{TAB}(e,1.5cm,1.5cm){|c:c:c:c|}{|c:c:c:c|}
+0 &  -13.93 &  -19.91 &  -21.9 \\
+-13.93 &  -17.92 &  -19.91 &  -19.91 \\
+-19.91 &  -19.91 &  -17.93 &  -13.95 \\
+-21.9 &  -19.91 &  -13.95 &  0
+\end{TAB}
+
+\caption{Value function after 62 iterations}
+\end{table}
+
+
+\begin{table}[H]
+    \center
+
+    \begin{TAB}(e,1.5cm,1.5cm){|c:c:c:c|}{|c:c:c:c|}
+- & $\leftarrow$ & $\leftarrow$ & $\leftarrow,\downarrow$ \\
+$\uparrow$ & $\uparrow,\leftarrow$ & $\leftarrow,\downarrow$ & $\downarrow$\\
+$\uparrow$ & $\uparrow,\rightarrow$ & $\downarrow,\rightarrow$ & $\downarrow$\\
+$\uparrow,\rightarrow$ & $\rightarrow$ & $\rightarrow$ & -\\
+\end{TAB}
+
+\caption{Policy after 62 iterations}
+\end{table}
+
+
+
+\end{document}

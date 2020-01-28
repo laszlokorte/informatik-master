@@ -1,0 +1,93 @@
+\documentclass[parskip=half,a4paper]{scrartcl}
+
+\input{../../../structure.tex}
+
+\usepackage{pgfplots}
+\usetikzlibrary{calc}
+\pgfplotsset{compat = newest}
+\usetikzlibrary{plotmarks}
+
+\title{Machine Learning Exercise 7}
+\author{Laszlo Korte, MtrNr. 6329857}
+\date{Universität Hamburg --- \today}
+
+\pgfplotscreateplotcyclelist{my colors}{
+    % color for the legend
+    black!50\\
+    % color for the "real" plots
+    pink\\
+    blue\\
+    green\\
+    cyan\\
+    red\\
+    orange\\
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Plots}
+
+\begin{figure}[H]
+\center
+\begin{tikzpicture}
+\begin{axis}[
+  xlabel={Round},
+  ylabel={Average Reward},
+  legend pos=south east,
+  cycle list name=my colors,
+  scatter/classes={ %
+      a={mark=*,fill=red,color=red},%
+      b={mark=*,fill=green,color=green},%
+      c={mark=*,fill=blue,color=blue}%
+  }
+]
+\addplot[scatter, color=red,draw=red] table {var/r1.txt};
+
+ \addplot[scatter, color=green,draw=green] table {var/r2.txt};
+
+ \addplot[scatter, color=blue,draw=blue] table {var/r3.txt};
+
+ \legend{
+$\epsilon=0.1$,
+$\epsilon=0.01$,
+$\epsilon=0.0$
+ }
+\end{axis}
+\end{tikzpicture}
+\caption{Plot of the average reward for each round over 2000 games, each played for 1000 rounds.}
+\end{figure}
+
+
+\begin{figure}[H]
+\center
+\begin{tikzpicture}
+\begin{axis}[
+  xlabel={Round},
+  ylabel={Average Reward},
+  legend pos=south east,
+  cycle list name=my colors,
+  scatter/classes={ %
+      a={mark=*,fill=red,color=red},%
+      b={mark=*,fill=green,color=green},%
+      c={mark=*,fill=blue,color=blue}%
+  }
+]
+\addplot[scatter, color=red,draw=red] table {var/r1a.txt};
+
+ \addplot[scatter, color=green,draw=green] table {var/r2a.txt};
+
+ \addplot[scatter, color=blue,draw=blue] table {var/r3a.txt};
+
+ \legend{
+$\epsilon=0.1$,
+$\epsilon=0.01$,
+$\epsilon=0.0$
+ }
+\end{axis}
+\end{tikzpicture}
+\caption{Average ratio at wich the best action is selected in each round in 2000 games.}
+\end{figure}
+
+\end{document}
