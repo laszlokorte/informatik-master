@@ -1,0 +1,165 @@
+• Machine learning
+Using algorithms to extract patterns from a given set of data to build a mathematical model which can be used to make decisions by predicting future data
+
+• Supervised learning
+SL is an ML technique in which the data which is used to learn the algorithm is already labeled.
+The algorithm does not find the pattern but only a way to model it correctly
+
+• Regression
+Given a set of data composed from n variables regression is used to find a function that predicts some of those variable from the other one. By doing so a correlation between the variables is found.
+
+• Classification
+Given a set of data of which each element is labeled as belonging to a given sub class, find a function the maps a data element to it's correct class. That can be done by using linear regression in combination with a sigmoid function. The regression is used to map the data onto an axis on which elements from different classes are disjunct. The sigmoid function is used to discretize the values along this axis into the class labels.
+
+• Unsupervised learning
+In UL the algorithm must find find the pattern in the data itself because the training set is not labeled. For example points in R^n can be classified not by being labeled as belonging to a group but just by there distance to each other. points which are very near to each other should be of the same class so called cluster. This is called clustering.
+
+• Reinforcement learning
+In RL an agent must learn to perform a task in an environment by performing a sequence of actions. Depending of the model of the environment and the corresponding state space various techniques can be used. If the agent knows enough about it's environment he can find the best sequence of action without actually performing them. But if the environment is not fully known the agent has to interact with it by performing action in order to learn it's properties (eg probability distributions of responses to actions).
+The learning process is driven by a reward signal that tells the agent if the actions he performs are good or bad.
+
+• Training set
+In a SL or UL situation the mathematical model is build based on a finite set of previously gathered data, so called training set. The assumption is that this data has the same statistical properties as future data not known yet. So if the algorithm learns the pattern of the training data it will be able to be applied future data making correct predictions. But it's important that it only learns those common patterns of all data and not just the specific patterns of the training set. If the algorithm learns patterns that only fit the training set but not the future data it's called overfitting. Hold-out validation can be used to prevent that by using only part of the available data as training set and another part not used for training to check if the algorithm can predict it correctly.
+
+• Test set
+In SL and UL the algorithm is trained on previously gathered data. At each point in time only a finite set of data is available. To prevent the algorithm from overfitting to that specific set of data it is only allowed to train on part of it (the training set). Another part (the test set) is used to check if the algorithm is overfitted on the training set. That's the case if it can predict the test set correctly but no longer predict the test set correctly. In such a case the training has to stop.
+Training set error vs generalization error.
+
+• Learning rate (α)
+In supervised learning the algorithm is trained by applying it to the training data and comparing the result to the actual labels. The difference between result and labels is called error. Afterwards the error is used to modify the algorithms parameters in a way that the error will be reduced in the next iteration. The learning rate scales the magnitude of parameter adjustment. The learning rate determines how fast the algorithm finds the best parameters but also how precisely it can hit the sweet spot.
+
+• Naive Bayes assumption
+When classfying a set of points each having multiple features that determine the class it is assumed that the features them self are completely independent from each other. eg if the features size, color, and weight are used to determine a type of fruit, the Naive Bayes assumption is that size and weight are independent from each other so small fruits are as like to weight 1kg as big fruits.
+
+• Hold-out cross-validation
+Hold-out is a technique to prevent overfitting by splitting the available data into two groups, training set and test set, and using only the test set for training while using the test set to check if the resulting model still achieves good results with the training set. Once the performance in the test set drops and diverges from the performance in the training set the training is stopped. It's a signal that the model overfits to the the training set. Typically 80% is used for training and 20% of the data for the test set.
+
+• K-fold cross-validation
+K-fold cross validation is a technique to prevent overfitting. The available data is split into K different groups of same size. Repeatedly one of the set's is used as test set and the union of remaining (K-1) are used for training. The training stop once the model's performance in the test set drops. This process is repeated until each of the K sets has been used as test set. Finally the model with the overall best performance is chosen.
+
+• Leave-one-out cross-validation
+Similar to the K-fold cross validation the data is split into training data and test data. But in LOOCV the size of the test set is just one. So for a total of N data points the model is trained N times with (N-1) of the points as training data and 1 point. In the end the model with the overall best performance is chosen.
+
+• Feature vector
+In SL and UL each data point is represented as a feature vector. A feature is a measurable property of characteristic of a phenomenon being observed. Eg a color of a fruit, the size of a house or the number of dark pixels in a photo. feature vector is a composition of multiple features.
+
+• Feature selection
+When gathering samples from the real world that we want to model using ML we are confronted with huge amount of data. For example by just taking one photo we will get million of color values and meta data like orientation or time of the photo being taken. For building a model to predict specific properties of the photo (eg if it contains a dog) we need to select a subset of relevant features in order to reduce the data. That can be done manually or by applying ML as well.
+
+• Vapnik-Chervonenkis dimension
+The Vapnik-CHervonenkis dimension is a measurement of the expressiveness of a classifier. It gives the number of points of which all subsets can be classified by a given classifier. For example a linear classifier in a 2d plane can split any 3 points into each of their subsets. But it can not split any 4 points into all possible subsets. For example 4 points on the edges of a square can not be split into two subsets of diagonal opposite points by a single straight line.
+
+• Bias
+Bias one of two sources of error in supervised learning. It's the error of assuming a type of model that does not fit the data to work with. For example assuming a linear relation between features that are actually not linearly related result's in the model never actually the data, not even the training data. The model is underfitted and the bias of the asumption results in a high error.
+
+• Variance
+Variance is one of two sources of error in supervised learning (bias being the other one). By using a very flexible type of model the algorithm can fit the training data really well. But it's also really sensitive to the training data that is used. Using slightly different training data results in a varying model. A to flexible type of model is at risk at overfitting the training data. A too unflexible type of model is insenstive in regard to the training data, so it's variance is low, but it can not even fit the training data. Finding the right trade-off between flexible and unflexible model is called the bias-variance trade-off.
+
+• Support Vectors
+Support Vectors are a ML technique for classifying points in N dimensions by fitting a hyperplane between two set of points such that the distance of the nearest points to to plane is maximized. In 2d the hyperplane is a line. Not all two set's of points in dimension N can be clearly separated along a hyperplane in that dimension but points can be mapped into higher, even infinite dimensions, in which they are clearly disjunct along one axis so that the support vector machine can be applied. Support Vectors are based on vector scalar products so if the mapping of points into a higher dimension preserves the scalar product linearly the computational complexity can be reduced. Such kind of mapping is called kernel function.
+
+• Functional margin
+In SVM the hyperplane between the two classes of points is described as a normal vector w and a distance to origin b. A new point p is classified by calculating the distance to the plane via dot product dot(w,p). This distance is called the functional margin. If it's positive it's on one side of the plane, belonging to class a, if it's negative. But because w is not required to be a unit vector of length 1 the functional margin is not necessarily the actual distance from the plane. The geometric margin can be obtained by either first normalizing w or by dividing the functional margin by the length of w
+
+• Geometric Margin
+In support Vector machines the geometric margin is the actual distance of a point to the hyperplane dividing the classes of points. It's invariant in regard to the length of w and gives the confidence of classification.
+
+• Kernel trick
+In Support Vector machines the kernel trick is a technique to transform the data set of dimension N in which it can not be classified into a higher (possibly infinite) dimension in which it can be classified using a projection that preserves the dot product between points, on which the SVM algorithm relies. By this trick SVM can be used on non-linear data keeping the computational complexity low. Such a projection is called kernel.
+
+• Markov property
+The markov property is a property of a stochastic process. It says that throughout the process the conditional probabilities of future states only depend on the current state but not on any past states. Such a process is called Markov process.
+
+• Reward function
+In RL learning an agent has to learn to perform a specific task by performing a sequence of actions in an environment. The reward function signals to the agent if the action performed is beneficial for the task or not. A reward is a scalar value. The higher the reward the better the action.
+
+• Transition function (dynamics)
+In RL the Transition function is used to model the dynamics of the agent in the environment. It maps the current state the agent and the environment are in and the action the agent performs to a new state. That mapping may be probabilistic or deterministic depending on the environment in question. The agent may or may not know the transition function. Depending on that different learning methods can be used.
+
+• State value function
+In RL the State value function assigns values to the states the agent can be in. The agent may know part of the function for some states and apply learning methods to learn the full state value function for all states (if the set of states is finite). The state value function can then be used to chose the best next state given a current state if it's known by which actions each of the possible next states can be achieved. That is called deriving a policy from the state value function
+
+• Action value function
+The action value function assigns a value to each (state, action) combination for each state the agent can be in and each action it can perform. Initially the function is not known to the agent but can be learned by interacting with the environment and observing the reward for performing actions in states. Once the action value function has been learned it can be used to derive a policy telling the agent which action to perform in each state he is in.
+
+• Policy function
+A Policy function tells the agent which action to perform in each state. It can be deterministic such that for each state there is only one best action to perform or probabilistic such that for each state the agent has chose an action randomly given a distribution of actions for that state.
+
+
+
+
+
+• In SL, what happens when you get a training error ε = 0?
+Probably the model is overfitted because it learned not just a generalizable pattern in the training data but memorized the exact set of training data.
+
+• When your a training a SL model, how do you decide when to stop training?
+Additional to the training data use a different set of test data. During training also check the error of the model on the test set. Once it drops and diverges from the error in the training data stop training to prevent over fitting.
+
+• In linear regression, what happens when you add more terms to your model?
+The flexibility of the model increases. So the bias of the model is reduced, but the variance is increased because we allow fitting the training data better. Underfitting is reduced but we risk overfitting the test data.
+
+• What values are given to the parameters vector θ initially? and why?
+parameters vector θ is initialized randomly. That is because we can only fit local minima, not global minima. We do not know where the best local minima is but once we found a minima we can not get out of it. So by initilizing θ randomly we have at least a chance of finding a low minima if we run the training multiple times.
+
+• What is the difference between regression and logistic regression?
+Both are supervised learning. Linear regression fits a line through a set of points. Logistic regression splits a set of points into two classes by fitting a sigmoid curve (S-shape) through the points such that one subset of the points is mapped to 0 and the other subset to 1
+
+
+• What is the shape of the sigmoid function and why is it used in logistic regression?
+Sigmoid function has an S shape it is used to map points that are separable along one dimensions into two different classes.
+
+• Why is useful dimension reduction in machine learning?
+It reduces the computational complexity and the amount of data to store.
+
+• Which are the 2 main steps of the k-means algorithm?
+1. assign each point to the closest centroid
+2. move each centroid to the center of the points assigned to it
+
+• How does PCA work?
+We want to transform the data of dimension N into a new space in which it is most spread along the main axis.
+Center the data around the origin be subtracting the mean.
+Calculate the covariance matrix.
+Calculate the eigenvalues and eigenvectors of the cov matrix
+The axis of the new spaces are the eigenvectors. The eigenvector with the highest eigenvalue is the main principle component
+chose the n best eigenvectors
+build new dataset by multiplying the eigenvectors with old data
+
+
+• What is the general EM algorithm?
+EM is used to classify points into K clusters similar to K-means but with the difference that the points are not assigned to only one centroid but for combination of point and centroid a probability is assigned. The goal is to find a distribution that best fit's the training data.
+
+• What are the parameters estimated in the GDA algorithm?
+To classify data into N groups the GDA algorithm assumes gaussian distributions of the points around the mean of each of their class. The algorithms estimates the mean of each class and a common covariance.
+
+• In linear regression with Gaussian basis functions, what changes you need to make in your algorithm when going from one dimension to multiple dimensions?
+??????
+
+• Why is it useful the distortion function J?
+The distortion function determines how good a clustering fits a set of points. It is used to determine the results of a K means algorithm. K means can get stuck in a local minimum because the distortion function in not convex. After running running K means multiple times the resulting model with the lowest distortion can be used.
+
+• How is the Return defined in reinforcement learning?
+the return is the sum of the rewards over an episode
+
+• What are the main difference between dynamic programming methods and temporal difference methods?
+Assuming a tree of all reachable states from a given starting state the difference between dynamic programming, montecarlo and temporal difference learning is the order in which the states are explored and at which point the learning happens:
+- dynmic programming explores all next states (ie the complete next bfs layer from the current state) to determine the values of the current state
+- montecarlo explores all states on a path up to the next final state
+- temporal difference can already learn by just exploring one next state
+
+• What is the main difference between Sarsa and Q-learning?
+Both algorithms use a state-action value function. The difference is in the way the value function is updated during learning. In Q-learning the new value of (currentState, action) will be updated to the valueOf(nextState(currentState, action), actionWithHighestValue).
+In SARSA the value of (currentState, action) will be updated to valueOf(nextState(currentState, action), actionThatWillbeChosenByPolicy)
+
+• Give the Bellman equation for V^π(s)
+The Bellmann equation defines the value of a state in a policy pi depending of the neighbours states value as:
+value(s) = sum[a of action](pi(s,a) * sum[ss of states](prob(s,ss,a) * (reward(s,ss,a) + gamma * value(ss))))
+
+
+• What is V*? (Give equation)
+V* is the maximal state value function. It's the value function for the policy that gives the highest values for all states.
+
+• What is π∗ (Give equation)
+π∗ is at least one best policy that results in the best value for all states
+
+• How do you apply reinforcement learning methods when you have an infinite number of states?
+????
