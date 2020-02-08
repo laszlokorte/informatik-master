@@ -29,7 +29,7 @@ Training set error vs generalization error.
 In supervised learning the algorithm is trained by applying it to the training data and comparing the result to the actual labels. The difference between result and labels is called error. Afterwards the error is used to modify the algorithms parameters in a way that the error will be reduced in the next iteration. The learning rate scales the magnitude of parameter adjustment. The learning rate determines how fast the algorithm finds the best parameters but also how precisely it can hit the sweet spot.
 
 • Naive Bayes assumption
-When classfying a set of points each having multiple features that determine the class it is assumed that the features them self are completely independent from each other. eg if the features size, color, and weight are used to determine a type of fruit, the Naive Bayes assumption is that size and weight are independent from each other so small fruits are as like to weight 1kg as big fruits.
+When classifying a set of points each having multiple features that determine the class it is assumed that the features them self are completely independent from each other. eg if the features size, color, and weight are used to determine a type of fruit, the Naive Bayes assumption is that size and weight are independent from each other so small fruits are as like to weight 1kg as big fruits.
 
 • Hold-out cross-validation
 Hold-out is a technique to prevent overfitting by splitting the available data into two groups, training set and test set, and using only the test set for training while using the test set to check if the resulting model still achieves good results with the training set. Once the performance in the test set drops and diverges from the performance in the training set the training is stopped. It's a signal that the model overfits to the the training set. Typically 80% is used for training and 20% of the data for the test set.
@@ -129,7 +129,7 @@ build new dataset by multiplying the eigenvectors with old data
 EM is used to classify points into K clusters similar to K-means but with the difference that the points are not assigned to only one centroid but for combination of point and centroid a probability is assigned. The goal is to find a distribution that best fit's the training data.
 
 • What are the parameters estimated in the GDA algorithm?
-To classify data into N groups the GDA algorithm assumes gaussian distributions of the points around the mean of each of their class. The algorithms estimates the mean of each class and a common covariance.
+To classify data into N groups the GDA algorithm assumes gaussian distributions of the points around the mean of each of their class. The algorithms estimates the mean of each class and a common covariance of the features as well as the distribution of the classes itself (phi)
 
 • In linear regression with Gaussian basis functions, what changes you need to make in your algorithm when going from one dimension to multiple dimensions?
 ??????
@@ -162,4 +162,4 @@ V* is the maximal state value function. It's the value function for the policy t
 π∗ is at least one best policy that results in the best value for all states
 
 • How do you apply reinforcement learning methods when you have an infinite number of states?
-????
+The Value function can be be modeled as a lookup table has to be  total function from state(and action) to value. The function has to be aproximated intensionally instead of extensionally
