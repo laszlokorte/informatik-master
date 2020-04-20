@@ -1,0 +1,126 @@
+\documentclass[parskip=half,a4paper]{scrartcl}
+\usepackage[ngerman]{babel}
+
+\input{../../../structure.tex}
+
+\title{Stochastik Blatt 1}
+
+\author{Mtr.-Nr. 6329857}
+
+\date{Universität Hamburg --- \today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Aufgabe 1}
+
+\begin{enumerate}[(a)]
+\item Wenigstens eines der drei Ereignisse tritt ein:\\ $A \cup B \cup C$
+\item Höchstens eines der drei Ereignisse tritt ein:\\ $
+(A \cap B^C \cap C^C) \cup
+(A^C \cap B \cap C^C) \cup
+(A^C \cap B^C \cap C) \cup
+(A^C \cap B^C \cap C^C)
+$
+\end{enumerate}
+
+\section*{Aufgabe 2}
+
+\begin{enumerate}[(a)]
+\item $\Omega = \setc[\Big]{ (w_1, w_2, w_3)}{w_1,w_2,w_3 \in \left\{K,Z\right\}}$
+
+\item $A = \setc[\Big]{ (w_1, w_2, w_3)}{(w_1,w_2,w_3) \in \Omega \land w_1 = w_2}$ \\ $B = \setc[\Big]{ (w_1, w_2, w_3)}{(w_1,w_2,w_3) \in \Omega \land w_2 = w_3}$
+
+\item $A \cap B = \setc[\Big]{ (w, w, w)}{(w,w,w) \in \Omega}$: Alle drei Münzewürfe landen auf der selben Seite \\
+$A \setminus B = \setc[\Big]{ (w, w, w_3)}{(w,w,w_3) \in \Omega \land w \neq w_3}$: Die ersten beiden Münzwürfe landen auf der selben Seite, der dritte aber auf einer anderen.
+
+\item
+\begin{align*}
+\forall w_1,w_2,w_3 \in \left\{K, Z\right\}&:
+P\left(\left\{\left(w_1, w_2, w_3\right)\right\}\right) = \frac{1}{8}\\
+P\left(A\right) &= P\left(\left\{\left(K,K,K\right)\right\}\right) + P\left(\left\{\left(K,K,Z\right)\right\}\right) + P\left(\left\{\left(Z,Z,K\right)\right\}\right) + P\left(\left\{\left(Z,Z,Z\right)\right\}\right) \\&= \frac{4}{8}\\
+P\left(A \setminus B\right) &= P\left(\left\{\left(K,K,Z\right)\right\}\right) + P\left(\left\{\left(Z,Z,K\right)\right\}\right) \\&= \frac{2}{8}
+\end{align*}
+
+
+\end{enumerate}
+
+\section*{Aufgabe 3}
+
+\begin{enumerate}[(a)]
+\item
+\begin{align}
+    P(\Omega) &= 1\\
+\Omega \cap \emptyset &= \emptyset\\
+\Omega \cup \emptyset &= \Omega\\
+P(\Omega \cup \emptyset) &= P(\Omega) + P(\emptyset)\\
+1 &= 1 + P(\emptyset)\\
+P(\emptyset) &= 0
+\end{align}
+
+\item
+
+Zu zeigen für alle $n$:
+\begin{align}
+\forall A_1,\dots,A_n \subset \Omega \text{ sind disjunkt }:
+P(\bigcup\limits_{i=1}^{n} A_i) = \sum\limits_{i=1}^{n} P(A_i)
+\end{align}
+
+Induktionsanfang: Für $n = 1$ gilt:
+\begin{align}
+A_1 \subset \Omega \text{ ist disjunkt }
+:
+P(\bigcup\limits_{i=1}^{n=1} A_i) &= \sum\limits_{i=1}^{n=1} P(A_i)\\
+\text{ denn } P(A_1) &= P(A_1)
+\end{align}
+
+
+Indunktionsschritt: Wenn für ein beliebig festes $n$ gilt:
+\begin{align}
+\forall A_1,\dots,A_n \subset \Omega \text{ sind disjunkt }:
+P(\bigcup\limits_{i=1}^{n} A_i) = \sum\limits_{i=1}^{n} P(A_i)
+\end{align}
+
+Und ein weiteres Ereignis $A_{n+1}$ sei disjunkt zu allen Ereignissen $A_1,\dots,A_n$, dann gilt auch:
+
+\begin{align}
+P((\bigcup\limits_{i=1}^{n} A_i) \cup A_{n+1}) = (\sum\limits_{i=1}^{n} P(A_i)) + P(A_{n+1})
+\end{align}
+
+Durch jeweilig zusammenführung der Summen und Vereinigung gilt entsprend auch:
+
+\begin{align}
+\forall A_1,\dots,A_n,A_{n+1} \subset \Omega \text{ sind disjunkt }:
+P(\bigcup\limits_{i=1}^{n+1} A_i) = \sum\limits_{i=1}^{n+1} P(A_i)
+\end{align}
+
+Indunktionsabschluss: Da wir gezeigt haben, dass die Aussage falls sie für ein beliebiges $n$ gilt auch für $n+1$ gilt, und dass sie für $n=1$ gilt, gilt sie per Indunktion für alle $n \in \mathbb{N}$
+
+
+\item
+\begin{align}
+    A &\subset \Omega\\
+    P(\Omega) &= 1\\
+    A \cap A^C &= \emptyset\\
+    A \cup A^C & = \Omega\\
+    P(A) + P(A^C) &= P(\Omega) = 1\\
+    P(A^C) &= 1 - P(A)
+\end{align}
+
+
+
+
+\item
+
+\begin{align}
+    A &\subset B \subset \Omega:\\
+    (B \setminus A) \cap A &= \emptyset\\
+    P(B\setminus A) + P(A) &= P((B\setminus A) \cup A)\\
+    P(B\setminus A) + P(A) &= P(B)\\
+    P(B\setminus A) &= P(B) - P(A)
+\end{align}
+\end{enumerate}
+
+
+\end{document}

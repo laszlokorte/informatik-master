@@ -31,6 +31,7 @@
 \usepackage{graphics}
 \usepackage{epstopdf}
 \usepackage{float}
+\usepackage{mathtools}
 
 \usepackage[noend]{algpseudocode}
 
@@ -52,6 +53,7 @@
     frame=single,
     linewidth=\columnwidth
 }
+
 
 %----------------------------------------------------------------------------------------
 %   DOCUMENT MARGINS
@@ -260,3 +262,5 @@
 \algrenewtext{For}[3]%
     {\algorithmicfor\ #1\ = #2\ \algorithmicto\ #3\ \algorithmicdo}
 \algrenewcommand{\algorithmiccomment}[1]{\hfill // #1}
+
+\DeclarePairedDelimiterX\setc[2]{\{}{\}}{\,#1 \;\delimsize\vert\; #2\,}
