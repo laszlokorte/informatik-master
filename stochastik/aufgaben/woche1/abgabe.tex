@@ -3,9 +3,10 @@
 
 \input{../../../structure.tex}
 
+
 \title{Stochastik Blatt 1}
 
-\author{Mtr.-Nr. 6329857}
+\author{Laszlo Korte (6329857), Torben Ammelt (6488297)}
 
 \date{Universität Hamburg --- \today}
 
@@ -13,27 +14,59 @@
 
 \maketitle
 
+\linenumbers
+
 \section*{Aufgabe 1}
 
 \begin{enumerate}[(a)]
-\item Wenigstens eines der drei Ereignisse tritt ein:\\ $A \cup B \cup C$
-\item Höchstens eines der drei Ereignisse tritt ein:\\ $
+\item Wenigstens eines der drei Ereignisse tritt ein:
+
+$$
+A \cup B \cup C
+$$
+
+\item Höchstens eines der drei Ereignisse tritt ein:
+
+$$
 (A \cap B^C \cap C^C) \cup
 (A^C \cap B \cap C^C) \cup
 (A^C \cap B^C \cap C) \cup
 (A^C \cap B^C \cap C^C)
-$
+$$
 \end{enumerate}
 
 \section*{Aufgabe 2}
 
 \begin{enumerate}[(a)]
-\item $\Omega = \setc[\Big]{ (w_1, w_2, w_3)}{w_1,w_2,w_3 \in \left\{K,Z\right\}}$
+\item Wahrscheinlichkeitsraum:
 
-\item $A = \setc[\Big]{ (w_1, w_2, w_3)}{(w_1,w_2,w_3) \in \Omega \land w_1 = w_2}$ \\ $B = \setc[\Big]{ (w_1, w_2, w_3)}{(w_1,w_2,w_3) \in \Omega \land w_2 = w_3}$
+$$
+\Omega = \setc[\Big]{ (w_1, w_2, w_3)}{w_1,w_2,w_3 \in \left\{K,Z\right\}}
+$$
 
-\item $A \cap B = \setc[\Big]{ (w, w, w)}{(w,w,w) \in \Omega}$: Alle drei Münzewürfe landen auf der selben Seite \\
-$A \setminus B = \setc[\Big]{ (w, w, w_3)}{(w,w,w_3) \in \Omega \land w \neq w_3}$: Die ersten beiden Münzwürfe landen auf der selben Seite, der dritte aber auf einer anderen.
+\item
+
+Sei $A$ das Ereignis, dass im ersten und im zweiten Wurf jeweils die gleiche Münzseite oben liegt:
+
+$$
+A = \setc[\Big]{ (w_1, w_2, w_3)}{(w_1,w_2,w_3) \in \Omega \land w_1 = w_2}
+$$
+
+Sei $B$ das Ereignis, dass im zweiten und im dritten Wurf jeweils die gleiche Münnzseite oben liegt:
+
+$$
+B = \setc[\Big]{ (w_1, w_2, w_3)}{(w_1,w_2,w_3) \in \Omega \land w_2 = w_3}
+$$
+
+\item
+Alle drei Münzewürfe landen auf der selben Seite:
+$$A \cap B = \setc[\Big]{ (w, w, w)}{(w,w,w) \in \Omega}$$
+
+Die ersten beiden Münzwürfe landen auf der selben Seite, der dritte aber auf einer anderen:
+
+$$A \setminus B = \setc[\Big]{ (w, w, w_3)}{(w,w,w_3) \in \Omega \land w \neq w_3}$$
+
+
 
 \item
 \begin{align*}
@@ -50,76 +83,75 @@ P\left(A \setminus B\right) &= P\left(\left\{\left(K,K,Z\right)\right\}\right) +
 
 \begin{enumerate}[(a)]
 \item
-\begin{align}
-    P(\Omega) &= 1\\
-\Omega \cap \emptyset &= \emptyset\\
-\Omega \cup \emptyset &= \Omega\\
-P(\Omega \cup \emptyset) &= P(\Omega) + P(\emptyset)\\
+\begin{align*}
+    P(\Omega) &= 1 & \text{(Axiom)}\\
+\Omega \cap \emptyset &= \emptyset & \text{($\cap$ Absorbtion)}\\
+\Omega \cup \emptyset &= \Omega& \text{($\cup$ Neutrales Element)}\\
+P(\Omega \cup \emptyset) &= P(\Omega) + P(\emptyset) & \text{(Additivität)}\\
 1 &= 1 + P(\emptyset)\\
 P(\emptyset) &= 0
-\end{align}
+\end{align*}
 
 \item
 
 Zu zeigen für alle $n$:
-\begin{align}
-\forall A_1,\dots,A_n \subset \Omega \text{ sind disjunkt }:
+\begin{align*}
+\mathcal{A}(n) = \forall A_1,\dots,A_n \subset \Omega \text{ sind disjunkt }\Rightarrow
 P(\bigcup\limits_{i=1}^{n} A_i) = \sum\limits_{i=1}^{n} P(A_i)
-\end{align}
+\end{align*}
 
-Induktionsanfang: Für $n = 1$ gilt:
-\begin{align}
-A_1 \subset \Omega \text{ ist disjunkt }
-:
+\textbf{Induktionsanfang:} Für $n = 1$ gilt:
+\begin{align*}
+\mathcal{A}(1) = A_1 \subset \Omega \text{ ist disjunkt }
+\Rightarrow
 P(\bigcup\limits_{i=1}^{n=1} A_i) &= \sum\limits_{i=1}^{n=1} P(A_i)\\
 \text{ denn } P(A_1) &= P(A_1)
-\end{align}
+\end{align*}
 
 
-Indunktionsschritt: Wenn für ein beliebig festes $n$ gilt:
-\begin{align}
-\forall A_1,\dots,A_n \subset \Omega \text{ sind disjunkt }:
+\textbf{Indunktionsschritt:} Wenn $\mathcal{A}$ für ein beliebig festes $n$ gilt, ist zu zeigen, dass es auch für $n+1$ gilt:
+\begin{align*}
+\textbf{Induktionsannahme: } \forall A_1,\dots,A_n \subset \Omega \text{ sind disjunkt } \Rightarrow
 P(\bigcup\limits_{i=1}^{n} A_i) = \sum\limits_{i=1}^{n} P(A_i)
-\end{align}
+\end{align*}
 
 Und ein weiteres Ereignis $A_{n+1}$ sei disjunkt zu allen Ereignissen $A_1,\dots,A_n$, dann gilt auch:
 
-\begin{align}
-P((\bigcup\limits_{i=1}^{n} A_i) \cup A_{n+1}) = (\sum\limits_{i=1}^{n} P(A_i)) + P(A_{n+1})
-\end{align}
+\begin{align*}
+P((\bigcup\limits_{i=1}^{n} A_i) \cup A_{n+1}) = (\sum\limits_{i=1}^{n} P(A_i)) + P(A_{n+1}) && \text{(Additivität)}
+\end{align*}
 
 Durch jeweilig zusammenführung der Summen und Vereinigung gilt entsprend auch:
 
-\begin{align}
-\forall A_1,\dots,A_n,A_{n+1} \subset \Omega \text{ sind disjunkt }:
+\begin{align*}
+\forall A_1,\dots,A_n,A_{n+1} \subset \Omega \text{ sind disjunkt }\Rightarrow
 P(\bigcup\limits_{i=1}^{n+1} A_i) = \sum\limits_{i=1}^{n+1} P(A_i)
-\end{align}
+\end{align*}
 
-Indunktionsabschluss: Da wir gezeigt haben, dass die Aussage falls sie für ein beliebiges $n$ gilt auch für $n+1$ gilt, und dass sie für $n=1$ gilt, gilt sie per Indunktion für alle $n \in \mathbb{N}$
-
+\textbf{Induktionsabschluss:} Da Aussage $\mathcal{A}(n)$ für $n=1$ bewiesen wurde und $\mathcal{A}(n) \Rightarrow \mathcal{A}(n+1)$ bewiesen wurde, gilt per Induktion auch $\forall n: \mathcal{A}(n)$.
 
 \item
-\begin{align}
-    A &\subset \Omega\\
+\begin{align*}
+    A &\subset \Omega:\\
     P(\Omega) &= 1\\
     A \cap A^C &= \emptyset\\
     A \cup A^C & = \Omega\\
     P(A) + P(A^C) &= P(\Omega) = 1\\
     P(A^C) &= 1 - P(A)
-\end{align}
+\end{align*}
 
 
 
 
 \item
 
-\begin{align}
+\begin{align*}
     A &\subset B \subset \Omega:\\
     (B \setminus A) \cap A &= \emptyset\\
     P(B\setminus A) + P(A) &= P((B\setminus A) \cup A)\\
     P(B\setminus A) + P(A) &= P(B)\\
     P(B\setminus A) &= P(B) - P(A)
-\end{align}
+\end{align*}
 \end{enumerate}
 
 
